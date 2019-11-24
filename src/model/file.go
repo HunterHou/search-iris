@@ -5,10 +5,11 @@ import (
 	"time"
 )
 
+//声明一个File结构体 表示一个文件信息
 type File struct {
+	code     string
 	name     string
 	path     string
-	code     string
 	actress  string
 	fileType string
 	dirPath  string
@@ -18,14 +19,27 @@ type File struct {
 	mTime    string
 }
 
-func BuildFile(name string, fileType string, size int64, modTime time.Time) File {
-	result := File{}
-	result.name = name
-	result.fileType = fileType
-	result.size = size
-	result.SizeStr = getSizeStr(size)
-	result.mTime = modTime.Format("2006-01-02 15:04:05")
+//使用工厂模式 返回一个 File 实例
+func NewFile(name string, fileType string, size int64, modTime time.Time) File {
+	result := File{
+		code:     "",
+		name:     name,
+		path:     "",
+		actress:  "",
+		fileType: fileType,
+		dirPath:  "",
+		size:     size,
+		SizeStr:  getSizeStr(size),
+		cTime:    "",
+		mTime:    modTime.Format("2006-01-02 15:04:05"),
+	}
 	return result
+}
+
+func (this File) GetFileInfo() string {
+	info := fmt.Sprintf("%v\t %v\t %v\t %v\t %v\t %v\t",
+		this.name, this.code, this.fileType, this.SizeStr, this.actress, this.path)
+	return info
 }
 
 func getSizeStr(fSize int64) string {

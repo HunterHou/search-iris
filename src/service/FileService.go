@@ -19,7 +19,7 @@ func Walk(baseDir string) []model.File {
 			name := filePath.Name()
 			suffix := utils.GetSuffux(name)
 			if HasItem(videoTypes, suffix) {
-				file := model.BuildFile(name, suffix, filePath.Size(), filePath.ModTime())
+				file := model.NewFile(name, suffix, filePath.Size(), filePath.ModTime())
 				result = append(result, file)
 			}
 
