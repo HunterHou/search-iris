@@ -21,7 +21,7 @@ type File struct {
 	mTime    string
 }
 
-//使用工厂模式 返回一个 File 实例
+// 使用工厂模式 返回一个 File 实例
 func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) File {
 	result := File{
 		code:     fileUtils.GetCode(name),
@@ -38,8 +38,9 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 	return result
 }
 
-func (this File) GetFileInfo() string {
+func (f File) GetFileInfo() string {
+	//ss
 	info := fmt.Sprintf("name: %v\t code:%v\t fileType:%v\t sizeStr:%v\t actress:%v\t path:%v\t",
-		this.name, this.code, this.fileType, this.sizeStr, this.actress, this.path)
+		f.name, f.code, f.fileType, f.sizeStr, f.actress, f.path)
 	return info
 }

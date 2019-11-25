@@ -37,7 +37,7 @@ func GetTitle(filename string) string {
 
 }
 
-// 根据 文件名称  分析番号 [] 中包含 '-'符号
+// 根据 文件名称  分析番号 [] 中包含 '-'符号...
 func GetCode(fileName string) string {
 	code := ""
 	rights := strings.Split(fileName, "[")
