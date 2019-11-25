@@ -12,6 +12,7 @@ func GetSuffux(fielname string) string {
 		return suffix
 	}
 	suffix = filepath.Ext(fielname)
+	suffix = strings.ToLower(suffix)
 	if strings.Contains(suffix, ".") {
 		suffix = strings.TrimPrefix(suffix, ".")
 	}
