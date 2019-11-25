@@ -14,22 +14,22 @@ type File struct {
 	fileType string
 	dirPath  string
 	size     int64
-	SizeStr  string
+	sizeStr  string
 	cTime    string
 	mTime    string
 }
 
 //使用工厂模式 返回一个 File 实例
-func NewFile(name string, fileType string, size int64, modTime time.Time) File {
+func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) File {
 	result := File{
 		code:     "",
 		name:     name,
-		path:     "",
+		path:     path,
 		actress:  "",
 		fileType: fileType,
-		dirPath:  "",
+		dirPath:  dir,
 		size:     size,
-		SizeStr:  getSizeStr(size),
+		sizeStr:  getSizeStr(size),
 		cTime:    "",
 		mTime:    modTime.Format("2006-01-02 15:04:05"),
 	}
@@ -38,7 +38,7 @@ func NewFile(name string, fileType string, size int64, modTime time.Time) File {
 
 func (this File) GetFileInfo() string {
 	info := fmt.Sprintf("%v\t %v\t %v\t %v\t %v\t %v\t",
-		this.name, this.code, this.fileType, this.SizeStr, this.actress, this.path)
+		this.name, this.code, this.fileType, this.sizeStr, this.actress, this.path)
 	return info
 }
 
