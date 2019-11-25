@@ -2,9 +2,10 @@ package service
 
 import (
 	"io/ioutil"
-	"search/src/cons"
-	"search/src/model"
-	"search/src/utils"
+
+	"../cons"
+	"../model"
+	"../utils"
 )
 
 var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
