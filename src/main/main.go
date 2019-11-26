@@ -1,14 +1,14 @@
 package main
 
+import "fmt"
 import (
-	"fmt"
-
 	"../cons"
 	"../service"
 	"../utils/collectionUtils"
 )
 
 func main() {
+
 	var baseDir = "e:\\"
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 	// var imageTypes = []string{cons.JPG, cons.PNG, cons.GIF}
