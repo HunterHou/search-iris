@@ -1,6 +1,12 @@
 package main
 
 import "github.com/kataras/iris"
+import (
+	"../cons"
+	"../datasource"
+	"../service"
+	"../utils/collectionUtils"
+)
 
 func main() {
 	app := iris.New()
@@ -21,7 +27,12 @@ func main() {
 	})
 	app.Get("/json", func(ctx iris.Context) {
 		app.Logger().Info(ctx.Path())
-		ctx.JSON(iris.Map{"message": "hello json"})
+		var baseDir = "e:\\"
+		var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
+		var queryTypes []string
+		queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
+		service.ScanDisk(baseDir, queryTypes)
+		ctx.JSON(datasource.FileLib)
 	})
 	app.Run(iris.Addr("127.0.0.1:8000"), iris.WithConfiguration(iris.Configuration{
 		DisableStartupLog:    false,
