@@ -4,14 +4,24 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"../model"
+	"../datamodels"
+	"../datasource"
 	"../utils/collectionUtils"
 	"../utils/fileUtils"
 )
 
+func ScanDisk(baseDir string, types []string) {
+	datasource.FileLib = make(map[string]datamodels.File)
+	files := Walk(baseDir, types)
+	for i := 0; i < len(files); i++ {
+		curFile := files[i]
+		datasource.FileLib[curFile.Path] = curFile
+	}
+}
+
 //遍历目录 获取文件库
-func Walk(baseDir string, types []string) []model.File {
-	var result []model.File
+func Walk(baseDir string, types []string) []datamodels.File {
+	var result []datamodels.File
 	files, _ := ioutil.ReadDir(baseDir)
 	for _, path := range files {
 
@@ -23,7 +33,7 @@ func Walk(baseDir string, types []string) []model.File {
 			name := path.Name()
 			suffix := fileUtils.GetSuffux(name)
 			if collectionUtils.HasItem(types, suffix) {
-				file := model.NewFile(baseDir, pathAbs, name, suffix, path.Size(), path.ModTime())
+				file := datamodels.NewFile(baseDir, pathAbs, name, suffix, path.Size(), path.ModTime())
 				result = append(result, file)
 			}
 
@@ -32,7 +42,7 @@ func Walk(baseDir string, types []string) []model.File {
 	return result
 }
 
-func expands(originArr []model.File, insertArr []model.File) []model.File {
+func expands(originArr []datamodels.File, insertArr []datamodels.File) []datamodels.File {
 	if len(insertArr) == 0 {
 		return originArr
 	}
