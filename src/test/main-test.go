@@ -1,13 +1,14 @@
-package main
+package test
 
-import "fmt"
 import (
+	"fmt"
+
 	"../cons"
 	"../service"
 	"../utils/collectionUtils"
 )
 
-func main() {
+func main_test() {
 
 	var baseDir = "e:\\"
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}

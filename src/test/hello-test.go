@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "be")
 }
 
-func main() {
+func main_hello() {
 	http.HandleFunc("/", helloHandler) //设置访问的路由
 	err := http.ListenAndServe(":8080", nil)
 	if err == nil {

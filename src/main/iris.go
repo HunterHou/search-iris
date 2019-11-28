@@ -1,11 +1,11 @@
 package main
 
-import "github.com/kataras/iris"
 import (
 	"../cons"
 	"../datasource"
 	"../service"
 	"../utils/collectionUtils"
+	"github.com/kataras/iris"
 )
 
 func main() {
