@@ -1,13 +1,13 @@
 package service
 
 import (
-	"io/ioutil"
-	"path/filepath"
-
+	"../cons"
 	"../datamodels"
 	"../datasource"
 	"../utils/collectionUtils"
 	"../utils/fileUtils"
+	"io/ioutil"
+	"path/filepath"
 )
 
 type FileService struct {
@@ -27,6 +27,17 @@ func (fs FileService) ScanAll(baseDir string, types []string) []datamodels.File 
 	files := Walk(baseDir, types)
 	fs.fileList = files
 	return files
+}
+func (fs FileService) FindOne(path string) datamodels.File {
+	if len(datasource.FileLib) == 0 {
+		var baseDir = "e:\\"
+		var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
+		var queryTypes []string
+		queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
+		fs.ScanDisk(baseDir, queryTypes)
+	}
+	curFile := datasource.FileLib[path]
+	return curFile
 }
 
 func ArrayToMap(files []datamodels.File) map[string]datamodels.File {

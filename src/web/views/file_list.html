@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cn-zh">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>电影列表</title>
 </head>
 <body>
-
+<h1>电影列表</h1>
+{% for movie in datas %}
+<li><a href="play?url={{movie.Path}}">{{movie.Name}}</a></li>
+{% endfor %}
 </body>
 </html>
