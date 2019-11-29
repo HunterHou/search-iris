@@ -10,13 +10,32 @@ import (
 	"../utils/fileUtils"
 )
 
-func ScanDisk(baseDir string, types []string) {
+type FileService struct {
+	fileList []datamodels.File
+	fileMap  map[string]datamodels.File
+}
+
+func (fs FileService) ScanDisk(baseDir string, types []string) {
 	datasource.FileLib = make(map[string]datamodels.File)
 	files := Walk(baseDir, types)
+	fs.fileList = files
+	fs.fileMap = ArrayToMap(files)
+	datasource.FileLib = fs.fileMap
+
+}
+func (fs FileService) ScanAll(baseDir string, types []string) []datamodels.File {
+	files := Walk(baseDir, types)
+	fs.fileList = files
+	return files
+}
+
+func ArrayToMap(files []datamodels.File) map[string]datamodels.File {
+	filemap := make(map[string]datamodels.File)
 	for i := 0; i < len(files); i++ {
 		curFile := files[i]
-		datasource.FileLib[curFile.Path] = curFile
+		filemap[curFile.Path] = curFile
 	}
+	return filemap
 }
 
 //遍历目录 获取文件库

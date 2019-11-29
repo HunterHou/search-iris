@@ -1,11 +1,10 @@
 package main
 
 import (
-	"../cons"
-	"../datasource"
-	"../service"
-	"../utils/collectionUtils"
+	"../web/controller"
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/middleware/logger"
+	"github.com/kataras/iris/mvc"
 )
 
 func main() {
@@ -15,25 +14,24 @@ func main() {
 		ctx.HTML("<h1>hello world!!!</h1>")
 
 	})
-	app.Get("/hello", func(ctx iris.Context) {
-		app.Logger().Info(ctx.Path())
-		name := ctx.URLParam("name")
-		ctx.WriteString("hello " + name)
+	customLogger := logger.New(logger.Config{
+		Status:             true,
+		IP:                 true,
+		Method:             true,
+		Path:               true,
+		Query:              false,
+		Columns:            false,
+		MessageContextKeys: nil,
+		MessageHeaderKeys:  nil,
+		LogFunc:            nil,
+		LogFuncCtx:         nil,
+		Skippers:           nil,
 	})
-	app.Get("/welcome", func(ctx iris.Context) {
-		app.Logger().Info(ctx.Path())
-		name := ctx.URLParam("name")
-		ctx.WriteString("hello " + name)
-	})
-	app.Get("/json", func(ctx iris.Context) {
-		app.Logger().Info(ctx.Path())
-		var baseDir = "e:\\"
-		var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
-		var queryTypes []string
-		queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
-		service.ScanDisk(baseDir, queryTypes)
-		ctx.JSON(datasource.FileLib)
-	})
+	app.Use(customLogger)
+	app.RegisterView(iris.HTML("./views", ".html"))
+	app.Logger().SetLevel("debug")
+	mvc.New(app).Handle(new(controller.TestController))
+	mvc.New(app).Handle(new(controller.FileController))
 	app.Run(iris.Addr("127.0.0.1:8000"), iris.WithConfiguration(iris.Configuration{
 		DisableStartupLog:    false,
 		FireMethodNotAllowed: false,
