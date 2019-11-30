@@ -39,7 +39,7 @@ func (fc FileController) GetPlay() {
 	url := fc.Ctx.URLParam("url")
 	file := fc.Service.FindOne(url)
 	//fc.Ctx.ViewData("data", file)
-	//fc.Ctx.View("play.html")
+	//fc.Ctx.View("play.html")v
 	//data,err:=os.Open(file.Path)
 	//if err != nil {
 	//	fmt.Println(err)
