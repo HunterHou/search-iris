@@ -30,11 +30,10 @@ func (fs FileService) ScanAll(baseDir string, types []string) []datamodels.File 
 }
 func (fs FileService) FindOne(path string) datamodels.File {
 	if len(datasource.FileLib) == 0 {
-		var baseDir = "e:\\"
 		var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 		var queryTypes []string
 		queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
-		fs.ScanDisk(baseDir, queryTypes)
+		fs.ScanDisk(cons.BaseDir, queryTypes)
 	}
 	curFile := datasource.FileLib[path]
 	return curFile

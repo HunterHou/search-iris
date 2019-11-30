@@ -10,7 +10,7 @@ import (
 
 func main_test() {
 
-	var baseDir = "e:\\"
+	var baseDir = "f:\\"
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 	// var imageTypes = []string{cons.JPG, cons.PNG, cons.GIF}
 	var queryTypes []string

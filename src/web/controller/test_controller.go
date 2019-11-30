@@ -1,6 +1,8 @@
 package controller
 
-import "github.com/kataras/iris"
+import (
+	"github.com/kataras/iris"
+)
 import (
 	"../../cons"
 	"../../datasource"
@@ -20,12 +22,11 @@ func (ts TestController) GetHello() {
 }
 
 func (ts TestController) GetScan() {
-	var baseDir = "e:\\"
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 	var queryTypes []string
 	queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
 	fileService := service.FileService{}
-	fileService.ScanDisk(baseDir, queryTypes)
+	fileService.ScanDisk(cons.BaseDir, queryTypes)
 	ts.Ctx.JSON(utils.Success())
 }
 
