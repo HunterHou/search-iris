@@ -1,10 +1,7 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/kataras/iris"
-	"github.com/nareix/joy4/av"
-	"github.com/nareix/joy4/av/avutil"
 )
 import (
 	"../../cons"
@@ -35,19 +32,5 @@ func (fc FileController) GetViews() {
 	fc.Ctx.View("file_list.html")
 }
 func (fc FileController) GetPlay() {
-	url := fc.Ctx.URLParam("url")
-	filemodel := fc.Service.FindOne(url)
-	//data, _ := ioutil.ReadFile(string(file.Path))
-	//fc.Ctx.Header("Content-Type", "video/mp4")
-	//fc.Ctx.Write(data)
-	file,err:=avutil.Open(filemodel.Path)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer file.Close()
-	streams,_:=file.Streams()
-	for _,stream:=range streams {
-		vstream  :=stream.(av.VideoCodecData)
-		fc.Ctx.Write(vstream)
-	}
+
 }

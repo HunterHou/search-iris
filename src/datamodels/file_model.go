@@ -2,6 +2,7 @@ package datamodels
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"../utils/fileUtils"
@@ -12,6 +13,7 @@ type File struct {
 	Code     string "json:'code'"
 	Name     string
 	Path     string
+	Png      string
 	Actress  string
 	FileType string
 	DirPath  string
@@ -27,6 +29,7 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 		Code:     fileUtils.GetCode(name),
 		Name:     name,
 		Path:     path,
+		Png:      getPng(path),
 		Actress:  fileUtils.GetCode(name),
 		FileType: fileType,
 		DirPath:  dir,
@@ -43,4 +46,13 @@ func (f File) GetFileInfo() string {
 	info := fmt.Sprintf("name: %v\t code:%v\t fileType:%v\t sizeStr:%v\t actress:%v\t path:%v\t",
 		f.Name, f.Code, f.FileType, f.SizeStr, f.Actress, f.Path)
 	return info
+}
+func getPng(path string) string {
+	path = strings.ReplaceAll(path, fileUtils.GetSuffux(path), "png")
+	return path
+}
+func (f File) GetPng() string {
+	//
+	path := f.Path
+	return getPng(path)
 }
