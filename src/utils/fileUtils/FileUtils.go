@@ -2,9 +2,22 @@ package fileUtils
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 )
+
+func ExistsFiles(path string) bool {
+	info, err := os.Stat(path)
+	fmt.Println(info)
+	if err != nil {
+		if os.IsExist(err) {
+			return true
+		}
+		return false
+	}
+	return true
+}
 
 func GetSuffux(fielname string) string {
 

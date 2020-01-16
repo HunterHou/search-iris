@@ -30,7 +30,7 @@ func main() {
 		Skippers:           nil,
 	})
 	app.Use(customLogger)
-	app.RegisterView(iris.Django("./web/views", ".html"))
+	app.RegisterView(iris.Django("src/web/views", ".html"))
 	app.Logger().SetLevel("debug")
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))
