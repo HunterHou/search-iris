@@ -56,6 +56,7 @@ func main() {
 	app.Logger().SetLevel("debug")
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))
+	utils.ExecCmdStart("http://127.0.0.1:8000/views")
 	app.Run(iris.Addr("127.0.0.1:8000"), iris.WithConfiguration(iris.Configuration{
 		DisableStartupLog:    false,
 		FireMethodNotAllowed: false,
@@ -63,5 +64,5 @@ func main() {
 		Charset:              "uft-8",
 	}))
 
-	utils.ExecCmdExplorer("http://127.0.0.1:8000/views")
+	
 }
