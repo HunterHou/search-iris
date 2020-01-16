@@ -2,6 +2,7 @@ package datamodels
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 
 //声明一个File结构体 表示一个文件信息
 type File struct {
+	Id       string
 	Code     string "json:'code'"
 	Name     string
 	Path     string
@@ -26,7 +28,10 @@ type File struct {
 
 func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) File {
 	// 使用工厂模式 返回一个 File 实例
+	id, _ := url.QueryUnescape(path)
+	id= strings.ReplaceAll(id,"\\","&")
 	result := File{
+		Id:       id,
 		Code:     fileUtils.GetCode(name),
 		Name:     name,
 		Path:     path,
@@ -50,6 +55,10 @@ func (f File) GetFileInfo() string {
 }
 func (f File) PngBase64() string {
 	return utils.ImageToString(f.Png)
+}
+
+func encode() {
+
 }
 
 func getPng(path string) string {

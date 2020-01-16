@@ -1,0 +1,40 @@
+.list-item {
+    width: 240px;
+    height: 400px;
+    float: left;
+    margin-right: 25px;
+}
+
+.img-list-item {
+    width: 200px;
+    height: 300px;
+}
+.img-icon{
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-left: 3px;
+}
+
+
+.list-dir {
+    float: left;
+    margin-right: 5px;
+}
+.button-list{
+    /* float: left; */
+    margin-right: 20px;
+}
+
+
+#top {
+    position: relative;
+    margin-left: 40px;
+    top: 0;
+}
+
+#context {
+    margin-left: 20px;
+    top: 10px;
+    bottom: 10px;
+}

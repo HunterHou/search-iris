@@ -19,14 +19,11 @@ type FileService struct {
 	fileMap  map[string]datamodels.File
 }
 
-func (fs FileService) FindOne(path string) datamodels.File {
+func (fs FileService) FindOne(Id string) datamodels.File {
 	if len(datasource.FileLib) == 0 {
-		var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
-		var queryTypes []string
-		queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
-		fs.ScanDisk(cons.BaseDir, queryTypes)
+		fs.ScanAll()
 	}
-	curFile := datasource.FileLib[path]
+	curFile := datasource.FileLib[Id]
 	return curFile
 }
 
@@ -61,11 +58,12 @@ func (fs FileService) SearchByKeyWord(files []datamodels.File, keyWord string) [
 
 	var result []datamodels.File
 	for _, file := range files {
-		if strings.Contains(file.Code, keyWord) {
+
+		if strings.Contains(strings.ToUpper(file.Code), strings.ToUpper(keyWord)) {
 			result = append(result, file)
-		} else if strings.Contains(file.Name, keyWord) {
+		} else if strings.Contains(strings.ToUpper(file.Name), strings.ToUpper(keyWord)) {
 			result = append(result, file)
-		} else if strings.Contains(file.Actress, keyWord) {
+		} else if strings.Contains(strings.ToUpper(file.Actress), strings.ToUpper(keyWord)) {
 			result = append(result, file)
 		}
 	}
@@ -77,7 +75,7 @@ func ArrayToMap(files []datamodels.File) map[string]datamodels.File {
 	filemap := make(map[string]datamodels.File)
 	for i := 0; i < len(files); i++ {
 		curFile := files[i]
-		filemap[curFile.Path] = curFile
+		filemap[curFile.Id] = curFile
 	}
 	return filemap
 }
