@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"../utils"
 	"../utils/fileUtils"
 )
 
@@ -47,6 +48,10 @@ func (f File) GetFileInfo() string {
 		f.Name, f.Code, f.FileType, f.SizeStr, f.Actress, f.Path)
 	return info
 }
+func (f File) PngBase64() string {
+	return utils.ImageToString(f.Png)
+}
+
 func getPng(path string) string {
 	path = strings.ReplaceAll(path, fileUtils.GetSuffux(path), "png")
 	return path

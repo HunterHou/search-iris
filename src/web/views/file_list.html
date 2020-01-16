@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影列表</title>
+    <link href="./web/views/js/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./web/views/js/bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="./web/views/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .list-item {
+            width: 240px;
+            height: 400px;
+            float: left;
+            margin-right: 25px;
+        }
+    </style>
+</head>
+<body>
+<h1>电影列表</h1>
+<div id="top">
+    <div class="row">
+
+        <button id="btn5" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
+        <button id="btn4" class="btn btn-xs  btn-warning col-md-1">关闭</button>
+        <button id="btn2" class="btn btn-xs  btn-danger col-md-1 ">恢复</button>
+        <button id="btn1" class="btn btn-xs btn-default col-md-1 ">全屏</button>
+        <input type="text" class="input-group-sm col-md-1 col-xs-offset-3" id="keyWord"
+               placeholder="Search for...">
+        <button id="btn3" class="btn btn-default col-md-1" type="button">Go!</button>
+
+    </div>
+
+    <div class="row">
+        <div id="title" class="col-md-12">
+            <span>文件总数:</span><span id="total"></span>
+            <ul id="dirList" class="breadcrumb"></ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="row col-md-12" id="context">
+
+    <div id="fileList"></div>
+</div>
+{% for movie in datas %}
+<ul class="list-item">
+    <img src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" width="200px" height="300px"/>
+    <a href="play?url={{movie.Path}}">
+        <span>[{{movie.Code}}] [{{movie.Actress}}] 【{{movie.SizeStr}}】</span>
+    </a>
+</ul>
+{% endfor %}
+</body>
+</html>
