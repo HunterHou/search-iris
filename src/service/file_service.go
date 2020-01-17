@@ -71,6 +71,25 @@ func (fs FileService) SearchByKeyWord(files []datamodels.File, keyWord string) [
 	return result
 }
 
+func (fs FileService) GetPage(files []datamodels.File, pageNo int, pageSize int) []datamodels.File {
+
+	if len(files) == 0 {
+		return files
+	}
+	size := len(files)
+	start := (pageNo - 1) * pageSize
+
+	end := size
+	if size-start > pageSize {
+		end = start + pageSize
+	}
+	if len(files) < pageSize {
+		return files
+	}
+
+	return files[start:end]
+}
+
 func ArrayToMap(files []datamodels.File) map[string]datamodels.File {
 	filemap := make(map[string]datamodels.File)
 	for i := 0; i < len(files); i++ {

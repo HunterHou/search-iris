@@ -7,74 +7,100 @@
     <link href="/js/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/js/bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet">
-    <script src="/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/screen.js"></script>
 </head>
 
 <body>
-    <div id="top">
-        <div class="row">
-            <button id="btn5" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
-            <button id="btn4" class="btn btn-xs  btn-warning col-md-1">关闭</button>
-            <button id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen ">全屏</button>
-            <form action="/views" method="get">
-                <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
-                    placeholder="Search for...">
-                <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
-            </form>
+<div id="msg">
 
+</div>
+
+<div id="top">
+    <div class="row">
+        <button id="btn5" onclick="refresh();" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
+        <button id="btn4" class="btn btn-xs  btn-warning col-md-1">关闭</button>
+        <button id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen ">全屏</button>
+        <form action="/views" method="get" id="search-form">
+
+            <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
+                   placeholder="Search for..." value="{{page.KeyWord}}">
+            <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
+            <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
+            <input type="input" id="pageSize" name="pageSize" value="{{page.PageSize}}">
+            <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
+        </form>
+    </div>
+
+    <div class="row">
+        <div id="title" class="col-md-12">
+            <span>文件总数:</span><span id="total">{{page.TotalCnt}}</span>
+            <div>
+                {% for dirpath in dirList %}
+                <li class="list-dir">
+                    <a class="list-dir" href="#" onclick="openAjax('{{dirpath}}');" role="button">
+                        <span>[{{dirpath}}]</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% for page in page.EachPage %}
+                <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                {% endfor %}
+
+                <li>
+                    <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<hr>
+<div class="row col-md-12" id="context">
+
+    {% for movie in page.Data %}
+    <ul class="list-item">
+        <div>
+
+            <img class="img-list-item img-rounded img-responsive" src="data:image/png;base64,{{movie.PngBase64}}"
+                 alt="{{movie.Name}}"/>
+            <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                 src="data:image/png;base64,{{playIcon}}" alt="打开"/>
+            <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                 src="data:image/png;base64,{{changeIcon}}" alt="详情"/>
+            <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                 src="data:image/png;base64,{{openIcon}}" alt="文件夹"/>
+            <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                 src="data:image/png;base64,{{replayIcon}}" alt="刷新"/>
+
+        </div>
+        <div>
+
+            <a href="javascript:void(0)" onclick="openAjax('{{movie.Id}}');" role="button">
+                <span>【{{movie.SizeStr}}】 [{{movie.Name}}]</span>
+            </a>
 
         </div>
 
-        <div class="row">
-            <div id="title" class="col-md-12">
-                <span>文件总数:</span><span id="total">{{totalCnt}}</span>
-                <div>
-                    {% for dirpath in dirList %}
-                    <li class="list-dir breadcrumb">
-                        <a class="list-dir" href="#" onclick="openAjax('{{dirpath}}');" role="button">
-                            <span>[{{dirpath}}]</span>
-                        </a>
-                    </li>
-                    {% endfor %}
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <hr>
-    <div class="row col-md-12" id="context">
-
-        {% for movie in datas %}
-        <ul class="list-item">
-            <div>
-
-                <img class="img-list-item img-rounded img-responsive" src="data:image/png;base64,{{movie.PngBase64}}"
-                    alt="{{movie.Name}}" />
-                <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{playIcon}}" alt="打开" />
-                <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{changeIcon}}" alt="详情" />
-                <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{openIcon}}" alt="文件夹" />
-                <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{replayIcon}}" alt="刷新" />
-
-            </div>
-            <div>
-
-                <a href="javascript:void(0)" onclick="openAjax('{{movie.Id}}');" role="button">
-                    <span>【{{movie.SizeStr}}】 [{{movie.Name}}]</span>
-                </a>
-
-            </div>
-
-        </ul>
-        {% endfor %}
-    </div>
+    </ul>
+    {% endfor %}
+</div>
 
 </body>
 
