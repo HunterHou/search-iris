@@ -9,6 +9,7 @@ type Page struct {
 	TotalCnt  int
 	Data      interface{}
 	KeyWord   string
+	CurCnt    int
 }
 
 func NewPage() Page {

@@ -42,10 +42,16 @@ function openDirAjax(path) {
     });
 }
 
-function clickAcress() {
-    $('#detail').modal('hide')
-    var actress = document.getElementById("factress").innerText
-    document.getElementById("keyWord").value = actress
+function clickAcress(actress) {
+    var keyWord
+    if (actress) {
+        keyWord = actress
+    } else {
+        $('#detail').modal('hide')
+        keyWord = document.getElementById("factress").innerText
+    }
+
+    document.getElementById("keyWord").value = keyWord
     document.getElementById("search-form").submit()
 }
 

@@ -67,6 +67,7 @@ func (fc FileController) GetViews() {
 	page.PageNo = pageNo
 	page.PageSize = pageSize
 	page.Data = datas
+	page.CurCnt = len(datas)
 	page = page.SetTotalCnt(totalCnt)
 
 	fc.Ctx.ViewData("playIcon", cons.Play)
