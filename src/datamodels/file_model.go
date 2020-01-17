@@ -61,16 +61,11 @@ func (f File) PngBase64() string {
 	return utils.ImageToString(path)
 }
 
-func encode() {
-
-}
-
 func getPng(path string) string {
 	path = strings.ReplaceAll(path, fileUtils.GetSuffux(path), "png")
 	return path
 }
 func (f File) GetPng() string {
-	//
 	path := f.Path
 	return getPng(path)
 }
