@@ -17,6 +17,7 @@ type File struct {
 	Name     string
 	Path     string
 	Png      string
+	Jpg      string
 	Actress  string
 	FileType string
 	DirPath  string
@@ -35,8 +36,9 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 		Code:     fileUtils.GetCode(name),
 		Name:     name,
 		Path:     path,
-		Png:      getPng(path),
-		Actress:  fileUtils.GetCode(name),
+		Png:      getPng(path, "png"),
+		Jpg:      getPng(path, "jpg"),
+		Actress:  fileUtils.GetActress(name),
 		FileType: fileType,
 		DirPath:  dir,
 		Size:     size,
@@ -61,11 +63,11 @@ func (f File) PngBase64() string {
 	return utils.ImageToString(path)
 }
 
-func getPng(path string) string {
-	path = strings.ReplaceAll(path, fileUtils.GetSuffux(path), "png")
+func getPng(path string, suffix string) string {
+	path = strings.ReplaceAll(path, fileUtils.GetSuffux(path), suffix)
 	return path
 }
 func (f File) GetPng() string {
 	path := f.Path
-	return getPng(path)
+	return getPng(path, "png")
 }

@@ -30,8 +30,23 @@ function openAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: {"id": path}
+        data: { "id": path }
     });
+}
+function openDirAjax(path) {
+    console.log(path)
+    $.ajax({
+        type: "POST",
+        url: "/opendir",
+        data: { "id": path }
+    });
+}
+
+function clickAcress() {
+    $('#detail').modal('hide')
+    var actress = document.getElementById("factress").innerText
+    document.getElementById("keyWord").value = actress
+    document.getElementById("search-form").submit()
 }
 
 function openModal(id) {
@@ -39,17 +54,21 @@ function openModal(id) {
     $.ajax({
         type: "POST",
         url: "/info",
-        data: {"id": id},
+        data: { "id": id },
         async: false,
-        success(data){
+        success(data) {
             file = data
         },
-        error(){
+        error() {
 
         }
     });
+    $('#fcode').text(file.Code)
+    $('#factress').text(file.Actress)
+    $('#fmtime').text(file.MTime)
+    $('#fsize').text(file.SizeStr)
     $('#myModalLabel').text(file.Name)
-    $('#myModalImg').attr("src","data:image/png;base64,"+file.Png)
+    $('#myModalImg').attr("src", "data:image/png;base64," + file.Jpg)
     $('#detail').modal('show')
 }
 
@@ -58,7 +77,7 @@ function removeDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: {"id": path}
+        data: { "id": path }
     });
 }
 

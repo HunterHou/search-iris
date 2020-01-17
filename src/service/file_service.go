@@ -6,7 +6,6 @@ import (
 	"../datasource"
 	"../utils/collectionUtils"
 	"../utils/fileUtils"
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"sort"
@@ -34,7 +33,7 @@ func (fs FileService) SortItems(lib []datamodels.File) {
 }
 
 func (fs FileService) ScanAll() {
-	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4, cons.JPG}
+	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 	var queryTypes []string
 	queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
 	fs.ScanDisk(cons.BaseDir, queryTypes)
@@ -120,7 +119,6 @@ func Walks(baseDir []string, types []string) []datamodels.File {
 
 }
 func goWalk(baseDir string, types []string, wg *sync.WaitGroup, datas chan []datamodels.File) {
-	fmt.Println(baseDir)
 	defer wg.Done()
 	files := Walk(baseDir, types)
 	datas <- files

@@ -51,6 +51,28 @@ func GetTitle(filename string) string {
 }
 
 // 根据 文件名称  分析番号 [] 中包含 '-'符号...
+func GetActress(fileName string) string {
+	code := ""
+	rights := strings.Split(fileName, "[")
+	if len(rights) <= 1 {
+		return GetTitle(fileName)
+	}
+	for index, value := range rights {
+		if index == 0 {
+			continue
+		}
+		right := value
+		lefts := strings.Split(right, "]")
+		for _, left := range lefts {
+			if !strings.Contains(left, "-") {
+				return left
+			}
+		}
+	}
+	return code
+}
+
+// 根据 文件名称  分析番号 [] 中包含 '-'符号...
 func GetCode(fileName string) string {
 	code := ""
 	rights := strings.Split(fileName, "[")

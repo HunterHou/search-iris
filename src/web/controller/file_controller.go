@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"fmt"
-
 	"../../cons"
 	"../../datamodels"
 	"../../datasource"
@@ -25,13 +23,20 @@ func (fc FileController) GetAll() []datamodels.File {
 func (fc FileController) PostPlay() {
 	id := fc.Ctx.PostValue("id")
 	file := fc.Service.FindOne(id)
-	fmt.Println("id:", file.Path)
 	utils.ExecCmdStart(file.Path)
 }
+
+func (fc FileController) PostOpendir() {
+	id := fc.Ctx.PostValue("id")
+	file := fc.Service.FindOne(id)
+	utils.ExecCmdStart(file.DirPath)
+}
+
 func (fc FileController) PostInfo() {
 	id := fc.Ctx.PostValue("id")
 	file := fc.Service.FindOne(id)
 	file.Png = file.PngBase64()
+	file.Jpg = utils.ImageToString(file.Jpg)
 	fc.Ctx.JSON(file)
 }
 
@@ -58,6 +63,7 @@ func (fc FileController) GetViews() {
 	fc.Service.SortItems(datas)
 
 	page := utils.NewPage()
+	page.KeyWord = keyWord
 	page.PageNo = pageNo
 	page.PageSize = pageSize
 	page.Data = datas
