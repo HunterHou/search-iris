@@ -36,13 +36,16 @@
         <div id="title" class="col-md-12">
             <span>文件总数:</span><span id="total">{{page.TotalCnt}}</span>
             <div>
-                {% for dirpath in dirList %}
-                <li class="list-dir">
-                    <a class="list-dir" href="#" onclick="openAjax('{{dirpath}}');" role="button">
-                        <span>[{{dirpath}}]</span>
-                    </a>
-                </li>
-                {% endfor %}
+                <ul class="list-inline">
+                    {% for dirpath in dirList %}
+                    <li>
+                        <a href="#" onclick="openAjax('{{dirpath}}');" role="button">
+                            <span>[{{dirpath}}]</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+
             </div>
 
         </div>

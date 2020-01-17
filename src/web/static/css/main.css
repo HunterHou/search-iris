@@ -17,17 +17,10 @@
     margin-left: 3px;
 }
 
-
-.list-dir {
-    float: left;
-    margin-right: 5px;
-}
-
 .button-list {
     /* float: left; */
     margin-right: 20px;
 }
-
 
 #top {
     position: relative;
@@ -42,7 +35,7 @@
 }
 
 #msg {
-    position:absolute;
+    position: absolute;
     width: 400px;
     height: 40px;
     right: 50px;
