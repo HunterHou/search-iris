@@ -34,6 +34,25 @@ function openAjax(path) {
     });
 }
 
+function openModal(id) {
+    var file;
+    $.ajax({
+        type: "POST",
+        url: "/info",
+        data: {"id": id},
+        async: false,
+        success(data){
+            file = data
+        },
+        error(){
+
+        }
+    });
+    $('#myModalLabel').text(file.Name)
+    $('#myModalImg').attr("src","data:image/png;base64,"+file.Png)
+    $('#detail').modal('show')
+}
+
 function removeDirAjax(path) {
     console.log(path)
     $.ajax({

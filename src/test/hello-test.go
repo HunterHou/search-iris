@@ -1,21 +1,15 @@
-package test
+package main
 
 import (
 	"fmt"
-	"log"
-	"net/http"
+	"os"
 )
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	fmt.Println(r.Form)
-	fmt.Fprint(w, "be")
-}
+func main() {
 
-func main_hello() {
-	http.HandleFunc("/", helloHandler) //设置访问的路由
-	err := http.ListenAndServe(":8080", nil)
-	if err == nil {
-		log.Fatal("ListenAndServe", err)
+	fmt.Println(os.Getenv("os"))
+	for _, env := range os.Environ() {
+		fmt.Println(env)
 	}
+
 }

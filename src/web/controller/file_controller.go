@@ -28,6 +28,12 @@ func (fc FileController) PostPlay() {
 	fmt.Println("id:", file.Path)
 	utils.ExecCmdStart(file.Path)
 }
+func (fc FileController) PostInfo() {
+	id := fc.Ctx.PostValue("id")
+	file := fc.Service.FindOne(id)
+	file.Png = file.PngBase64()
+	fc.Ctx.JSON(file)
+}
 
 func (fc FileController) GetFresh() {
 	fc.Service.ScanAll()
