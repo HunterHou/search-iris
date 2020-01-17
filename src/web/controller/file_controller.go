@@ -69,6 +69,7 @@ func (fc FileController) GetViews() {
 	fc.Ctx.ViewData("replayIcon", cons.Replay)
 
 	fc.Ctx.ViewData("page", page)
+	fc.Ctx.ViewData("curPage", page.PageNo)
 	fc.Ctx.ViewData("dirList", cons.BaseDir)
 	fc.Ctx.ViewData("title", "文件列表")
 	fc.Ctx.View("main.html")

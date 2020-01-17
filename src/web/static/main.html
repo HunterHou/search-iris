@@ -59,7 +59,12 @@
                     </a>
                 </li>
                 {% for page in page.EachPage %}
-                <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                    {% if curPage == page  %}
+                        <li><span >{{page}}</span></li>
+                    {% else %}
+                        <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                    {% endif %}
+
                 {% endfor %}
 
                 <li>
@@ -94,7 +99,7 @@
         <div>
 
             <a href="javascript:void(0)" onclick="openAjax('{{movie.Id}}');" role="button">
-                <span>【{{movie.SizeStr}}】 [{{movie.Name}}]</span>
+                <p>【{{movie.SizeStr}}】 [{{movie.Name}}]</p>
             </a>
 
         </div>
@@ -105,7 +110,7 @@
 
 <!-- Modal -->
 <div class="modal fade bs-example-modal-lg " id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document" >
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
