@@ -34,7 +34,7 @@ func (fs FileService) SortItems(lib []datamodels.File) {
 }
 
 func (fs FileService) ScanAll() {
-	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
+	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4, cons.JPG}
 	var queryTypes []string
 	queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
 	fs.ScanDisk(cons.BaseDir, queryTypes)

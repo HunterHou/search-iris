@@ -8,17 +8,16 @@ import (
 )
 
 func ExecCmdStart(path string) {
-	ExecCmd(path,"start")
+	ExecCmd(path, "start")
 }
 
 func ExecCmdExplorer(path string) {
-	ExecCmd(path,"explorer")
+	ExecCmd(path, "explorer")
 }
 
-func ExecCmd(path string,cmdType string) {
-	cmd := exec.Command("cmd", "/C",cmdType, "", path)
+func ExecCmd(path string, cmdType string) {
+	cmd := exec.Command("cmd", "/C", cmdType, "", path)
 	if cmd != nil {
-		fmt.Println(cmd.String())
 		if runtime.GOOS == "windows" {
 			cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 		}
