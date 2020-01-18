@@ -37,7 +37,7 @@ type File struct {
 func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) File {
 	// 使用工厂模式 返回一个 File 实例
 	id, _ := url.QueryUnescape(path)
-	id = strings.ReplaceAll(id, "\\", "&")
+	id = strings.ReplaceAll(id, "\\", "~")
 	result := File{
 		Id:       id,
 		Code:     utils.GetCode(name),
