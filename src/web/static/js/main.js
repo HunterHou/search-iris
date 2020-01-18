@@ -46,15 +46,25 @@ function openAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: {"id": path}
+        data: { "id": path }
     });
 }
 
+function deleteWarring(id) {
+    $("#deleteId").val(id)
+    $("#deleteContext").text(id)
+    $('#warningLabel').text("提示：删除不可恢复")
+    $('#warning').modal('show')
+}
+
 function deleteAjax(id) {
+    if (!id) {
+        id = document.getElementById("deleteId").value
+    }
     $.ajax({
         type: "POST",
         url: "/delete",
-        data: {"id": id},
+        data: { "id": id },
         success(data) {
             if (data.Code == 200) {
                 success(data.Message)
@@ -63,6 +73,7 @@ function deleteAjax(id) {
             }
         }
     });
+    $('#warning').modal('hide')
 }
 
 function openDirAjax(path) {
@@ -70,7 +81,7 @@ function openDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/opendir",
-        data: {"id": path}
+        data: { "id": path }
     });
 }
 
@@ -104,7 +115,7 @@ function openModal(id) {
     $.ajax({
         type: "POST",
         url: "/info",
-        data: {"id": id},
+        data: { "id": id },
         async: false,
         success(data) {
             file = data
@@ -127,7 +138,7 @@ function removeDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: {"id": path}
+        data: { "id": path }
     });
 }
 
@@ -150,7 +161,7 @@ function syncAv(id) {
     $.ajax({
         type: "Post",
         url: "/sync",
-        data: {"id": id},
+        data: { "id": id },
         success(data) {
             console.log(data)
             if (data.Code == 200) {

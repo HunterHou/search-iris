@@ -43,9 +43,9 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 		Code:     utils.GetCode(name),
 		Name:     name,
 		Path:     path,
-		Png:      getPng(path, "png"),
-		Nfo:      getPng(path, "nfo"),
-		Jpg:      getPng(path, "jpg"),
+		Png:      utils.GetPng(path, "png"),
+		Nfo:      utils.GetPng(path, "nfo"),
+		Jpg:      utils.GetPng(path, "jpg"),
 		Actress:  utils.GetActress(name),
 		FileType: fileType,
 		DirPath:  dir,
@@ -71,11 +71,7 @@ func (f File) PngBase64() string {
 	return utils.ImageToString(path)
 }
 
-func getPng(path string, suffix string) string {
-	path = strings.ReplaceAll(path, utils.GetSuffux(path), suffix)
-	return path
-}
 func (f File) GetPng() string {
 	path := f.Path
-	return getPng(path, "png")
+	return utils.GetPng(path, "png")
 }

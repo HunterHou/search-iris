@@ -7,9 +7,13 @@ import (
 	"strings"
 )
 
+func GetPng(path string, suffix string) string {
+	path = strings.ReplaceAll(path, GetSuffux(path), suffix)
+	return path
+}
+
 func ExistsFiles(path string) bool {
-	info, err := os.Stat(path)
-	fmt.Println(info)
+	_, err := os.Stat(path)
 	if err != nil {
 		if os.IsExist(err) {
 			return true

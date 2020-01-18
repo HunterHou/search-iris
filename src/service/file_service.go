@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -21,13 +22,33 @@ type FileService struct {
 	fileMap  map[string]datamodels.File
 }
 
-func (fs FileService) RequestToFile(srcFile datamodels.File) utils.Result {
+func (fs FileService) MoveCut(srcFile datamodels.File, toFile datamodels.File) utils.Result {
+	result := utils.Result{}
+	root := srcFile.DirPath
+	path := root + "\\" + toFile.Actress + "\\" + toFile.Studio
+	dirname := "[" + toFile.Actress + "][" + toFile.Code + "]" + toFile.Title
+	dirpath := path + "\\" + dirname
+	os.MkdirAll(dirpath, os.ModePerm)
+	filename := dirname + "." + utils.GetSuffux(srcFile.Path)
+	finalpath := dirpath + "\\" + filename
+	os.Rename(srcFile.Path, finalpath)
+	jpgpath := utils.GetPng(finalpath, "jpg")
+	jpgOut, _ := os.Create(jpgpath)
+	resp, _ := http.Get(toFile.Jpg)
+	body, _ := ioutil.ReadAll(resp.Body)
+	jpgOut.Write(body)
+	jpgOut.Close()
+	utils.ImageToPng(jpgpath)
+	return result
+}
+
+func (fs FileService) RequestToFile(srcFile datamodels.File) (utils.Result, datamodels.File) {
 
 	result := utils.Result{}
-
+	newFile := datamodels.File{}
 	if srcFile.Code == "" {
 		result.Fail()
-		return result
+		return result, newFile
 	}
 	url := cons.BaseUrl + srcFile.Code
 	request, _ := http.NewRequest("GET", url, nil)
@@ -37,7 +58,7 @@ func (fs FileService) RequestToFile(srcFile datamodels.File) utils.Result {
 	if err != nil {
 		fmt.Println("err", err)
 		result.Fail()
-		return result
+		return result, newFile
 	}
 	defer resp.Body.Close()
 	if 200 != resp.StatusCode {
@@ -49,7 +70,6 @@ func (fs FileService) RequestToFile(srcFile datamodels.File) utils.Result {
 	}
 	bigImage := doc.Find(".bigImage img")
 
-	newFile := datamodels.File{}
 	newFile.Id = srcFile.Id
 	newFile.Title = bigImage.AttrOr("title", "")
 	newFile.Jpg = bigImage.AttrOr("src", "")
@@ -82,7 +102,7 @@ func (fs FileService) RequestToFile(srcFile datamodels.File) utils.Result {
 	})
 	result.Success()
 	result.Data = newFile
-	return result
+	return result, newFile
 }
 
 func (fs FileService) FindOne(Id string) datamodels.File {
@@ -116,7 +136,22 @@ func (fs FileService) Delete(id string) {
 			fmt.Println(err)
 		}
 	}
+	//TODO 删除父文件夹
+	dirname := path.Dir(file.Path)
+	fmt.Println(dirname)
+	deleteDir(dirname)
 
+}
+
+func deleteDir(filename string) {
+	dirname, _ := path.Split(filename)
+	files2, _ := ioutil.ReadDir(dirname)
+	if len(files2) == 0 {
+		os.Remove(dirname)
+		return
+	}
+	dirname2, _ := path.Split(dirname)
+	deleteDir(dirname2)
 }
 
 func (fs FileService) ScanDisk(baseDir []string, types []string) {
