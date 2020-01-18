@@ -21,15 +21,15 @@ type FileService struct {
 	fileMap  map[string]datamodels.File
 }
 
-func (fs FileService) RequestToFile(code string) utils.Result {
+func (fs FileService) RequestToFile(srcFile datamodels.File) utils.Result {
 
 	result := utils.Result{}
 
-	if code == "" {
+	if srcFile.Code == "" {
 		result.Fail()
 		return result
 	}
-	url := cons.BaseUrl + code
+	url := cons.BaseUrl + srcFile.Code
 	request, _ := http.NewRequest("GET", url, nil)
 	request.Header.Add("User-Agent", "Mozilla/6.0")
 	client := &http.Client{}
@@ -50,6 +50,7 @@ func (fs FileService) RequestToFile(code string) utils.Result {
 	bigImage := doc.Find(".bigImage img")
 
 	newFile := datamodels.File{}
+	newFile.Id = srcFile.Id
 	newFile.Title = bigImage.AttrOr("title", "")
 	newFile.Jpg = bigImage.AttrOr("src", "")
 	info := doc.Find(".header")

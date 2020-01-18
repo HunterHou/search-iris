@@ -55,7 +55,7 @@ func (fc FileController) PostDelete() {
 func (fc FileController) PostSync() {
 	id := fc.Ctx.PostValue("id")
 	curFile := fc.Service.FindOne(id)
-	result := fc.Service.RequestToFile(curFile.Code)
+	result := fc.Service.RequestToFile(curFile)
 	fc.Ctx.JSON(result)
 }
 
