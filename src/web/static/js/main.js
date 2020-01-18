@@ -5,8 +5,7 @@ function fullScreen() {
     //typeof rfs != "undefined" && rfs
     if (rfs) {
         rfs.call(el);
-    }
-    else if (typeof window.ActiveXObject !== "undefined") {
+    } else if (typeof window.ActiveXObject !== "undefined") {
         //for IE，这里其实就是模拟了按下键盘的F11，使浏览器全屏
         var wscript = new ActiveXObject("WScript.Shell");
         if (wscript != null) {
@@ -75,6 +74,18 @@ function openDirAjax(path) {
     });
 }
 
+function clickCode(code) {
+    var keyWord
+    if (code) {
+        keyWord = code
+    } else {
+        $('#detail').modal('hide')
+        keyWord = document.getElementById("fcode").innerText
+    }
+    var url = "https://www.cdnbus.in/" + keyWord
+    window.open(url, "_blank")
+}
+
 function clickAcress(actress) {
     var keyWord
     if (actress) {
@@ -124,6 +135,22 @@ function refresh() {
     $.ajax({
         type: "GET",
         url: "/fresh",
+        success(data) {
+            console.log(data)
+            if (data.Code == 200) {
+                success(data.Message)
+            } else {
+                fail(data.Message)
+            }
+        }
+    });
+}
+
+function syncAv(id) {
+    $.ajax({
+        type: "Post",
+        url: "/sync",
+        data: {"id": id},
         success(data) {
             console.log(data)
             if (data.Code == 200) {

@@ -8,7 +8,6 @@ import (
 	"../../datasource"
 	"../../service"
 	"../../utils"
-	"../../utils/collectionUtils"
 )
 
 type TestController struct {
@@ -24,7 +23,7 @@ func (ts TestController) GetHello() {
 func (ts TestController) GetScan() {
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 	var queryTypes []string
-	queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
+	queryTypes = utils.ExtandsItems(queryTypes, videoTypes)
 	fileService := service.FileService{}
 	fileService.ScanDisk(cons.BaseDir, queryTypes)
 	ts.Ctx.JSON(utils.Success())

@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"../utils"
-	"../utils/fileUtils"
 )
 
 //声明一个File结构体 表示一个文件信息
@@ -26,6 +25,13 @@ type File struct {
 	SizeStr  string
 	CTime    string
 	MTime    string
+	PTime    string
+	Studio   string
+	Supplier string
+	Length   string
+	Series   string
+	Director string
+	Title    string
 }
 
 func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) File {
@@ -34,17 +40,17 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 	id = strings.ReplaceAll(id, "\\", "&")
 	result := File{
 		Id:       id,
-		Code:     fileUtils.GetCode(name),
+		Code:     utils.GetCode(name),
 		Name:     name,
 		Path:     path,
 		Png:      getPng(path, "png"),
 		Nfo:      getPng(path, "nfo"),
 		Jpg:      getPng(path, "jpg"),
-		Actress:  fileUtils.GetActress(name),
+		Actress:  utils.GetActress(name),
 		FileType: fileType,
 		DirPath:  dir,
 		Size:     size,
-		SizeStr:  fileUtils.GetSizeStr(size),
+		SizeStr:  utils.GetSizeStr(size),
 		CTime:    "",
 		MTime:    modTime.Format("2006-01-02 15:04:05"),
 	}
@@ -59,14 +65,14 @@ func (f File) GetFileInfo() string {
 }
 func (f File) PngBase64() string {
 	path := f.Png
-	if !fileUtils.ExistsFiles(path) {
+	if !utils.ExistsFiles(path) {
 		path = f.Path
 	}
 	return utils.ImageToString(path)
 }
 
 func getPng(path string, suffix string) string {
-	path = strings.ReplaceAll(path, fileUtils.GetSuffux(path), suffix)
+	path = strings.ReplaceAll(path, utils.GetSuffux(path), suffix)
 	return path
 }
 func (f File) GetPng() string {

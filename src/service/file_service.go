@@ -4,10 +4,11 @@ import (
 	"../cons"
 	"../datamodels"
 	"../datasource"
-	"../utils/collectionUtils"
-	"../utils/fileUtils"
+	"../utils"
 	"fmt"
+	"github.com/PuerkitoBio/goquery"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
@@ -18,6 +19,69 @@ import (
 type FileService struct {
 	fileList []datamodels.File
 	fileMap  map[string]datamodels.File
+}
+
+func (fs FileService) RequestToFile(code string) utils.Result {
+
+	result := utils.Result{}
+
+	if code == "" {
+		result.Fail()
+		return result
+	}
+	url := cons.BaseUrl + code
+	request, _ := http.NewRequest("GET", url, nil)
+	request.Header.Add("User-Agent", "Mozilla/6.0")
+	client := &http.Client{}
+	resp, err := client.Do(request)
+	if err != nil {
+		fmt.Println("err", err)
+		result.Fail()
+		return result
+	}
+	defer resp.Body.Close()
+	if 200 != resp.StatusCode {
+		fmt.Println("status error:", resp.StatusCode, resp.Status)
+	}
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err != nil {
+		fmt.Println("err:", err)
+	}
+	bigImage := doc.Find(".bigImage img")
+
+	newFile := datamodels.File{}
+	newFile.Title = bigImage.AttrOr("title", "")
+	newFile.Jpg = bigImage.AttrOr("src", "")
+	info := doc.Find(".header")
+	info.Each(func(i int, selection *goquery.Selection) {
+		item := selection.Text()
+		if strings.HasPrefix(item, "發行日期:") {
+			newFile.PTime = selection.Parent().Text()
+			newFile.PTime = strings.Replace(newFile.PTime, "發行日期:", "", 1)
+		} else if strings.HasPrefix(item, "長度:") {
+			newFile.Length = selection.Parent().Text()
+			newFile.Length = strings.Replace(newFile.Length, "長度:", "", 1)
+		} else if strings.HasPrefix(item, "演員") {
+			stars := doc.Find(".star-name")
+			stars.Each(func(i int, selection *goquery.Selection) {
+				starName := selection.Text()
+				newFile.Actress += strings.TrimSpace(starName)
+			})
+		} else if strings.HasPrefix(item, "導演:") {
+			newFile.Director = selection.Next().Text()
+		} else if strings.HasPrefix(item, "製作商:") {
+			newFile.Supplier = selection.Next().Text()
+		} else if strings.HasPrefix(item, "發行商:") {
+			newFile.Studio = selection.Next().Text()
+		} else if strings.HasPrefix(item, "系列:") {
+			newFile.Series = selection.Next().Text()
+		} else if strings.HasPrefix(item, "識別碼:") {
+			newFile.Code = selection.Next().Text()
+		}
+	})
+	result.Success()
+	result.Data = newFile
+	return result
 }
 
 func (fs FileService) FindOne(Id string) datamodels.File {
@@ -37,7 +101,7 @@ func (fs FileService) SortItems(lib []datamodels.File) {
 func (fs FileService) ScanAll() {
 
 	var queryTypes []string
-	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.VideoTypes)
+	queryTypes = utils.ExtandsItems(queryTypes, cons.VideoTypes)
 	// queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Images)
 	// queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Docs)
 	fs.ScanDisk(cons.BaseDir, queryTypes)
@@ -151,8 +215,8 @@ func Walk(baseDir string, types []string) []datamodels.File {
 			result = Expands(result, childResult)
 		} else {
 			name := path.Name()
-			suffix := fileUtils.GetSuffux(name)
-			if collectionUtils.HasItem(types, suffix) {
+			suffix := utils.GetSuffux(name)
+			if utils.HasItem(types, suffix) {
 				file := datamodels.NewFile(baseDir, pathAbs, name, suffix, path.Size(), path.ModTime())
 				result = append(result, file)
 			}

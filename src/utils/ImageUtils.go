@@ -1,13 +1,12 @@
 package utils
 
 import (
-	"./fileUtils"
 	"encoding/base64"
 	"os"
 )
 
 func ImageToString(path string) string {
-	if !fileUtils.ExistsFiles(path) {
+	if !ExistsFiles(path) {
 		return ""
 	}
 	file, _ := os.Open(path)

@@ -52,6 +52,13 @@ func (fc FileController) PostDelete() {
 	fc.Ctx.JSON(result)
 }
 
+func (fc FileController) PostSync() {
+	id := fc.Ctx.PostValue("id")
+	curFile := fc.Service.FindOne(id)
+	result := fc.Service.RequestToFile(curFile.Code)
+	fc.Ctx.JSON(result)
+}
+
 func (fc FileController) GetViews() {
 	fc.Service.ScanAll()
 	keyWord := fc.Ctx.URLParam("keyWord")

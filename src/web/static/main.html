@@ -94,7 +94,7 @@
                  src="data:image/png;base64,{{openIcon}}" alt="文件夹"/>
             <img onclick="deleteAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
                  src="data:image/png;base64,{{closeIcon}}" alt="删除"/>
-            <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+            <img onclick="syncAv('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
                  src="data:image/png;base64,{{replayIcon}}" alt="刷新"/>
             【{{movie.SizeStr}}】
         </div>
@@ -146,7 +146,7 @@
                 <hr>
                 <div style="margin-left: 20px;">
                     <div class="row">
-                        <label>番号:</label><span id="fcode"></span>
+                        <label>番号:</label><a onclick="clickCode();"><span id="fcode"></span></a>
                     </div>
                     <div class="row">
                         <label>优优:</label><a onclick="clickAcress();"><span id="factress"></span></a>

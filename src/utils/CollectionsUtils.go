@@ -1,4 +1,4 @@
-package collectionUtils
+package utils
 
 import "strings"
 

@@ -5,13 +5,13 @@ type MessageCode struct {
 	Message string
 }
 
-func Success() *MessageCode {
+func Success() MessageCode {
 	code := MessageCode{200, "成功"}
-	return &code
+	return code
 }
-func Fail() *MessageCode {
+func Fail() MessageCode {
 	code := MessageCode{200, "失败"}
-	return &code
+	return code
 }
 
 func (r *MessageCode) Success() *MessageCode {

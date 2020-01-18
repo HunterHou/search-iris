@@ -8,7 +8,7 @@ import (
 	"../utils/collectionUtils"
 )
 
-func main_test() {
+func main() {
 
 	var baseDir = "f:\\"
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
