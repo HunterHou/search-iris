@@ -1,3 +1,20 @@
+function fullScreen() {
+    var el = document.documentElement;
+    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+
+    //typeof rfs != "undefined" && rfs
+    if (rfs) {
+        rfs.call(el);
+    }
+    else if (typeof window.ActiveXObject !== "undefined") {
+        //for IE，这里其实就是模拟了按下键盘的F11，使浏览器全屏
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript != null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+}
+
 function lastPage() {
     var pageNo = document.getElementById("pageNo").value
     pageNo = parseInt(pageNo)
@@ -30,15 +47,31 @@ function openAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
+
+function deleteAjax(id) {
+    $.ajax({
+        type: "POST",
+        url: "/delete",
+        data: {"id": id},
+        success(data) {
+            if (data.Code == 200) {
+                success(data.Message)
+            } else {
+                fail(data.Message)
+            }
+        }
+    });
+}
+
 function openDirAjax(path) {
     console.log(path)
     $.ajax({
         type: "POST",
         url: "/opendir",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
 
@@ -60,7 +93,7 @@ function openModal(id) {
     $.ajax({
         type: "POST",
         url: "/info",
-        data: { "id": id },
+        data: {"id": id},
         async: false,
         success(data) {
             file = data
@@ -83,7 +116,7 @@ function removeDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
 
@@ -95,6 +128,8 @@ function refresh() {
             console.log(data)
             if (data.Code == 200) {
                 success(data.Message)
+            } else {
+                fail(data.Message)
             }
         }
     });

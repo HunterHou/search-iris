@@ -6,7 +6,9 @@ import (
 	"../datasource"
 	"../utils/collectionUtils"
 	"../utils/fileUtils"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -33,10 +35,23 @@ func (fs FileService) SortItems(lib []datamodels.File) {
 }
 
 func (fs FileService) ScanAll() {
-	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
+
 	var queryTypes []string
-	queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
+	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.VideoTypes)
+	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Images)
+	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Docs)
 	fs.ScanDisk(cons.BaseDir, queryTypes)
+}
+func (fs FileService) Delete(id string) {
+	file := fs.FindOne(id)
+	list := []string{file.Path, file.Png, file.Jpg, file.Nfo}
+	for i := 0; i < len(list); i++ {
+		err := os.Remove(list[i])
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
 }
 
 func (fs FileService) ScanDisk(baseDir []string, types []string) {

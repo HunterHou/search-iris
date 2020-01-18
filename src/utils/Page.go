@@ -6,9 +6,11 @@ type Page struct {
 	StartNo   int
 	TotalPage int
 	EachPage  []int
-	TotalCnt  int
+
 	Data      interface{}
 	KeyWord   string
+	TotalCnt  int
+	ResultCnt int
 	CurCnt    int
 }
 
@@ -23,9 +25,9 @@ func NewPage() Page {
 	}
 }
 
-func (p Page) SetTotalCnt(totalCnt int) Page {
-	p.TotalCnt = totalCnt
-	totalPage := totalCnt/p.PageSize + 1
+func (p Page) SetResultCnt(resultCnt int) Page {
+	p.ResultCnt = resultCnt
+	totalPage := resultCnt/p.PageSize + 1
 	p.TotalPage = totalPage
 	var pageList []int
 	for i := 0; i < totalPage; i++ {

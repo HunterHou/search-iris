@@ -17,6 +17,7 @@ type File struct {
 	Name     string
 	Path     string
 	Png      string
+	Nfo      string
 	Jpg      string
 	Actress  string
 	FileType string
@@ -37,6 +38,7 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 		Name:     name,
 		Path:     path,
 		Png:      getPng(path, "png"),
+		Nfo:      getPng(path, "nfo"),
 		Jpg:      getPng(path, "jpg"),
 		Actress:  fileUtils.GetActress(name),
 		FileType: fileType,

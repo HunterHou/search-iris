@@ -16,17 +16,17 @@ import (
 var curDir string
 var staticDir string
 
-
 func init() {
 	curDir, _ := filepath.Abs(".")
 	if !strings.HasSuffix(curDir, "src") {
 		curDir += "/src"
 	}
 	staticDir = curDir + "/web/static"
-	cons.Play =utils.ImageToString(staticDir +"/image/play.jpg")
-	cons.Open =utils.ImageToString(staticDir +"/image/open.jpg")
-	cons.Change =utils.ImageToString(staticDir +"/image/change.jpg")
-	cons.Replay =utils.ImageToString(staticDir +"/image/replay.jpg")
+	cons.Play = utils.ImageToString(staticDir + "/image/play.jpg")
+	cons.Open = utils.ImageToString(staticDir + "/image/open.jpg")
+	cons.Change = utils.ImageToString(staticDir + "/image/change.jpg")
+	cons.Replay = utils.ImageToString(staticDir + "/image/replay.jpg")
+	cons.Close = utils.ImageToString(staticDir + "/image/close.jpg")
 }
 
 func main() {
@@ -64,5 +64,4 @@ func main() {
 		Charset:              "uft-8",
 	}))
 
-	
 }

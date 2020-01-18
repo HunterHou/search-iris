@@ -45,6 +45,12 @@ func (fc FileController) GetFresh() {
 	result := utils.Success()
 	fc.Ctx.JSON(result)
 }
+func (fc FileController) PostDelete() {
+	id := fc.Ctx.PostValue("id")
+	fc.Service.Delete(id)
+	result := utils.Success()
+	fc.Ctx.JSON(result)
+}
 
 func (fc FileController) GetViews() {
 	fc.Service.ScanAll()
@@ -59,7 +65,9 @@ func (fc FileController) GetViews() {
 	}
 	totalCnt := len(datasource.FileList)
 	datas := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
+	resultCnt := len(datas)
 	datas = fc.Service.GetPage(datas, pageNo, pageSize)
+	curCnt := len(datas)
 	fc.Service.SortItems(datas)
 
 	page := utils.NewPage()
@@ -67,13 +75,16 @@ func (fc FileController) GetViews() {
 	page.PageNo = pageNo
 	page.PageSize = pageSize
 	page.Data = datas
-	page.CurCnt = len(datas)
-	page = page.SetTotalCnt(totalCnt)
+	page.TotalCnt = totalCnt
+	page.CurCnt = curCnt
+	page.ResultCnt = resultCnt
+	page = page.SetResultCnt(resultCnt)
 
 	fc.Ctx.ViewData("playIcon", cons.Play)
 	fc.Ctx.ViewData("changeIcon", cons.Change)
 	fc.Ctx.ViewData("openIcon", cons.Open)
 	fc.Ctx.ViewData("replayIcon", cons.Replay)
+	fc.Ctx.ViewData("closeIcon", cons.Close)
 
 	fc.Ctx.ViewData("page", page)
 	fc.Ctx.ViewData("curPage", page.PageNo)
