@@ -137,9 +137,9 @@ func (fs FileService) Delete(id string) {
 		}
 	}
 	//TODO 删除父文件夹
-	dirname := path.Dir(file.Path)
-	fmt.Println(dirname)
-	deleteDir(dirname)
+	//dirname := path.Dir(file.Path)
+	//fmt.Println(dirname)
+	//deleteDir(dirname)
 
 }
 
