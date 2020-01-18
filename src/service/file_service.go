@@ -38,8 +38,8 @@ func (fs FileService) ScanAll() {
 
 	var queryTypes []string
 	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.VideoTypes)
-	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Images)
-	queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Docs)
+	// queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Images)
+	// queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Docs)
 	fs.ScanDisk(cons.BaseDir, queryTypes)
 }
 func (fs FileService) Delete(id string) {
