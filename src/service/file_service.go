@@ -111,9 +111,14 @@ func (fs FileService) FindOne(Id string) datamodels.Movie {
 	return curFile
 }
 
-func (fs FileService) SortItems(lib []datamodels.Movie) {
+func (fs FileService) SortMovies(lib []datamodels.Movie) {
 	sort.Slice(lib, func(i, j int) bool {
 		return lib[i].MTime > lib[j].MTime
+	})
+}
+func (fs FileService) SortAct(lib []datamodels.Actress) {
+	sort.Slice(lib, func(i, j int) bool {
+		return lib[i].Cnt > lib[j].Cnt
 	})
 }
 

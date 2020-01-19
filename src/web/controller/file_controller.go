@@ -2,6 +2,7 @@ package controller
 
 import (
 	"../../cons"
+	"../../datamodels"
 	"../../datasource"
 	"../../service"
 	"../../utils"
@@ -85,20 +86,22 @@ func (fc FileController) PostSync() {
 }
 
 func (fc FileController) GetViews() {
-	fc.Service.ScanAll()
+	if len(datasource.FileList) == 0 {
+		fc.Service.ScanAll()
+	}
 	keyWord := fc.Ctx.URLParam("keyWord")
 	pageNo, errNo := fc.Ctx.URLParamInt("pageNo")
-	if errNo != nil {
+	if errNo != nil || pageNo == 0 {
 		pageNo = 1
 	}
 	pageSize, errSize := fc.Ctx.URLParamInt("pageSize")
-	if errSize != nil {
+	if errSize != nil || pageSize == 0 {
 		pageSize = 100
 	}
 	totalCnt := len(datasource.FileList)
 	datas := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
 	resultCnt := len(datas)
-	fc.Service.SortItems(datas)
+	fc.Service.SortMovies(datas)
 	datas = fc.Service.GetPage(datas, pageNo, pageSize)
 	curCnt := len(datas)
 
@@ -123,4 +126,30 @@ func (fc FileController) GetViews() {
 	fc.Ctx.ViewData("dirList", cons.BaseDir)
 	fc.Ctx.ViewData("title", "文件列表")
 	fc.Ctx.View("main.html")
+}
+func (fc FileController) GetView() {
+	if len(datasource.FileList) == 0 {
+		fc.Service.ScanAll()
+	}
+	datas := []datamodels.Actress{}
+	list := datasource.ActressLib
+	for _, data := range list {
+		datas = append(datas, data)
+	}
+	fc.Service.SortAct(datas)
+	totalCnt := len(datas)
+	resultCnt := len(datas)
+	curCnt := len(datas)
+
+	page := utils.NewPage()
+	page.Data = datas
+	page.TotalCnt = totalCnt
+	page.CurCnt = curCnt
+	page.ResultCnt = resultCnt
+
+	fc.Ctx.ViewData("page", page)
+	fc.Ctx.ViewData("curPage", page.PageNo)
+	fc.Ctx.ViewData("dirList", cons.BaseDir)
+	fc.Ctx.ViewData("title", "列表")
+	fc.Ctx.View("act.html")
 }

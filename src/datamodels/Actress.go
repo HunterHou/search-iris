@@ -1,5 +1,7 @@
 package datamodels
 
+import "../utils"
+
 type Actress struct {
 	Name string
 	Url  string
@@ -16,4 +18,12 @@ func NewActres(name string, url string) Actress {
 func (act Actress) Plus() Actress {
 	act.Cnt = act.Cnt + 1
 	return act
+}
+
+func (act Actress) PngBase64() string {
+	path := act.Url
+	if !utils.ExistsFiles(path) {
+		path = act.Url
+	}
+	return utils.ImageToString(path)
 }
