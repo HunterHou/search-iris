@@ -18,44 +18,85 @@
 </head>
 
 <body>
-<div id="msg">
-</div>
-
-<div id="top">
-    <div class="row">
-        <form action="/views" method="get" id="search-form">
-            <button id="btn4" class="btn btn-xs  btn-success col-md-1" onclick="window.open('/views');">首页</button>
-            <button id="btn5" onclick="refresh();" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
-            <button id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏</button>
-
-            <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
-                   placeholder="Search for..." value="{{page.KeyWord}}">
-            <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
-            <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
-            <input type="input" id="pageSize" name="pageSize" value="{{page.PageSize}}">
-            <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
-        </form>
+    <div id="msg">
     </div>
 
-    <div class="row">
-        <div id="title" class="col-md-12">
-            <span>文件总数:</span><span id="total">{{page.TotalCnt}}</span>
-            <span>搜索总数:</span><span id="total">{{page.ResultCnt}}</span>
-            <span>当前数量:</span><span id="total">{{page.CurCnt}}</span>
-            <div>
-                <ul class="list-inline list-group">
-                    {% for index,dirpath in dirList %}
-                    <li>
-                        <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
-                            <span>[{{dirpath}}]</span>
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
+    <div id="top">
+        <div class="row">
+            <form action="/views" method="get" id="search-form">
+                <button id="btn4" class="btn btn-xs  btn-success col-md-1" onclick="window.open('/views');">首页</button>
+                <button id="btn5" onclick="refresh();" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
+                <button id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen "
+                    onclick="fullScreen();">全屏</button>
+
+                <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
+                    placeholder="Search for..." value="{{page.KeyWord}}">
+                <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
+                <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
+                <input type="input" id="pageSize" name="pageSize" value="{{page.PageSize}}">
+                <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
+            </form>
+        </div>
+
+        <div class="row">
+            <div id="title" class="col-md-12">
+                <span>文件总数:</span><span id="total">{{page.TotalCnt}}</span>
+                <span>搜索总数:</span><span id="total">{{page.ResultCnt}}</span>
+                <span>当前数量:</span><span id="total">{{page.CurCnt}}</span>
+                <div>
+                    <ul class="list-inline list-group">
+                        {% for index,dirpath in dirList %}
+                        <li>
+                            <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
+                                <span>[{{dirpath}}]</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
 
             </div>
-
         </div>
+        <div class="row">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page in page.EachPage %}
+                    {% if curPage == page %}
+                    <li><span>{{page}}</span></li>
+                    {% else %}
+                    <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <hr>
+    <div class="row col-md-12" id="context">
+
+        {% for movie in page.Data %}
+        <ul class="list-item">
+            <div class="row">
+                <span class="label label-info">{{movie.Name}} </span>
+                <span class="badge">{{movie.Cnt}}</span>
+                <img onclick="clickAcress('{{movie.Name}}');" class="img-list-item img-thumbnail img-responsive"
+                    src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
+            </div>
+        </ul>
+        {% endfor %}
     </div>
     <div class="row">
         <nav aria-label="Page navigation">
@@ -82,69 +123,29 @@
             </ul>
         </nav>
     </div>
-</div>
-<hr>
-<div class="row col-md-12" id="context">
-
-    {% for movie in page.Data %}
-    <ul class="list-item">
-        <div class="row">
-            <img onclick="clickAcress('{{movie.Name}}');" class="img-list-item img-rounded img-responsive"
-                 src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}"/>
-            <span class="label label-info">{{movie.Name}} </span>
-            <span class="badge">{{movie.Cnt}}</span>
-        </div>
-    </ul>
-    {% endfor %}
-</div>
-<div class="row">
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li>
-                <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% for page in page.EachPage %}
-            {% if curPage == page %}
-            <li><span>{{page}}</span></li>
-            {% else %}
-            <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
-            {% endif %}
-
-            {% endfor %}
-
-            <li>
-                <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
 
 
-<!-- Modal 弹出详情 start-->
-<div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <input type="hidden" id="deleteId">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+    <!-- Modal 弹出详情 start-->
+    <div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="deleteId">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="warningLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <p id="deleteContext"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="deleteAjax()">确认删除</button>
+                    </button>
+                    <h4 class="modal-title" id="warningLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteContext"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteAjax()">确认删除</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 
