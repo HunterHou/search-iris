@@ -11,7 +11,7 @@ var BaseUrl = "https://www.cdnbus.in/"
 
 //var BaseDir = []string{"e:\\"}
 
-var BaseDir = []string{"E:\\emby3", "e:\\emby\\tomake", "F:\\emby\\emby-rename", "F:\\emby\\tomake", "H:\\emby\\emby-rename", "H:\\emby\\tomake", "i:\\emby\\tomake"}
+var BaseDir = []string{"E:\\emby", "e:\\emby\\tomake", "F:\\emby\\emby-rename", "F:\\emby\\tomake", "H:\\emby\\emby-rename", "H:\\emby\\tomake", "i:\\emby\\tomake"}
 var Images = []string{PNG, GIF, PNG}
 var Docs = []string{TXT, XML, XLSX}
 var VideoTypes = []string{AVI, MKV, WMV, MP4}

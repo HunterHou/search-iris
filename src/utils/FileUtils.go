@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
@@ -44,12 +45,8 @@ func GetTitle(filename string) string {
 	if filename == "" {
 		return result
 	}
-	arr := strings.Split(filename, ".")
-	if len(arr) > 1 {
-		last := len(arr) - 1
-		last_suffix := "." + arr[last]
-		filename = strings.TrimRight(filename, last_suffix)
-	}
+	last_suffix := path.Ext(filename)
+	filename = strings.TrimSuffix(filename, last_suffix)
 	return filename
 
 }
