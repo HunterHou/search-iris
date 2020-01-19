@@ -46,7 +46,7 @@ function openAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
 
@@ -64,7 +64,7 @@ function deleteAjax(id) {
     $.ajax({
         type: "POST",
         url: "/delete",
-        data: { "id": id },
+        data: {"id": id},
         success(data) {
             if (data.Code == 200) {
                 success(data.Message)
@@ -81,7 +81,7 @@ function openDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/opendir",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
 
@@ -115,7 +115,7 @@ function openModal(id) {
     $.ajax({
         type: "POST",
         url: "/info",
-        data: { "id": id },
+        data: {"id": id},
         async: false,
         success(data) {
             file = data
@@ -129,7 +129,11 @@ function openModal(id) {
     $('#fmtime').text(file.MTime)
     $('#fsize').text(file.SizeStr)
     $('#myModalLabel').text(file.Name)
-    $('#myModalImg').attr("src", "data:image/png;base64," + file.Jpg)
+    var image = file.Jpg
+    if (!image) {
+        image = file.Png
+    }
+    $('#myModalImg').attr("src", "data:image/png;base64," + image)
     $('#detail').modal('show')
 }
 
@@ -138,7 +142,7 @@ function removeDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
 
@@ -161,7 +165,7 @@ function syncAv(id) {
     $.ajax({
         type: "Post",
         url: "/sync",
-        data: { "id": id },
+        data: {"id": id},
         success(data) {
             console.log(data)
             if (data.Code == 200) {
