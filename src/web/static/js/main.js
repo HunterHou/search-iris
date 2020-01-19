@@ -196,7 +196,6 @@ function refresh() {
         success(data) {
             if (data.Code == 200) {
                 success(data.Message)
-                document.getElementById("search-form").submit()
             } else {
                 fail(data.Message)
             }
