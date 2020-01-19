@@ -25,7 +25,11 @@ func (ts TestController) GetScan() {
 	var queryTypes []string
 	queryTypes = utils.ExtandsItems(queryTypes, videoTypes)
 	fileService := service.FileService{}
-	fileService.ScanDisk(cons.BaseDir, queryTypes)
+	dirList := []string{}
+	for _, v := range cons.BaseDir {
+		dirList = append(dirList, v)
+	}
+	fileService.ScanDisk(dirList, queryTypes)
 	ts.Ctx.JSON(utils.Success())
 }
 

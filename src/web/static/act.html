@@ -23,10 +23,10 @@
 
 <div id="top">
     <div class="row">
-        <button id="btn4" class="btn btn-xs  btn-success col-md-1" onclick="window.open('/views');">首页</button>
-        <button id="btn5" onclick="refresh();" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
-        <button id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏</button>
         <form action="/views" method="get" id="search-form">
+            <button id="btn4" class="btn btn-xs  btn-success col-md-1" onclick="window.open('/views');">首页</button>
+            <button id="btn5" onclick="refresh();" class="btn btn-xs  btn-primary col-md-1">更新索引</button>
+            <button id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏</button>
 
             <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
                    placeholder="Search for..." value="{{page.KeyWord}}">
@@ -44,9 +44,9 @@
             <span>当前数量:</span><span id="total">{{page.CurCnt}}</span>
             <div>
                 <ul class="list-inline list-group">
-                    {% for dirpath in dirList %}
+                    {% for index,dirpath in dirList %}
                     <li>
-                        <a class="ist-group-item" href="#" onclick="openAjax('{{dirpath}}');" role="button">
+                        <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
                             <span>[{{dirpath}}]</span>
                         </a>
                     </li>

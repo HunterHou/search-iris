@@ -76,6 +76,27 @@ func (fc FileController) PostDelete() {
 	result := utils.Success()
 	fc.Ctx.JSON(result)
 }
+func (fc FileController) PostRemovedir() {
+	id := fc.Ctx.PostValue("id")
+
+	delete(cons.BaseDir, id)
+	result := utils.Success()
+	fc.Ctx.JSON(result)
+}
+func (fc FileController) PostAdddir() {
+	id := fc.Ctx.PostValue("id")
+	key, path := utils.DirpathForId(id)
+	_, ok := cons.BaseDir[key]
+	result := utils.NewResult()
+	if ok {
+		result.Fail()
+	} else {
+		cons.BaseDir[key] = path
+		result.Success()
+	}
+	fc.Ctx.JSON(result)
+
+}
 
 func (fc FileController) PostSync() {
 	id := fc.Ctx.PostValue("id")

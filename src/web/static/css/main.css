@@ -37,7 +37,7 @@
 #msg {
     position:fixed;
     width: 400px;
-    height: 40px;
+    height: 80px;
     margin-top: 70px;
     margin-left: 200px;
     z-index:9999;

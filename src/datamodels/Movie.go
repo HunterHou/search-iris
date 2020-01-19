@@ -2,8 +2,6 @@ package datamodels
 
 import (
 	"fmt"
-	"net/url"
-	"strings"
 	"time"
 
 	"../utils"
@@ -36,8 +34,7 @@ type Movie struct {
 
 func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) Movie {
 	// 使用工厂模式 返回一个 Movie 实例
-	id, _ := url.QueryUnescape(path)
-	id = strings.ReplaceAll(id, "\\", "~")
+	id, _ := utils.DirpathForId(path)
 	result := Movie{
 		Id:       id,
 		Code:     utils.GetCode(name),

@@ -50,6 +50,7 @@ function openAjax(path) {
     });
 }
 
+
 function deleteWarring(id) {
     $("#deleteId").val(id)
     $("#deleteContext").text(id)
@@ -75,6 +76,24 @@ function deleteAjax(id) {
     });
     $('#warning').modal('hide')
 }
+
+function clickDirAjax(id) {
+    $.ajax({
+        type: "POST",
+        url: "/removedir",
+        data: {"id": id},
+        success(data) {
+            if (data.Code == 200) {
+                var mess = "执行成功，请更新索引"
+                success(mess)
+                location.reload()
+            } else {
+                fail(data.Message)
+            }
+        }
+    });
+}
+
 
 function openDirAjax(path) {
     console.log(path)
@@ -137,21 +156,32 @@ function openModal(id) {
     $('#detail').modal('show')
 }
 
-function removeDirAjax(path) {
-    console.log(path)
+
+function addDir() {
+    var file = document.getElementById("addDirText").value
     $.ajax({
         type: "POST",
-        url: "/play",
-        data: {"id": path}
+        url: "/adddir",
+        data: {"id": file},
+        success(data){
+            if (data.Code == 200) {
+                $('#addDirModal').modal('hide')
+                success(data.Message)
+            } else {
+                $('#addDirModal').modal('hide')
+                fail(data.Message)
+            }
+        }
     });
+
 }
+
 
 function refresh() {
     $.ajax({
         type: "GET",
         url: "/fresh",
         success(data) {
-            console.log(data)
             if (data.Code == 200) {
                 success(data.Message)
             } else {

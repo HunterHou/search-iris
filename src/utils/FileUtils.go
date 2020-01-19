@@ -2,11 +2,20 @@ package utils
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
 )
+
+func DirpathForId(path string) (string, string) {
+	id, _ := url.QueryUnescape(path)
+	id = strings.ReplaceAll(id, "\\\\", "\\")
+	id = strings.ReplaceAll(id, "\\", "~")
+	newpath := strings.ReplaceAll(id, "~", "\\")
+	return id, newpath
+}
 
 func GetPng(path string, suffix string) string {
 	path = strings.ReplaceAll(path, GetSuffux(path), suffix)

@@ -5,8 +5,12 @@ type Result struct {
 	Data interface{}
 }
 
-func ResultSuccess() Result {
-	result := Result{}
-	result.Success()
-	return result
+func (res *Result) Success() {
+	res.MessageCode.Success()
+}
+func NewResult() Result {
+	return Result{}
+}
+func (res *Result) Fail() {
+	res.MessageCode.Fail()
 }
