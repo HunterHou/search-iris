@@ -39,6 +39,9 @@ func main() {
 		ctx.HTML("<h1>hello world!!!</h1>")
 
 	})
+	//done := make(chan bool, 1)
+	//quit := make(chan os.Signal, 1)
+	//signal.Notify(quit,os.Interrupt)
 	customLogger := logger.New(logger.Config{
 		Status:             true,
 		IP:                 true,
