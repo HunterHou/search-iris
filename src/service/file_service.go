@@ -219,12 +219,14 @@ func ArrayToMap(files []datamodels.Movie) (map[string]datamodels.Movie, map[stri
 		curActress, ok := actessmap[curFile.Actress]
 		if ok {
 			curActress.Plus()
+			actessmap[curFile.Actress] = curActress
 		} else {
 			actessmap[curFile.Actress] = datamodels.NewActres(curFile.Actress, curFile.Png)
 		}
 		curSupplier, okS := suppliermap[curFile.Supplier]
 		if okS {
 			curSupplier.Plus()
+			suppliermap[curFile.Supplier] = curSupplier
 		} else {
 			suppliermap[curFile.Supplier] = datamodels.NewSupplier(curFile.Supplier)
 		}

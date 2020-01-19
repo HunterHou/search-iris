@@ -11,7 +11,6 @@ func NewSupplier(name string) Supplier {
 		Cnt:  1,
 	}
 }
-func (su Supplier) Plus() Supplier {
+func (su *Supplier) Plus() {
 	su.Cnt = su.Cnt + 1
-	return su
 }

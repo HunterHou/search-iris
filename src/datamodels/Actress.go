@@ -15,9 +15,8 @@ func NewActres(name string, url string) Actress {
 		Cnt:  1,
 	}
 }
-func (act Actress) Plus() Actress {
+func (act *Actress) Plus() {
 	act.Cnt = act.Cnt + 1
-	return act
 }
 
 func (act Actress) PngBase64() string {
