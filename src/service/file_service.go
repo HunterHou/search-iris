@@ -160,7 +160,7 @@ func (fs FileService) ScanDisk(baseDir []string, types []string) {
 	datasource.FileLib = make(map[string]datamodels.Movie)
 	files := Walks(baseDir, types)
 	fileMap, actessMap, supplierMap := ArrayToMap(files)
-	newFiles := make([]datamodels.Movie, len(files))
+	newFiles := []datamodels.Movie{}
 	for _, item := range fileMap {
 		newFiles = append(newFiles, item)
 	}
