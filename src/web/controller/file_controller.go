@@ -2,7 +2,6 @@ package controller
 
 import (
 	"../../cons"
-	"../../datamodels"
 	"../../datasource"
 	"../../service"
 	"../../utils"
@@ -14,10 +13,35 @@ type FileController struct {
 	Service service.FileService
 }
 
-func (fc FileController) GetAll() []datamodels.File {
-	fc.Service.ScanAll()
+func (fc FileController) GetMovies() utils.Page {
+	if len(datasource.FileList) == 0 {
+		fc.Service.ScanAll()
+	}
 	list := datasource.FileList
-	return list
+	result := utils.NewPage()
+	result.CurCnt = len(list)
+	result.Data = list
+	return result
+}
+func (fc FileController) GetActess() utils.Page {
+	if len(datasource.FileList) == 0 {
+		fc.Service.ScanAll()
+	}
+	list := datasource.ActressLib
+	result := utils.NewPage()
+	result.CurCnt = len(list)
+	result.Data = list
+	return result
+}
+func (fc FileController) GetSupplier() utils.Page {
+	if len(datasource.SupplierLib) == 0 {
+		fc.Service.ScanAll()
+	}
+	list := datasource.SupplierLib
+	result := utils.NewPage()
+	result.CurCnt = len(list)
+	result.Data = list
+	return result
 }
 
 func (fc FileController) PostPlay() {
@@ -74,9 +98,9 @@ func (fc FileController) GetViews() {
 	totalCnt := len(datasource.FileList)
 	datas := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
 	resultCnt := len(datas)
+	fc.Service.SortItems(datas)
 	datas = fc.Service.GetPage(datas, pageNo, pageSize)
 	curCnt := len(datas)
-	fc.Service.SortItems(datas)
 
 	page := utils.NewPage()
 	page.KeyWord = keyWord

@@ -1,6 +1,23 @@
 package utils
 
-import "strings"
+import (
+	"reflect"
+	"strings"
+)
+
+func Expands(srcArr interface{}, tarArr interface{}) interface{} {
+
+	srcType := reflect.ValueOf(srcArr)
+	tarType := reflect.ValueOf(tarArr)
+	if srcType.Kind() != tarType.Kind() {
+		return srcArr
+	}
+	if srcType.Len() == 0 && tarType.Len() == 0 {
+		return srcArr
+	}
+	reflect.AppendSlice(srcType, tarType)
+	return srcType
+}
 
 //判断集合是否包含
 func HasItem(lib []string, item string) bool {

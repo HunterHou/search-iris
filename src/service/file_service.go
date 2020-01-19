@@ -18,11 +18,9 @@ import (
 )
 
 type FileService struct {
-	fileList []datamodels.File
-	fileMap  map[string]datamodels.File
 }
 
-func (fs FileService) MoveCut(srcFile datamodels.File, toFile datamodels.File) utils.Result {
+func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie) utils.Result {
 	result := utils.Result{}
 	root := srcFile.DirPath
 	path := root + "\\" + toFile.Actress + "\\" + toFile.Studio
@@ -42,10 +40,10 @@ func (fs FileService) MoveCut(srcFile datamodels.File, toFile datamodels.File) u
 	return result
 }
 
-func (fs FileService) RequestToFile(srcFile datamodels.File) (utils.Result, datamodels.File) {
+func (fs FileService) RequestToFile(srcFile datamodels.Movie) (utils.Result, datamodels.Movie) {
 
 	result := utils.Result{}
-	newFile := datamodels.File{}
+	newFile := datamodels.Movie{}
 	if srcFile.Code == "" {
 		result.Fail()
 		return result, newFile
@@ -105,7 +103,7 @@ func (fs FileService) RequestToFile(srcFile datamodels.File) (utils.Result, data
 	return result, newFile
 }
 
-func (fs FileService) FindOne(Id string) datamodels.File {
+func (fs FileService) FindOne(Id string) datamodels.Movie {
 	if len(datasource.FileLib) == 0 {
 		fs.ScanAll()
 	}
@@ -113,7 +111,7 @@ func (fs FileService) FindOne(Id string) datamodels.File {
 	return curFile
 }
 
-func (fs FileService) SortItems(lib []datamodels.File) {
+func (fs FileService) SortItems(lib []datamodels.Movie) {
 	sort.Slice(lib, func(i, j int) bool {
 		return lib[i].MTime > lib[j].MTime
 	})
@@ -155,22 +153,23 @@ func deleteDir(filename string) {
 }
 
 func (fs FileService) ScanDisk(baseDir []string, types []string) {
-	datasource.FileLib = make(map[string]datamodels.File)
+	datasource.FileLib = make(map[string]datamodels.Movie)
 	files := Walks(baseDir, types)
-	fs.fileList = files
-	fs.fileMap = ArrayToMap(files)
-	datasource.FileLib = fs.fileMap
+	fileMap, actessMap, supplierMap := ArrayToMap(files)
+	datasource.FileLib = fileMap
 	datasource.FileList = files
+	datasource.ActressLib = actessMap
+	datasource.SupplierLib = supplierMap
 
 }
 
-func (fs FileService) SearchByKeyWord(files []datamodels.File, keyWord string) []datamodels.File {
+func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) []datamodels.Movie {
 
 	if keyWord == "" {
 		return files
 	}
 
-	var result []datamodels.File
+	var result []datamodels.Movie
 	for _, file := range files {
 
 		if strings.Contains(strings.ToUpper(file.Code), strings.ToUpper(keyWord)) {
@@ -185,7 +184,7 @@ func (fs FileService) SearchByKeyWord(files []datamodels.File, keyWord string) [
 	return result
 }
 
-func (fs FileService) GetPage(files []datamodels.File, pageNo int, pageSize int) []datamodels.File {
+func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) []datamodels.Movie {
 
 	if len(files) == 0 {
 		return files
@@ -204,51 +203,68 @@ func (fs FileService) GetPage(files []datamodels.File, pageNo int, pageSize int)
 	return files[start:end]
 }
 
-func ArrayToMap(files []datamodels.File) map[string]datamodels.File {
-	filemap := make(map[string]datamodels.File)
+func ArrayToMap(files []datamodels.Movie) (map[string]datamodels.Movie, map[string]datamodels.Actress, map[string]datamodels.Supplier) {
+	filemap := make(map[string]datamodels.Movie)
+	actessmap := make(map[string]datamodels.Actress)
+	suppliermap := make(map[string]datamodels.Supplier)
 	for i := 0; i < len(files); i++ {
 		curFile := files[i]
+
 		filemap[curFile.Id] = curFile
+		curActress, ok := actessmap[curFile.Actress]
+		if ok {
+			curActress.Plus()
+		} else {
+			actessmap[curFile.Actress] = datamodels.NewActres(curFile.Actress, curFile.Png)
+		}
+		curSupplier, okS := suppliermap[curFile.Supplier]
+		if okS {
+			curSupplier.Plus()
+		} else {
+			suppliermap[curFile.Supplier] = datamodels.NewSupplier(curFile.Supplier)
+		}
+
 	}
-	return filemap
+	return filemap, actessmap, suppliermap
 }
-func Walks(baseDir []string, types []string) []datamodels.File {
+func Walks(baseDir []string, types []string) []datamodels.Movie {
 
 	var wg sync.WaitGroup
-	var datas = make(chan []datamodels.File, 10000)
-	var result []datamodels.File
+	var dataMovie = make(chan []datamodels.Movie, 10000)
+	var result []datamodels.Movie
 	wg.Add(len(baseDir))
 	for i := 0; i < len(baseDir); i++ {
-		go goWalk(baseDir[i], types, &wg, datas)
+		go goWalk(baseDir[i], types, &wg, dataMovie)
 	}
 	wg.Wait()
-	close(datas)
+	close(dataMovie)
 	for {
-		data, ok := <-datas
+		data, ok := <-dataMovie
 		if !ok {
 			break
 		}
-		result = Expands(result, data)
+		result = ExpandsMovie(result, data)
 	}
+
 	return result
 
 }
-func goWalk(baseDir string, types []string, wg *sync.WaitGroup, datas chan []datamodels.File) {
+func goWalk(baseDir string, types []string, wg *sync.WaitGroup, datas chan []datamodels.Movie) {
 	defer wg.Done()
 	files := Walk(baseDir, types)
 	datas <- files
 }
 
 //遍历目录 获取文件库
-func Walk(baseDir string, types []string) []datamodels.File {
-	var result []datamodels.File
+func Walk(baseDir string, types []string) []datamodels.Movie {
+	var result []datamodels.Movie
 	files, _ := ioutil.ReadDir(baseDir)
 	for _, path := range files {
 
 		pathAbs := filepath.Join(baseDir, path.Name())
 		if path.IsDir() {
 			childResult := Walk(pathAbs, types)
-			result = Expands(result, childResult)
+			result = ExpandsMovie(result, childResult)
 		} else {
 			name := path.Name()
 			suffix := utils.GetSuffux(name)
@@ -262,7 +278,27 @@ func Walk(baseDir string, types []string) []datamodels.File {
 	return result
 }
 
-func Expands(originArr []datamodels.File, insertArr []datamodels.File) []datamodels.File {
+func ExpandsMovie(originArr []datamodels.Movie, insertArr []datamodels.Movie) []datamodels.Movie {
+	if len(insertArr) == 0 {
+		return originArr
+	}
+
+	for i := 0; i < len(insertArr); i++ {
+		originArr = append(originArr, insertArr[i])
+	}
+	return originArr
+}
+func ExpandsActess(originArr []datamodels.Actress, insertArr []datamodels.Actress) []datamodels.Actress {
+	if len(insertArr) == 0 {
+		return originArr
+	}
+
+	for i := 0; i < len(insertArr); i++ {
+		originArr = append(originArr, insertArr[i])
+	}
+	return originArr
+}
+func ExpandsSupplier(originArr []datamodels.Supplier, insertArr []datamodels.Supplier) []datamodels.Supplier {
 	if len(insertArr) == 0 {
 		return originArr
 	}

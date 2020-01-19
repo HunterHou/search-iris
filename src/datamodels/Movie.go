@@ -10,7 +10,7 @@ import (
 )
 
 //声明一个File结构体 表示一个文件信息
-type File struct {
+type Movie struct {
 	Id       string
 	Code     string "json:'code'"
 	Name     string
@@ -34,11 +34,11 @@ type File struct {
 	Title    string
 }
 
-func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) File {
-	// 使用工厂模式 返回一个 File 实例
+func NewFile(dir string, path string, name string, fileType string, size int64, modTime time.Time) Movie {
+	// 使用工厂模式 返回一个 Movie 实例
 	id, _ := url.QueryUnescape(path)
 	id = strings.ReplaceAll(id, "\\", "~")
-	result := File{
+	result := Movie{
 		Id:       id,
 		Code:     utils.GetCode(name),
 		Name:     name,
@@ -57,13 +57,13 @@ func NewFile(dir string, path string, name string, fileType string, size int64, 
 	return result
 }
 
-func (f File) GetFileInfo() string {
+func (f Movie) GetFileInfo() string {
 	//
 	info := fmt.Sprintf("name: %v\t code:%v\t fileType:%v\t sizeStr:%v\t actress:%v\t path:%v\t",
 		f.Name, f.Code, f.FileType, f.SizeStr, f.Actress, f.Path)
 	return info
 }
-func (f File) PngBase64() string {
+func (f Movie) PngBase64() string {
 	path := f.Png
 	if !utils.ExistsFiles(path) {
 		path = f.Path
@@ -71,7 +71,7 @@ func (f File) PngBase64() string {
 	return utils.ImageToString(path)
 }
 
-func (f File) GetPng() string {
+func (f Movie) GetPng() string {
 	path := f.Path
 	return utils.GetPng(path, "png")
 }
