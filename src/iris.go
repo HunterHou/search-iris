@@ -21,6 +21,9 @@ func init() {
 	if !strings.HasSuffix(curDir, "src") {
 		curDir += "/src"
 	}
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.VideoTypes)
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Images)
 	staticDir = curDir + "/web/static"
 	cons.Play = utils.ImageToString(staticDir + "/image/play.jpg")
 	cons.Open = utils.ImageToString(staticDir + "/image/open.jpg")

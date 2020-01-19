@@ -91,7 +91,8 @@
         <div class="row">
             <img onclick="clickAcress('{{movie.Name}}');" class="img-list-item img-rounded img-responsive"
                  src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}"/>
-            {{movie.Name}} <span class="badge">{{movie.Cnt}}</span>
+            <span class="label label-info">{{movie.Name}} </span>
+            <span class="badge">{{movie.Cnt}}</span>
         </div>
     </ul>
     {% endfor %}

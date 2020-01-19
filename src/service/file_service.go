@@ -123,12 +123,7 @@ func (fs FileService) SortAct(lib []datamodels.Actress) {
 }
 
 func (fs FileService) ScanAll() {
-
-	var queryTypes []string
-	queryTypes = utils.ExtandsItems(queryTypes, cons.VideoTypes)
-	// queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Images)
-	// queryTypes = collectionUtils.ExtandsItems(queryTypes, cons.Docs)
-	fs.ScanDisk(cons.BaseDir, queryTypes)
+	fs.ScanDisk(cons.BaseDir, cons.QueryTypes)
 }
 func (fs FileService) Delete(id string) {
 	file := fs.FindOne(id)
