@@ -223,8 +223,8 @@ function syncAv(id) {
 }
 
 function success(msg) {
-
-    var html = "<div id='" + msg + "' class=\"msg alert alert-success alert-dismissable\">\n" +
+    var nodeId = new Date().getTime()
+    var html = "<div id='" + nodeId + "' class=\"msg alert alert-success alert-dismissable\">\n" +
         "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
         "            aria-hidden=\"true\">\n" +
         "        &times;\n" +
@@ -234,12 +234,13 @@ function success(msg) {
     document.getElementById("msg").append(html)
     setTimeout(function () {
         // document.getElementById("msg").innerHTML = "";
-        document.getElementById(msg).remove()
+        document.getElementById(nodeId).remove()
     }, "4000");
 }
 
 function fail(msg) {
-    var html = "<div id='" + msg + "' class=\"msg alert alert-danger alert-dismissable\">\n" +
+    var nodeId = new Date().getTime()
+    var html = "<div id='" + nodeId + "' class=\"msg alert alert-danger alert-dismissable\">\n" +
         "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
         "            aria-hidden=\"true\">\n" +
         "        &times;\n" +
@@ -249,6 +250,6 @@ function fail(msg) {
     document.getElementById("msg").append(html)
     setTimeout(function () {
         // document.getElementById("msg").innerHTML = "";
-        document.getElementById(msg).remove()
+        document.getElementById(nodeId).remove()
     }, "4000");
 }
