@@ -63,6 +63,9 @@ func (fs FileService) RequestToFile(srcFile datamodels.Movie) (utils.Result, dat
 	defer resp.Body.Close()
 	if 200 != resp.StatusCode {
 		fmt.Println("status error:", resp.StatusCode, resp.Status)
+		result.Fail()
+		result.Message = resp.Status
+		return result, newFile
 	}
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
@@ -174,7 +177,7 @@ func (fs FileService) ScanDisk(baseDir []string, types []string) {
 
 }
 
-func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) ([]datamodels.Movie) {
+func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) []datamodels.Movie {
 
 	if keyWord == "" {
 		return files
@@ -198,7 +201,7 @@ func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) 
 	return result
 }
 
-func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) ([]datamodels.Movie) {
+func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) []datamodels.Movie {
 
 	if len(files) == 0 {
 		return files
