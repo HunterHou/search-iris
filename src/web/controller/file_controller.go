@@ -124,20 +124,22 @@ func (fc FileController) GetViews() {
 	if errSize != nil || pageSize == 0 {
 		pageSize = 100
 	}
-	totalCnt := len(datasource.FileList)
-	datas := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
-	resultCnt := len(datas)
-	fc.Service.SortMovies(datas)
-	datas = fc.Service.GetPage(datas, pageNo, pageSize)
-	curCnt := len(datas)
-
 	page := utils.NewPage()
 	page.KeyWord = keyWord
 	page.PageNo = pageNo
 	page.PageSize = pageSize
+
+	page.TotalCnt = len(datasource.FileList)
+	page.TotalSize = utils.GetSizeStr(datasource.FileSize)
+	datas, dataSize := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
+	resultCnt := len(datas)
+	page.ResultSize = utils.GetSizeStr(dataSize)
+	fc.Service.SortMovies(datas)
+	datas, dataSize = fc.Service.GetPage(datas, pageNo, pageSize)
+	page.CurCnt = len(datas)
+	page.CurSize = utils.GetSizeStr(dataSize)
 	page.Data = datas
-	page.TotalCnt = totalCnt
-	page.CurCnt = curCnt
+
 	page.ResultCnt = resultCnt
 	page = page.SetResultCnt(resultCnt)
 
@@ -157,7 +159,7 @@ func (fc FileController) GetView() {
 	if len(datasource.FileList) == 0 {
 		fc.Service.ScanAll()
 	}
-	datas := []datamodels.Actress{}
+	var datas []datamodels.Actress
 	list := datasource.ActressLib
 	for _, data := range list {
 		datas = append(datas, data)

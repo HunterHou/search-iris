@@ -12,6 +12,10 @@ type Page struct {
 	TotalCnt  int
 	ResultCnt int
 	CurCnt    int
+
+	ResultSize string
+	TotalSize  string
+	CurSize    string
 }
 
 func NewPage() Page {

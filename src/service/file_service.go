@@ -38,7 +38,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	jpgOut.Close()
 	utils.ImageToPng(jpgpath)
 	result.Success()
-	result.Message = "【" +dirname +"】" + result.Message
+	result.Message = "【" + dirname + "】" + result.Message
 	return result
 }
 
@@ -161,43 +161,47 @@ func deleteDir(filename string) {
 func (fs FileService) ScanDisk(baseDir []string, types []string) {
 	datasource.FileLib = make(map[string]datamodels.Movie)
 	files := Walks(baseDir, types)
-	fileMap, actessMap, supplierMap := ArrayToMap(files)
-	newFiles := []datamodels.Movie{}
+	fileMap, actressMap, supplierMap, fileSize := ArrayToMap(files)
+	var newFiles []datamodels.Movie
 	for _, item := range fileMap {
 		newFiles = append(newFiles, item)
 	}
 	datasource.FileLib = fileMap
 	datasource.FileList = newFiles
-	datasource.ActressLib = actessMap
+	datasource.ActressLib = actressMap
 	datasource.SupplierLib = supplierMap
+	datasource.FileSize = fileSize
 
 }
 
-func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) []datamodels.Movie {
+func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) ([]datamodels.Movie, int64) {
 
 	if keyWord == "" {
-		return files
+		return files, 0
 	}
 
 	var result []datamodels.Movie
+	var size int64
 	for _, file := range files {
-
 		if strings.Contains(strings.ToUpper(file.Code), strings.ToUpper(keyWord)) {
 			result = append(result, file)
+			size = size + file.Size
 		} else if strings.Contains(strings.ToUpper(file.Name), strings.ToUpper(keyWord)) {
 			result = append(result, file)
+			size = size + file.Size
 		} else if strings.Contains(strings.ToUpper(file.Actress), strings.ToUpper(keyWord)) {
 			result = append(result, file)
+			size = size + file.Size
 		}
 	}
 
-	return result
+	return result, size
 }
 
-func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) []datamodels.Movie {
+func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) ([]datamodels.Movie, int64) {
 
 	if len(files) == 0 {
-		return files
+		return files, 0
 	}
 	size := len(files)
 	start := (pageNo - 1) * pageSize
@@ -207,26 +211,33 @@ func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int
 		end = start + pageSize
 	}
 	if len(files) < pageSize {
-		return files
+		return files, 0
+	}
+	var dataSize int64
+	data := files[start:end]
+	for _, d := range data {
+		dataSize = dataSize + d.Size
 	}
 
-	return files[start:end]
+	return data, dataSize
 }
 
-func ArrayToMap(files []datamodels.Movie) (map[string]datamodels.Movie, map[string]datamodels.Actress, map[string]datamodels.Supplier) {
+func ArrayToMap(files []datamodels.Movie) (map[string]datamodels.Movie, map[string]datamodels.Actress, map[string]datamodels.Supplier, int64) {
 	filemap := make(map[string]datamodels.Movie)
 	actessmap := make(map[string]datamodels.Actress)
 	suppliermap := make(map[string]datamodels.Supplier)
+	var size int64
 	for i := 0; i < len(files); i++ {
 		curFile := files[i]
-
+		size = size + curFile.Size
 		filemap[curFile.Id] = curFile
 		curActress, ok := actessmap[curFile.Actress]
 		if ok {
-			curActress.Plus()
+			curActress.PlusCnt()
+			curActress.PlusSize(curFile.Size)
 			actessmap[curFile.Actress] = curActress
 		} else {
-			actessmap[curFile.Actress] = datamodels.NewActres(curFile.Actress, curFile.Png)
+			actessmap[curFile.Actress] = datamodels.NewActres(curFile.Actress, curFile.Png, curFile.Size)
 		}
 		curSupplier, okS := suppliermap[curFile.Supplier]
 		if okS {
@@ -237,7 +248,7 @@ func ArrayToMap(files []datamodels.Movie) (map[string]datamodels.Movie, map[stri
 		}
 
 	}
-	return filemap, actessmap, suppliermap
+	return filemap, actessmap, suppliermap, size
 }
 func Walks(baseDir []string, types []string) []datamodels.Movie {
 
