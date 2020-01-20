@@ -31,12 +31,36 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	finalpath := dirpath + "\\" + filename
 	os.Rename(srcFile.Path, finalpath)
 	jpgpath := utils.GetPng(finalpath, "jpg")
-	jpgOut, _ := os.Create(jpgpath)
-	resp, _ := http.Get(toFile.Jpg)
+	jpgOut, createErr := os.Create(jpgpath)
+	if createErr != nil {
+		result.Fail()
+		os.Rename(finalpath, srcFile.Path)
+		result.Message = "文件创建失败：" + jpgpath
+		return result
+	}
+	resp, downErr := http.Get(toFile.Jpg)
+	if downErr != nil {
+		result.Fail()
+		os.Rename(finalpath, srcFile.Path)
+		result.Message = "文件下载失败：" + toFile.Jpg
+		return result
+	}
 	body, _ := ioutil.ReadAll(resp.Body)
+	if downErr != nil {
+		result.Fail()
+		os.Rename(finalpath, srcFile.Path)
+		result.Message = "请求读取response失败"
+		return result
+	}
 	jpgOut.Write(body)
 	jpgOut.Close()
-	utils.ImageToPng(jpgpath)
+	pngErr := utils.ImageToPng(jpgpath)
+	if pngErr != nil {
+		result.Fail()
+		os.Rename(finalpath, srcFile.Path)
+		result.Message = "png生成失败"
+		return result
+	}
 	result.Success()
 	result.Message = "【" + dirname + "】" + result.Message
 	return result
