@@ -223,10 +223,18 @@ function syncAv(id) {
 }
 
 function success(msg) {
+    selfAlert(msg, "alert-success")
+}
+
+function fail(msg) {
+    selfAlert(msg, "alert-danger")
+}
+
+function selfAlert(msg, clazz) {
     var nodeId = new Date().getTime()
     var div = document.createElement("div")
     div.setAttribute("id", nodeId)
-    var html = "<div  class=\"msg alert alert-success alert-dismissable\">\n" +
+    var html = "<div  class=\"msg alert " + clazz + " alert-dismissable\">\n" +
         "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
         "            aria-hidden=\"true\">\n" +
         "        &times;\n" +
@@ -236,26 +244,7 @@ function success(msg) {
     document.getElementById("msg").append(div)
     document.getElementById(nodeId).innerHTML = html
     setTimeout(function () {
-        // document.getElementById("msg").innerHTML = "";
-        var node = document.getElementById(nodeId)
-        node.remove()
+        document.getElementById(nodeId).node.remove()
     }, "4000");
 }
 
-function fail(msg) {
-    var nodeId = new Date().getTime()
-    var html = "<div id='" + nodeId + "' class=\"msg alert alert-danger alert-dismissable\">\n" +
-        "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
-        "            aria-hidden=\"true\">\n" +
-        "        &times;\n" +
-        "    </button>\n" +
-        msg + "   \n" +
-        "</div>";
-    // document.getElementById("msg").append(html)
-    document.getElementById("msg").innerHTML = html
-    setTimeout(function () {
-        // document.getElementById("msg").innerHTML = "";
-        var node = document.getElementById(nodeId)
-        node.remove()
-    }, "4000");
-}
