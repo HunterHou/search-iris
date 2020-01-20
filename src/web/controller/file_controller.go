@@ -99,16 +99,14 @@ func (fc FileController) PostAdddir() {
 }
 
 func (fc FileController) PostSync() {
-	//id := fc.Ctx.PostValue("id")
-	//curFile := fc.Service.FindOne(id)
-	//result, newFile := fc.Service.RequestToFile(curFile)
-	//if result.Code != 200 {
-	//	fc.Ctx.JSON(result)
-	//	return
-	//}
-	//result = fc.Service.MoveCut(curFile, newFile)
-	result := utils.NewResult()
-	result.Success()
+	id := fc.Ctx.PostValue("id")
+	curFile := fc.Service.FindOne(id)
+	result, newFile := fc.Service.RequestToFile(curFile)
+	if result.Code != 200 {
+		fc.Ctx.JSON(result)
+		return
+	}
+	result = fc.Service.MoveCut(curFile, newFile)
 	fc.Ctx.JSON(result)
 
 }

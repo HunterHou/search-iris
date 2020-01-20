@@ -30,15 +30,20 @@
 
 #context {
     margin-left: 20px;
+    margin-right: 20px;
     top: 10px;
     bottom: 10px;
 }
 
+#msg {
+    position: fixed;
+    z-index: 999;
+    right: 50px;
+}
+
 .msg {
-    position:fixed;
+    /*float: right;*/
     width: 400px;
     height: 80px;
-    top: 70px;
-    left: 200px;
-    z-index:9999;
+    z-index: 999;
 }
