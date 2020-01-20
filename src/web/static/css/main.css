@@ -18,7 +18,6 @@
 }
 
 .button-list {
-    /* float: left; */
     margin-right: 20px;
 }
 
@@ -42,7 +41,6 @@
 }
 
 .msg {
-    /*float: right;*/
     width: 400px;
     height: 80px;
     z-index: 999;

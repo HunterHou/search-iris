@@ -18,47 +18,99 @@
 </head>
 
 <body>
-<div id="msg">
-</div>
-
-<div id="top">
-    <div class="row">
-        <form action="/views" method="get" id="search-form">
-            <button class="btn btn-xs  btn-success col-md-1" onclick="window.location('/views');">首页</button>
-            <button class="btn btn-xs  btn-warning col-md-1" onclick="window.open('/view');">UU</button>
-            <button type="button" class="btn btn-xs  btn-info col-md-1" data-toggle="modal"
-               data-target="#addDirModal">添加</button>
-            <a onclick="refreshIndex();" class="btn btn-xs  btn-primary col-md-1">更新索引</a>
-            <a class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏</a>
-
-            <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
-                   placeholder="Search for..." value="{{page.KeyWord}}">
-            <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
-            <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
-            <input type="input" style="width: 40px;" id="pageSize" name="pageSize" value="{{page.PageSize}}">
-            <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
-        </form>
+    <div id="msg">
     </div>
 
-    <div class="row">
-        <div id="title" class="col-md-12">
-            <span>文件总数:</span><span id="total">{{page.TotalCnt}}</span>
-            <span>搜索总数:</span><span id="total">{{page.ResultCnt}}</span>
-            <span>当前数量:</span><span id="total">{{page.CurCnt}}</span>
-            <div>
-                <ul class="list-inline list-group">
-                    {% for index,dirpath in dirList %}
-                    <li>
-                        <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
-                            <span>[{{dirpath}}]</span>
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
+    <div id="top">
+        <div class="row">
+            <form action="/views" method="get" id="search-form">
+                <button class="btn btn-xs  btn-success col-md-1" onclick="locationViews();">首页</button>
+                <button class="btn btn-xs  btn-warning col-md-1" onclick="window.open('/view');">UU</button>
+                <button type="button" class="btn btn-xs  btn-info col-md-1" data-toggle="modal"
+                    data-target="#addDirModal">添加</button>
+                <a onclick="refreshIndex();" class="btn btn-xs  btn-primary col-md-1">更新索引</a>
+                <a class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏</a>
+
+                <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
+                    placeholder="Search for..." value="{{page.KeyWord}}">
+                <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
+                <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
+                <input type="input" style="width: 40px;" id="pageSize" name="pageSize" value="{{page.PageSize}}">
+                <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
+            </form>
+        </div>
+
+        <div class="row">
+            <div id="title" class="col-md-11">
+                <span>文件总数:</span><span id="total">{{page.TotalCnt}}</span>
+                <span>搜索总数:</span><span id="total">{{page.ResultCnt}}</span>
+                <span>当前数量:</span><span id="total">{{page.CurCnt}}</span>
+                <div>
+                    <ul class="list-inline list-group">
+                        {% for index,dirpath in dirList %}
+                        <li>
+                            <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
+                                <span>[{{dirpath}}]</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
 
             </div>
-
         </div>
+        <div class="row">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for page in page.EachPage %}
+                    {% if curPage == page %}
+                    <li><span>{{page}}</span></li>
+                    {% else %}
+                    <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    <li>
+                        <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <hr>
+    <div id="context">
+        {% for movie in page.Data %}
+        <ul class="list-item">
+            <div class="row">
+                <img onclick="openModal('{{movie.Id}}');" class="img-list-item img-rounded img-responsive"
+                    src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
+                <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                    src="data:image/png;base64,{{playIcon}}" alt="打开" />
+                <img onclick="clickActress('{{movie.Actress}}');" class="img-icon img-rounded img-responsive"
+                    src="data:image/png;base64,{{changeIcon}}" alt="详情" />
+                <img onclick="openDirAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                    src="data:image/png;base64,{{openIcon}}" alt="文件夹" />
+                <img onclick="deleteWarring('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                    src="data:image/png;base64,{{closeIcon}}" alt="删除" />
+                <img onclick="syncAv('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
+                    src="data:image/png;base64,{{replayIcon}}" alt="刷新" />
+                【{{movie.SizeStr}}】
+            </div>
+            <div class="row">
+                <a href="javascript:void(0)" onclick="openModal('{{movie.Id}}');" role="button"></a>
+                <span> {{movie.Name}}</span>
+            </div>
+        </ul>
+        {% endfor %}
     </div>
     <div class="row">
         <nav aria-label="Page navigation">
@@ -85,145 +137,92 @@
             </ul>
         </nav>
     </div>
-</div>
-<hr>
-<div class="row col-md-12" id="context">
-
-    {% for movie in page.Data %}
-    <ul class="list-item">
-        <div class="row">
-            <img onclick="openModal('{{movie.Id}}');" class="img-list-item img-rounded img-responsive"
-                 src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}"/>
-            <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                 src="data:image/png;base64,{{playIcon}}" alt="打开"/>
-            <img onclick="clickActress('{{movie.Actress}}');" class="img-icon img-rounded img-responsive"
-                 src="data:image/png;base64,{{changeIcon}}" alt="详情"/>
-            <img onclick="openDirAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                 src="data:image/png;base64,{{openIcon}}" alt="文件夹"/>
-            <img onclick="deleteWarring('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                 src="data:image/png;base64,{{closeIcon}}" alt="删除"/>
-            <img onclick="syncAv('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                 src="data:image/png;base64,{{replayIcon}}" alt="刷新"/>
-            【{{movie.SizeStr}}】
-        </div>
-        <div class="row">
-            <a href="javascript:void(0)" onclick="openModal('{{movie.Id}}');" role="button"></a>
-            <span> {{movie.Name}}</span>
-        </div>
-    </ul>
-    {% endfor %}
-</div>
-<div class="row">
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li>
-                <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% for page in page.EachPage %}
-            {% if curPage == page %}
-            <li><span>{{page}}</span></li>
-            {% else %}
-            <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
-            {% endif %}
-
-            {% endfor %}
-
-            <li>
-                <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
 
 
-<!-- Modal 确认删除 start-->
-<div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <input type="hidden" id="deleteId">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+    <!-- Modal 确认删除 start-->
+    <div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="deleteId">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="warningLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <p id="deleteContext"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="deleteAjax()">确认删除</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 确认删除 end-->
-<!-- Modal 添加目录 end-->
-<div class="modal fade" id="addDirModal" tabindex="-1" role="dialog" aria-labelledby="addDirModalLabel">
-    <div class="modal-dialog " role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <input type="hidden" id="deleteId">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="warningLabel">添加目录</h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <label>输入：</label><input type="text" id="addDirText" name="addDirText">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" onclick="addDir()">添加</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal 添加目录 end-->
-
-<!-- Modal 弹出详情 start-->
-<div class="modal fade bs-example-modal-lg " id="detail" tabindex="-1" role="dialog"
-     aria-labelledby="detailModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <img id="myModalImg">
-                <hr>
-                <div style="margin-left: 20px;">
-                    <div class="row">
-                        <label>番号:</label><a onclick="openCode();"><span id="fcode"></span></a>
-                    </div>
-                    <div class="row">
-                        <label>优优:</label><a onclick="searchActress();"><span id="factress"></span></a>
-                    </div>
-                    <div class="row">
-                        <label>时间:</label><span id="fmtime"></span>
-                    </div>
-                    <div class="row">
-                        <label>大小:</label><span id="fsize"></span>
-                    </div>
+                    </button>
+                    <h4 class="modal-title" id="warningLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteContext"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteAjax()">确认删除</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <!--                <button type="button" class="btn btn-primary">Save changes</button>*/-->
+        </div>
+    </div>
+    <!-- Modal 确认删除 end-->
+    <!-- Modal 添加目录 end-->
+    <div class="modal fade" id="addDirModal" tabindex="-1" role="dialog" aria-labelledby="addDirModalLabel">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="deleteId">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="warningLabel">添加目录</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label>输入：</label><input type="text" id="addDirText" name="addDirText">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="addDir()">添加</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Modal 弹出详情 end-->
+    <!-- Modal 添加目录 end-->
+
+    <!-- Modal 弹出详情 start-->
+    <div class="modal fade bs-example-modal-lg " id="detail" tabindex="-1" role="dialog"
+        aria-labelledby="detailModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <img id="myModalImg">
+                    <hr>
+                    <div style="margin-left: 20px;">
+                        <div class="row">
+                            <label>番号:</label><a onclick="openCode();"><span id="fcode"></span></a>
+                        </div>
+                        <div class="row">
+                            <label>优优:</label><a onclick="searchActress();"><span id="factress"></span></a>
+                        </div>
+                        <div class="row">
+                            <label>时间:</label><span id="fmtime"></span>
+                        </div>
+                        <div class="row">
+                            <label>大小:</label><span id="fsize"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <!--                <button type="button" class="btn btn-primary">Save changes</button>*/-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal 弹出详情 end-->
 </body>
 
 </html>
