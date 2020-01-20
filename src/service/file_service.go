@@ -38,7 +38,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	jpgOut.Close()
 	utils.ImageToPng(jpgpath)
 	result.Success()
-	result.Message = "dirname " + result.Message
+	result.Message = "【" +dirname +"】" + result.Message
 	return result
 }
 
