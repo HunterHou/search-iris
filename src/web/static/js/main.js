@@ -199,7 +199,7 @@ function refresh() {
         success(data) {
             if (data.Code == 200) {
                 success(data.Message)
-                window.location('/views');
+                window.location(window.location.href);
             } else {
                 fail(data.Message)
             }
