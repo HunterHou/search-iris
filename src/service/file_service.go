@@ -64,11 +64,13 @@ func (fs FileService) RequestToFile(srcFile datamodels.Movie) (utils.Result, dat
 	if 200 != resp.StatusCode {
 		fmt.Println("status error:", resp.StatusCode, resp.Status)
 		result.Fail()
-		result.Message = resp.Status
+		result.Message = "请求失败：" + resp.Status + " url:" + url
 		return result, newFile
 	}
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
+		result.Fail()
+		result.Message = "html解析失败"
 		fmt.Println("err:", err)
 	}
 	bigImage := doc.Find(".bigImage img")
