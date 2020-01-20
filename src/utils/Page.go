@@ -29,7 +29,7 @@ func NewPage() Page {
 	}
 }
 
-func (p Page) SetResultCnt(resultCnt int) Page {
+func (p *Page) SetResultCnt(resultCnt int) {
 	p.ResultCnt = resultCnt
 	totalPage := resultCnt/p.PageSize + 1
 	p.TotalPage = totalPage
@@ -38,5 +38,4 @@ func (p Page) SetResultCnt(resultCnt int) Page {
 		pageList = append(pageList, (i + 1))
 	}
 	p.EachPage = pageList
-	return p
 }

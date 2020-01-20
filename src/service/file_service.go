@@ -174,10 +174,10 @@ func (fs FileService) ScanDisk(baseDir []string, types []string) {
 
 }
 
-func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) ([]datamodels.Movie, int64) {
+func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) ([]datamodels.Movie) {
 
 	if keyWord == "" {
-		return files, 0
+		return files
 	}
 
 	var result []datamodels.Movie
@@ -195,13 +195,13 @@ func (fs FileService) SearchByKeyWord(files []datamodels.Movie, keyWord string) 
 		}
 	}
 
-	return result, size
+	return result
 }
 
-func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) ([]datamodels.Movie, int64) {
+func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int) ([]datamodels.Movie) {
 
 	if len(files) == 0 {
-		return files, 0
+		return files
 	}
 	size := len(files)
 	start := (pageNo - 1) * pageSize
@@ -211,15 +211,19 @@ func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int
 		end = start + pageSize
 	}
 	if len(files) < pageSize {
-		return files, 0
+		return files
 	}
-	var dataSize int64
+
 	data := files[start:end]
+	return data
+}
+
+func (fs FileService) DataSize(data []datamodels.Movie) int64 {
+	var dataSize int64
 	for _, d := range data {
 		dataSize = dataSize + d.Size
 	}
-
-	return data, dataSize
+	return dataSize
 }
 
 func ArrayToMap(files []datamodels.Movie) (map[string]datamodels.Movie, map[string]datamodels.Actress, map[string]datamodels.Supplier, int64) {
