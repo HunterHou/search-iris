@@ -102,8 +102,13 @@ func (fc FileController) PostSync() {
 	id := fc.Ctx.PostValue("id")
 	curFile := fc.Service.FindOne(id)
 	result, newFile := fc.Service.RequestToFile(curFile)
-	fc.Service.MoveCut(curFile, newFile)
+	if result.Code != 200 {
+		fc.Ctx.JSON(result)
+		return
+	}
+	result = fc.Service.MoveCut(curFile, newFile)
 	fc.Ctx.JSON(result)
+
 }
 
 func (fc FileController) GetViews() {
