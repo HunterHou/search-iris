@@ -141,7 +141,7 @@ function clickAcress(actress) {
 
     document.getElementById("keyWord").value = keyWord
     // document.getElementById("search-form").submit()
-    window.open("/view?keyWord=" + keyWord)
+    window.open("/views?keyWord=" + keyWord)
 }
 
 function openModal(id) {
