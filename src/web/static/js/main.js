@@ -130,7 +130,7 @@ function openCode(code) {
     window.open(url, "_blank")
 }
 
-function clickAcress(actress) {
+function openActress(actress) {
     var keyWord
     if (actress) {
         keyWord = actress
@@ -138,10 +138,14 @@ function clickAcress(actress) {
         $('#detail').modal('hide')
         keyWord = document.getElementById("factress").innerText
     }
-
     document.getElementById("keyWord").value = keyWord
-    // document.getElementById("search-form").submit()
     window.open("/views?keyWord=" + keyWord)
+}
+
+function clickActress(actress) {
+    var keyWord = actress
+    document.getElementById("keyWord").value = keyWord
+    document.getElementById("search-form").submit()
 }
 
 function openModal(id) {
