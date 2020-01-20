@@ -42,7 +42,6 @@ function choosePage(pageNo) {
 }
 
 function openAjax(path) {
-    console.log(path)
     $.ajax({
         type: "POST",
         url: "/play",
@@ -96,7 +95,6 @@ function clickDirAjax(id) {
 
 
 function openDirAjax(path) {
-    console.log(path)
     $.ajax({
         type: "POST",
         url: "/opendir",
@@ -222,7 +220,6 @@ function syncAv(id) {
         url: "/sync",
         data: { "id": id },
         success(data) {
-            console.log(data)
             if (data.Code == 200) {
                 success(data.Message)
             } else {
