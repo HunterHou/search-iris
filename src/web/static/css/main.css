@@ -34,7 +34,7 @@
     bottom: 10px;
 }
 
-#msg {
+.msg {
     position:fixed;
     width: 400px;
     height: 80px;
