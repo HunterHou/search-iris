@@ -104,19 +104,6 @@ function openDirAjax(path) {
     });
 }
 
-openActress
-
-function openActress(code) {
-    var keyWord
-    if (code) {
-        keyWord = code
-    } else {
-        $('#detail').modal('hide')
-        keyWord = document.getElementById("factress").innerText
-    }
-    var url = "https://www.cdnbus.in/search/" + keyWord
-    window.open(url, "_blank")
-}
 
 function openCode(code) {
     var keyWord
@@ -127,6 +114,18 @@ function openCode(code) {
         keyWord = document.getElementById("fcode").innerText
     }
     var url = "https://www.cdnbus.in/" + keyWord
+    window.open(url, "_blank")
+}
+
+function searchActress(code) {
+    var keyWord
+    if (code) {
+        keyWord = code
+    } else {
+        $('#detail').modal('hide')
+        keyWord = document.getElementById("factress").innerText
+    }
+    var url = "https://www.cdnbus.in/search/" + keyWord
     window.open(url, "_blank")
 }
 
