@@ -224,18 +224,19 @@ function syncAv(id) {
 
 function success(msg) {
 
-    var html = "<div class=\"alert alert-success alert-dismissable\">\n" +
+    var html = "<div id='" + msg + "' class=\"alert alert-success alert-dismissable\">\n" +
         "    <button type=\"button\" class=\"close\" data-dismiss=\"alert\"\n" +
         "            aria-hidden=\"true\">\n" +
         "        &times;\n" +
         "    </button>\n" +
         msg + "   \n" +
         "</div>";
-    document.getElementById("msg").innerHTML = html
+    document.getElementById("msg").appendChild(html)
 
     setTimeout(function () {
-        document.getElementById("msg").innerHTML = "";
-    }, "2000");
+        // document.getElementById("msg").innerHTML = "";
+        document.getElementById("msg").removeChild(html)
+    }, "4000");
 }
 
 function fail(msg) {
