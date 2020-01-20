@@ -34,6 +34,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	jpgOut, createErr := os.Create(jpgpath)
 	if createErr != nil {
 		result.Fail()
+		fmt.Println("err:",createErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "文件创建失败：" + jpgpath
 		return result
@@ -41,13 +42,15 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	resp, downErr := http.Get(toFile.Jpg)
 	if downErr != nil {
 		result.Fail()
+		fmt.Println("err:",downErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "文件下载失败：" + toFile.Jpg
 		return result
 	}
-	body, _ := ioutil.ReadAll(resp.Body)
-	if downErr != nil {
+	body, readErr := ioutil.ReadAll(resp.Body)
+	if readErr != nil {
 		result.Fail()
+		fmt.Println("err:",readErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "请求读取response失败"
 		return result
@@ -57,6 +60,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	pngErr := utils.ImageToPng(jpgpath)
 	if pngErr != nil {
 		result.Fail()
+		fmt.Println("err:",pngErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "png生成失败"
 		return result
