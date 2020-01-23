@@ -91,18 +91,30 @@
         {% for movie in page.Data %}
         <ul class="list-item">
             <div class="row">
-                <img onclick="openModal('{{movie.Id}}');" class="img-list-item img-rounded img-responsive"
-                    src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
-                <img onclick="openAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{playIcon}}" alt="打开" />
-                <img onclick="clickActress('{{movie.Actress}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{changeIcon}}" alt="详情" />
-                <img onclick="openDirAjax('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{openIcon}}" alt="文件夹" />
-                <img onclick="deleteWarring('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{closeIcon}}" alt="删除" />
-                <img onclick="syncAv('{{movie.Id}}');" class="img-icon img-rounded img-responsive"
-                    src="data:image/png;base64,{{replayIcon}}" alt="刷新" />
+                <a href="javascript:void(0)" onclick="openModal('{{movie.Id}}');">
+                    <img class="img-list-item img-rounded img-responsive"
+                        src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
+                </a>
+                <a href="javascript:void(0)" onclick="openAjax('{{movie.Id}}');">
+                    <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{playIcon}}"
+                        alt="打开" />
+                </a>
+                <a href="javascript:void(0)" onclick="clickActress('{{movie.Id}}');">
+                    <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{changeIcon}}"
+                        alt="详情" />
+                </a>
+                <a href="javascript:void(0)" onclick="openDirAjax('{{movie.Id}}');">
+                    <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{openIcon}}"
+                        alt="文件夹" />
+                </a>
+                <a href="javascript:void(0)" onclick="deleteWarring('{{movie.Id}}');">
+                    <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{closeIcon}}"
+                        alt="删除" />
+                </a>
+                <a href="javascript:void(0)" onclick="syncAv('{{movie.Id}}');">
+                    <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{replayIcon}}"
+                        alt="刷新" />
+                </a>
                 【{{movie.SizeStr}}】
             </div>
             <div class="row">
