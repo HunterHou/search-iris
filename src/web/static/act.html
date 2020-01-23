@@ -88,12 +88,16 @@
         {% for actress in page.Data %}
         <ul class="list-item">
             <div class="row">
+                <a class="btn btn-xs  btn-success" onclick="openActress('{{actress.Name}}');">
+                    <span>{{actress.Name}} </span>
+
+                </a>
+                <span class="badge">{{actress.SizeStr}}</span>
+                <span class="badge">{{actress.Cnt}}</span>
                 <a onclick="openActress('{{actress.Name}}');">
-                    <span class="label label-info">{{actress.Name}} </span>
-                    <span class="badge">{{actress.SizeStr}}</span>
-                    <span class="badge">{{actress.Cnt}}</span>
                     <img class="img-list-item img-thumbnail img-responsive"
                         src="data:image/png;base64,{{actress.PngBase64}}" alt="{{actress.Name}}" />
+
                 </a>
 
             </div>

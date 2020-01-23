@@ -59,6 +59,8 @@ func main() {
 
 	app.RegisterView(iris.Django(staticDir, ".html"))
 	app.HandleDir("/", staticDir)
+	// bys ,_ := Asset("static");
+	// app.StaticContent("/",staticDir,bys)
 	app.Logger().SetLevel("debug")
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))
