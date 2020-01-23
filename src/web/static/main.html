@@ -91,7 +91,7 @@
         {% for movie in page.Data %}
         <ul class="list-item">
             <div class="row">
-                <a href="javascript:void(0)" onclick="openModal('{{movie.Id}}');">
+                <a onclick="openModal('{{movie.Id}}');">
                     <img class="img-list-item img-rounded img-responsive"
                         src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
                 </a>
@@ -99,7 +99,7 @@
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{playIcon}}"
                         alt="打开" />
                 </a>
-                <a href="javascript:void(0)" onclick="clickActress('{{movie.Id}}');">
+                <a href="javascript:void(0)" onclick="clickActress('{{movie.Actress}}');">
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{changeIcon}}"
                         alt="详情" />
                 </a>
