@@ -25,6 +25,9 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	root := srcFile.DirPath
 	path := root + "\\" + toFile.Actress + "\\" + toFile.Studio
 	dirname := "[" + toFile.Actress + "][" + toFile.Code + "]" + toFile.Title
+
+	dirname=strings.ReplaceAll(dirname,":","~")
+	dirname=strings.ReplaceAll(dirname,".","~")
 	dirpath := path + "\\" + dirname
 	os.MkdirAll(dirpath, os.ModePerm)
 	filename := dirname + "." + utils.GetSuffux(srcFile.Path)
@@ -34,7 +37,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	jpgOut, createErr := os.Create(jpgpath)
 	if createErr != nil {
 		result.Fail()
-		fmt.Println("err:",createErr)
+		fmt.Println("createErr:",createErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "文件创建失败：" + jpgpath
 		return result
@@ -42,7 +45,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	resp, downErr := http.Get(toFile.Jpg)
 	if downErr != nil {
 		result.Fail()
-		fmt.Println("err:",downErr)
+		fmt.Println("downErr:",downErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "文件下载失败：" + toFile.Jpg
 		return result
@@ -50,7 +53,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	body, readErr := ioutil.ReadAll(resp.Body)
 	if readErr != nil {
 		result.Fail()
-		fmt.Println("err:",readErr)
+		fmt.Println("readErr:",readErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "请求读取response失败"
 		return result
@@ -60,7 +63,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	pngErr := utils.ImageToPng(jpgpath)
 	if pngErr != nil {
 		result.Fail()
-		fmt.Println("err:",pngErr)
+		fmt.Println("pngErr:",pngErr)
 		os.Rename(finalpath, srcFile.Path)
 		result.Message = "png生成失败"
 		return result
@@ -146,11 +149,7 @@ func (fs FileService) FindOne(Id string) datamodels.Movie {
 	return curFile
 }
 
-func (fs FileService) SortMovies(lib []datamodels.Movie) {
-	sort.Slice(lib, func(i, j int) bool {
-		return lib[i].MTime > lib[j].MTime
-	})
-}
+
 func (fs FileService) SortAct(lib []datamodels.Actress) {
 	sort.Slice(lib, func(i, j int) bool {
 		return lib[i].Cnt > lib[j].Cnt

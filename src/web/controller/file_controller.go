@@ -67,6 +67,7 @@ func (fc FileController) PostInfo() {
 
 func (fc FileController) GetFresh() {
 	fc.Service.ScanAll()
+	datasource.SortMovieForce()
 	result := utils.Success()
 	fc.Ctx.JSON(result)
 }
@@ -116,6 +117,8 @@ func (fc FileController) GetViews() {
 		fc.Service.ScanAll()
 	}
 	keyWord := fc.Ctx.URLParam("keyWord")
+	sortField := fc.Ctx.URLParamDefault("sortField", datasource.DefSortField)
+	sortType := fc.Ctx.URLParamDefault("sortType", datasource.DefSortType)
 	pageNo, errNo := fc.Ctx.URLParamInt("pageNo")
 	if errNo != nil || pageNo == 0 {
 		pageNo = 1
@@ -131,10 +134,10 @@ func (fc FileController) GetViews() {
 
 	page.TotalCnt = len(datasource.FileList)
 	page.TotalSize = utils.GetSizeStr(datasource.FileSize)
+	datasource.SortMovies(sortField, sortType, false)
 	datas := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
 	page.SetResultCnt(len(datas))
 	page.ResultSize = utils.GetSizeStr(fc.Service.DataSize(datas))
-	fc.Service.SortMovies(datas)
 	datas = fc.Service.GetPage(datas, pageNo, pageSize)
 	page.CurCnt = len(datas)
 	page.CurSize = utils.GetSizeStr(fc.Service.DataSize(datas))
@@ -146,6 +149,8 @@ func (fc FileController) GetViews() {
 	fc.Ctx.ViewData("replayIcon", cons.Replay)
 	fc.Ctx.ViewData("closeIcon", cons.Close)
 
+	fc.Ctx.ViewData("sortField", sortField)
+	fc.Ctx.ViewData("sortType", sortType)
 	fc.Ctx.ViewData("page", page)
 	fc.Ctx.ViewData("curPage", page.PageNo)
 	fc.Ctx.ViewData("dirList", cons.BaseDir)
@@ -156,7 +161,7 @@ func (fc FileController) GetStar() {
 	if len(datasource.FileList) == 0 {
 		fc.Service.ScanAll()
 	}
-	var datas []datamodels.Actress	
+	var datas []datamodels.Actress
 	list := datasource.ActressLib
 	for _, data := range list {
 		datas = append(datas, data)

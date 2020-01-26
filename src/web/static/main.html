@@ -34,6 +34,37 @@
                 <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
                     placeholder="Search for..." value="{{page.KeyWord}}">
                 <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
+
+                {% if 'mtime' == sortField %}
+                <input type="radio" name="sortField" value="mtime" id="mtime" checked onchange="loadPage()">时间</input>
+                {% else %}
+                <input type="radio" name="sortField" value="mtime" id="mtime" onchange="loadPage()">时间</input>
+                {% endif%}
+
+                {% if 'code' == sortField %}
+                <input type="radio" name="sortField" value="code" id="code" checked onchange="loadPage(tis)">番号</input>
+                {% else %}
+                <input type="radio" name="sortField" value="code" id="code" onchange="loadPage()">番号</input>
+                {% endif%}
+
+                {% if 'size' == sortField %}
+                <input type="radio" name="sortField" value="size" id="size" checked onchange="loadPage()">大小</input>
+                {% else %}
+                <input type="radio" name="sortField" value="size" id="size" onchange="loadPage()">大小</input>
+                {% endif%}
+
+                {% if 'asc' == sortType %}
+                <input type="radio" name="sortType" value="asc" id="asc" checked onchange="loadPage()">正</input>
+                {% else %}
+                <input type="radio" name="sortType" value="asc" id="asc" onchange="loadPage()">正</input>
+                {% endif%}
+                {% if 'desc' == sortType %}
+                <input type="radio" name="sortType" value="desc" id="desc" checked onchange="loadPage()">倒</input>
+                {% else %}
+                <input type="radio" name="sortType" value="desc" id="desc" onchange="loadPage()">倒</input>
+                {% endif%}
+
+
                 <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
                 <input type="input" style="width: 40px;" id="pageSize" name="pageSize" value="{{page.PageSize}}">
                 <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
@@ -72,7 +103,7 @@
                     {% if curPage == page %}
                     <li><span>{{page}}</span></li>
                     {% else %}
-                    <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                    <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
                     {% endif %}
 
                     {% endfor %}
@@ -137,7 +168,7 @@
                 {% if curPage == page %}
                 <li><span>{{page}}</span></li>
                 {% else %}
-                <li><a href="javascript:void(0)" onclick="choosePage({{page}})">{{page}}</a></li>
+                <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
                 {% endif %}
 
                 {% endfor %}
