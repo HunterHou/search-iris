@@ -4,6 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/mvc"
+	// "net/http"
 	"strings"
 )
 import (
@@ -59,8 +60,7 @@ func main() {
 
 	app.RegisterView(iris.Django(staticDir, ".html"))
 	app.HandleDir("/", staticDir)
-	// bys ,_ := Asset("static");
-	// app.StaticContent("/",staticDir,bys)
+	// http.Handle("/",http.FileServer(AssetFS()))
 	app.Logger().SetLevel("debug")
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))

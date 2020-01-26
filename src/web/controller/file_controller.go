@@ -152,11 +152,11 @@ func (fc FileController) GetViews() {
 	fc.Ctx.ViewData("title", "文件列表")
 	fc.Ctx.View("main.html")
 }
-func (fc FileController) GetView() {
+func (fc FileController) GetStar() {
 	if len(datasource.FileList) == 0 {
 		fc.Service.ScanAll()
 	}
-	var datas []datamodels.Actress
+	var datas []datamodels.Actress	
 	list := datasource.ActressLib
 	for _, data := range list {
 		datas = append(datas, data)

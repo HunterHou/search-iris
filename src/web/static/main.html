@@ -25,7 +25,7 @@
         <div class="row">
             <form action="/views" method="get" id="search-form">
                 <button class="btn btn-xs  btn-success col-md-1" onclick="locationViews();">首页</button>
-                <button class="btn btn-xs  btn-warning col-md-1" onclick="window.open('/view');">UU</button>
+                <button class="btn btn-xs  btn-warning col-md-1" onclick="window.open('/star');">UU</button>
                 <button type="button" class="btn btn-xs  btn-info col-md-1" data-toggle="modal"
                     data-target="#addDirModal">添加</button>
                 <a onclick="refreshIndex();" class="btn btn-xs  btn-primary col-md-1">更新索引</a>
@@ -91,6 +91,7 @@
         {% for movie in page.Data %}
         <ul class="list-item">
             <div class="row">
+
                 <a onclick="openModal('{{movie.Id}}');">
                     <img class="img-list-item img-rounded img-responsive"
                         src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
