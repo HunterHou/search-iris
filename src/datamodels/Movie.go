@@ -63,6 +63,9 @@ func (f Movie) GetFileInfo() string {
 func (f Movie) PngBase64() string {
 	path := f.Png
 	if !utils.ExistsFiles(path) {
+		path = f.Jpg
+	}
+	if !utils.ExistsFiles(path) {
 		path = f.Path
 	}
 	return utils.ImageToString(path)
