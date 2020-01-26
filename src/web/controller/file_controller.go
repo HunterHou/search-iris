@@ -117,6 +117,7 @@ func (fc FileController) GetViews() {
 		fc.Service.ScanAll()
 	}
 	keyWord := fc.Ctx.URLParam("keyWord")
+	onlyRepeat := fc.Ctx.URLParam("onlyRepeat")
 	sortField := fc.Ctx.URLParamDefault("sortField", datasource.DefSortField)
 	sortType := fc.Ctx.URLParamDefault("sortType", datasource.DefSortType)
 	pageNo, errNo := fc.Ctx.URLParamInt("pageNo")
@@ -132,10 +133,15 @@ func (fc FileController) GetViews() {
 	page.PageNo = pageNo
 	page.PageSize = pageSize
 
-	page.TotalCnt = len(datasource.FileList)
+	dataSource := datasource.FileList
+	if onlyRepeat == "on" {
+		keyWord = ""
+		dataSource = fc.Service.OnlyRepeat(dataSource)
+	}
+	page.TotalCnt = len(dataSource)
 	page.TotalSize = utils.GetSizeStr(datasource.FileSize)
 	datasource.SortMovies(sortField, sortType, false)
-	datas := fc.Service.SearchByKeyWord(datasource.FileList, keyWord)
+	datas := fc.Service.SearchByKeyWord(dataSource, keyWord)
 	page.SetResultCnt(len(datas))
 	page.ResultSize = utils.GetSizeStr(fc.Service.DataSize(datas))
 	datas = fc.Service.GetPage(datas, pageNo, pageSize)
@@ -151,6 +157,8 @@ func (fc FileController) GetViews() {
 
 	fc.Ctx.ViewData("sortField", sortField)
 	fc.Ctx.ViewData("sortType", sortType)
+	fc.Ctx.ViewData("onlyRepeat", onlyRepeat)
+
 	fc.Ctx.ViewData("page", page)
 	fc.Ctx.ViewData("curPage", page.PageNo)
 	fc.Ctx.ViewData("dirList", cons.BaseDir)
