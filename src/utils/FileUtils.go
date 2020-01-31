@@ -96,10 +96,13 @@ func GetCode(fileName string) string {
 		right := value
 		lefts := strings.Split(right, "]")
 		for _, left := range lefts {
-			if strings.Contains(left, "-") {
+			if strings.Contains(left, "-") || strings.Contains(left, "_") {
 				return left
 			}
 		}
+	}
+	if strings.Contains(code,".mp4"){
+		code=strings.ReplaceAll(code,".mp4","")
 	}
 	return code
 }

@@ -24,8 +24,10 @@ var BaseDir = map[string]string{
 	"6": "H:\\emby\\emby-rename",
 	"7": "I:\\emby\\tomake",
 	"8": "I:\\emby\\emby-rename",
+	"9": "g:\\emby\\tomake",
+	"10": "g:\\emby\\emby-rename",
 }
 var Images = []string{PNG, GIF, PNG}
-var Docs = []string{TXT, XML, XLSX}
+var Docs = []string{TXT, XLSX}
 var VideoTypes = []string{AVI, MKV, WMV, MP4}
 var QueryTypes = []string{}
