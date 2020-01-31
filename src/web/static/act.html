@@ -56,50 +56,22 @@
 
             </div>
         </div>
-        <div class="row">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
-                    <li>
-                        <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    {% for page in page.EachPage %}
-                    {% if curPage == page %}
-                    <li><span>{{page}}</span></li>
-                    {% else %}
-                    <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
-                    {% endif %}
 
-                    {% endfor %}
-
-                    <li>
-                        <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
     </div>
-    <hr>
     <div class="row col-md-12" id="context">
 
         {% for actress in page.Data %}
-        <ul class="list-item">
+        <ul class="act-item">
             <div class="row">
                 <a href="javascript:void(0)" class="btn btn-xs  btn-success" onclick="openActress('{{actress.Name}}');">
                     <span>{{actress.Name}} </span>
-
                 </a>
                 <span class="badge">{{actress.SizeStr}}</span>
                 <span class="badge">{{actress.Cnt}}</span>
                 <a href="javascript:void(0)" onclick="openActress('{{actress.Name}}');">
-                    <img class="img-list-item img-thumbnail img-responsive"
-                        src="data:image/png;base64,{{actress.PngBase64}}" alt="{{actress.Name}}" />
-
+                    <img class="img-rounded  act-list-item " src="data:image/png;base64,{{actress.PngBase64}}"
+                        title="{{actress.Name}}" />
                 </a>
-
             </div>
         </ul>
         {% endfor %}
@@ -129,30 +101,6 @@
             </ul>
         </nav>
     </div>
-
-
-    <!-- Modal 弹出详情 start-->
-    <div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <input type="hidden" id="deleteId">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="warningLabel">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                    <p id="deleteContext"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="deleteAjax()">确认删除</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </body>
 
 </html>

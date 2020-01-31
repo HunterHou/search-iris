@@ -21,20 +21,21 @@
     <div id="msg">
     </div>
 
-    <div id="top">
-        <div class="row">
-            <form action="/views" method="get" id="search-form">
-                <button class="btn btn-xs  btn-success col-md-1" onclick="locationViews();">首页</button>
-                <button class="btn btn-xs  btn-warning col-md-1" onclick="window.open('/star');">UU</button>
-                <button type="button" class="btn btn-xs  btn-info col-md-1" data-toggle="modal"
+    <!-- <div id="top"> -->
+    <div class="row">
+        <form action="/views" method="get" id="search-form">
+            <div class="col-md-12">
+                <button class="btn btn-xs  btn-success" onclick="locationViews();">首页</button>
+                <button class="btn btn-xs  btn-warning " onclick="window.open('/star');">UU</button>
+                <button type="button" class="btn btn-xs  btn-info " data-toggle="modal"
                     data-target="#addDirModal">添加</button>
-                <a onclick="refreshIndex();" class="btn btn-xs  btn-primary col-md-1">更新索引</a>
-                <a class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏</a>
+                <a onclick="refreshIndex();" class="btn btn-xs  btn-primary ">更新索引</a>
+                <a class="btn btn-xs btn-default  fullscreen " onclick="fullScreen();">全屏</a>
+                <input type="checkbox" class="" name="onlyRepeat">查重</input>
 
-                <input type="checkbox" name="onlyRepeat">查重</input>
-                <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
+                <input type="text" class="input-group-sm col-sm-offset-1 " id="keyWord" name="keyWord"
                     placeholder="Search for..." value="{{page.KeyWord}}">
-                <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
+                <button id="btn3" class="btn btn-default " type="submit">Go!</button>
 
                 {% if 'mtime' == sortField %}
                 <input type="radio" name="sortField" value="mtime" id="mtime" checked onchange="loadPage()">时间</input>
@@ -64,61 +65,58 @@
                 {% else %}
                 <input type="radio" name="sortType" value="desc" id="desc" onchange="loadPage()">倒</input>
                 {% endif%}
-
-
                 <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
                 <input type="input" style="width: 40px;" id="pageSize" name="pageSize" value="{{page.PageSize}}">
                 <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
-            </form>
-        </div>
-
-        <div class="row">
-            <div id="title" class="col-md-11">
-                <span>文件总数:</span><span id="total">{{page.TotalCnt}}【{{page.TotalSize}}】</span>
-                <span>搜索总数:</span><span id="total">{{page.ResultCnt}}【{{page.ResultSize}}】</span>
-                <span>当前数量:</span><span id="total">{{page.CurCnt}}【{{page.CurSize}}】</span>
-                <div>
-                    <ul class="list-inline list-group">
-                        {% for index,dirpath in dirList %}
-                        <li>
-                            <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
-                                <span>[{{dirpath}}]</span>
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-
-                </div>
 
             </div>
-        </div>
-        <div class="row">
-            <nav aria-label="Page navigation">
-                <ul class="pagination">
+        </form>
+    </div>
+
+    <div class="row">
+        <div id="title" class="col-md-11">
+            <span>文件总数:</span><span id="total">{{page.TotalCnt}}【{{page.TotalSize}}】</span>
+            <span>搜索总数:</span><span id="total">{{page.ResultCnt}}【{{page.ResultSize}}】</span>
+            <span>当前数量:</span><span id="total">{{page.CurCnt}}【{{page.CurSize}}】</span>
+            <a href="javascript:void(0)" onclick="showDirList();">展开/关闭</a>
+            <div id="dirList" style="display: none;">
+                <ul class="list-inline list-group">
+                    {% for index,dirpath in dirList %}
                     <li>
-                        <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
-                            <span aria-hidden="true">&laquo;</span>
+                        <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
+                            <span>[{{dirpath}}]</span>
                         </a>
                     </li>
-                    {% for page in page.EachPage %}
-                    {% if curPage == page %}
-                    <li><span>{{page}}</span></li>
-                    {% else %}
-                    <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
-                    {% endif %}
-
                     {% endfor %}
-
-                    <li>
-                        <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
                 </ul>
-            </nav>
+            </div>
         </div>
     </div>
-    <hr>
+    <!-- <div class="row"> -->
+    <!-- <nav aria-label="Page navigation"> -->
+    <ul class="pagination">
+        <li>
+            <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for page in page.EachPage %}
+        {% if curPage == page %}
+        <li><span>{{page}}</span></li>
+        {% else %}
+        <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li>
+            <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+    <!-- </nav> -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- <hr> -->
     <div id="context">
         {% for movie in page.Data %}
         <ul class="list-item">
@@ -126,27 +124,27 @@
 
                 <a onclick="openModal('{{movie.Id}}');">
                     <img class="img-list-item img-rounded img-responsive"
-                        src="data:image/png;base64,{{movie.PngBase64}}" alt="{{movie.Name}}" />
+                        src="data:image/png;base64,{{movie.PngBase64}}" title="{{movie.Name}}" />
                 </a>
                 <a href="javascript:void(0)" onclick="openAjax('{{movie.Id}}');">
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{playIcon}}"
-                        alt="打开" />
+                        title="打开" />
                 </a>
                 <a href="javascript:void(0)" onclick="clickActress('{{movie.Actress}}');">
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{changeIcon}}"
-                        alt="详情" />
+                        title="详情" />
                 </a>
                 <a href="javascript:void(0)" onclick="openDirAjax('{{movie.Id}}');">
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{openIcon}}"
-                        alt="文件夹" />
+                        title="文件夹" />
                 </a>
                 <a href="javascript:void(0)" onclick="deleteWarring('{{movie.Id}}');">
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{closeIcon}}"
-                        alt="删除" />
+                        title="删除" />
                 </a>
                 <a href="javascript:void(0)" onclick="syncAv('{{movie.Id}}');">
                     <img class="img-icon img-rounded img-responsive" src="data:image/png;base64,{{replayIcon}}"
-                        alt="刷新" />
+                        title="刷新" />
                 </a>
                 【{{movie.SizeStr}}】
             </div>
@@ -169,7 +167,7 @@
                 {% if curPage == page %}
                 <li><span>{{page}}</span></li>
                 {% else %}
-                <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
+                <li><a href="javascript:void(0)" onclick="loadPage({{ page }})">{{page}}</a></li>
                 {% endif %}
 
                 {% endfor %}
@@ -243,7 +241,7 @@
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                    <img id="myModalImg">
+                    <img id="myModalImg" style="max-height: 550px;">
                     <hr>
                     <div style="margin-left: 20px;">
                         <div class="row">

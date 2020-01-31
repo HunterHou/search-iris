@@ -1,3 +1,14 @@
+.act-item {
+    width: 180px;
+    height: 250px;
+    float: left;
+    margin-right: 15px;
+}
+.act-list-item {
+    width: 150px;
+    height: 200;
+}
+
 .list-item {
     width: 240px;
     height: 400px;

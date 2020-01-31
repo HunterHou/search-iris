@@ -1,3 +1,14 @@
+var dirListShow = false
+
+function showDirList() {
+    dirListShow = !dirListShow
+    if (dirListShow) {
+        document.getElementById("dirList").removeAttribute("style")
+    } else {
+        document.getElementById("dirList").setAttribute("style", "display:none")
+    }
+}
+
 function fullScreen() {
     var el = document.documentElement;
     var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
