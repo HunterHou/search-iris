@@ -98,6 +98,8 @@ func GetCode(fileName string) string {
 		for _, left := range lefts {
 			if strings.Contains(left, "-") || strings.Contains(left, "_") {
 				return left
+			}else{
+				code = left
 			}
 		}
 	}
