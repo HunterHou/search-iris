@@ -23,24 +23,37 @@ type FileService struct {
 func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie) utils.Result {
 	result := utils.Result{}
 	root := srcFile.DirPath
-	path := root + "\\" + toFile.Actress + "\\" + toFile.Studio
-	dirname := "[" + toFile.Actress + "][" + toFile.Code + "]" + toFile.Title
+	path := root + "\\" + toFile.Actress
+	if toFile.Studio != "" {
+		path = path + "\\" + toFile.Studio
+	}
+	title := toFile.Title
+	title = strings.ReplaceAll(title, ":", "~")
+	title = strings.ReplaceAll(title, ".", "~")
 
-	dirname = strings.ReplaceAll(dirname, ":", "~")
-	dirname = strings.ReplaceAll(dirname, ".", "~")
+	dirname := "[" + toFile.Actress + "][" + toFile.Code + "]" + title
 	dirpath := path + "\\" + dirname
 	os.MkdirAll(dirpath, os.ModePerm)
 	filename := dirname + "." + utils.GetSuffux(srcFile.Path)
 	finalpath := dirpath + "\\" + filename
-	os.Rename(srcFile.Path, finalpath)
 	jpgpath := utils.GetPng(finalpath, "jpg")
 	jpgOut, createErr := os.Create(jpgpath)
 	if createErr != nil {
-		result.Fail()
-		fmt.Println("createErr:", createErr)
-		os.Rename(finalpath, srcFile.Path)
-		result.Message = "文件创建失败：" + jpgpath
-		return result
+		//TODO 创建失败  标题 特殊字符处理 改为 演员+番号
+		dirname = "[" + toFile.Actress + "][" + toFile.Code + "]"
+		dirpath = path + "\\" + dirname
+		os.MkdirAll(dirpath, os.ModePerm)
+		filename = dirname + "." + utils.GetSuffux(srcFile.Path)
+		finalpath = dirpath + "\\" + filename
+		jpgpath = utils.GetPng(finalpath, "jpg")
+		jpgOut, createErr = os.Create(jpgpath)
+		if createErr != nil {
+			result.Fail()
+			fmt.Println("createErr:", createErr)
+			os.Rename(finalpath, srcFile.Path)
+			result.Message = "文件创建失败：" + jpgpath
+			return result
+		}
 	}
 	resp, downErr := http.Get(toFile.Jpg)
 	if downErr != nil {
@@ -68,6 +81,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 		result.Message = "png生成失败"
 		return result
 	}
+	os.Rename(srcFile.Path, finalpath)
 	result.Success()
 	result.Message = "【" + dirname + "】" + result.Message
 	return result
