@@ -87,6 +87,16 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	return result
 }
 
+func httpGet(url string) (*http.Response, error) {
+
+	request, _ := http.NewRequest("GET", url, nil)
+	request.Header.Add("User-Agent", "Mozilla/6.0")
+	client := &http.Client{}
+	resp, err := client.Do(request)
+	return resp, err
+
+}
+
 func (fs FileService) RequestToFile(srcFile datamodels.Movie) (utils.Result, datamodels.Movie) {
 
 	result := utils.Result{}
@@ -96,10 +106,7 @@ func (fs FileService) RequestToFile(srcFile datamodels.Movie) (utils.Result, dat
 		return result, newFile
 	}
 	url := cons.BaseUrl + srcFile.Code
-	request, _ := http.NewRequest("GET", url, nil)
-	request.Header.Add("User-Agent", "Mozilla/6.0")
-	client := &http.Client{}
-	resp, err := client.Do(request)
+	resp, err := httpGet(url)
 	if err != nil {
 		fmt.Println("err", err)
 		result.Fail()
@@ -107,10 +114,19 @@ func (fs FileService) RequestToFile(srcFile datamodels.Movie) (utils.Result, dat
 	}
 	defer resp.Body.Close()
 	if 200 != resp.StatusCode {
-		fmt.Println("status error:", resp.StatusCode, resp.Status)
-		result.Fail()
-		result.Message = "请求失败：" + resp.Status + " url:" + url
-		return result, newFile
+		if strings.Contains(url, "_") {
+			url = strings.ReplaceAll(url, "_", "-")
+		} else if strings.Contains(url, "-") {
+			url = strings.ReplaceAll(url, "-", "_")
+		}
+		resp, err = httpGet(url)
+		if 200 != resp.StatusCode {
+			fmt.Println("status error:", resp.StatusCode, resp.Status)
+			result.Fail()
+			result.Message = "请求失败：" + resp.Status + " url:" + url
+			return result, newFile
+		}
+
 	}
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
