@@ -94,6 +94,7 @@ func (fc FileController) PostAdddir() {
 	} else {
 		cons.BaseDir[key] = path
 		result.Success()
+		go utils.WriteDir(cons.DirFile, cons.BaseDir)
 	}
 	fc.Ctx.JSON(result)
 
