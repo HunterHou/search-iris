@@ -4,10 +4,10 @@ import (
 	"github.com/kataras/iris"
 )
 import (
-	"../../cons"
-	"../../datasource"
-	"../../service"
-	"../../utils"
+	"../cons"
+	"../datasource"
+	"../service"
+	"../utils"
 )
 
 type TestController struct {

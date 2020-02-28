@@ -1,16 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/mvc"
-	// "net/http"
-	"strings"
 )
 import (
 	"./cons"
+	"./controller"
 	"./utils"
-	"./web/controller"
 	"path/filepath"
 )
 
@@ -19,13 +18,14 @@ var staticDir string
 
 func init() {
 	curDir, _ := filepath.Abs(".")
-	if !strings.HasSuffix(curDir, "src") {
-		curDir += "/src"
-	}
+	//if !strings.HasSuffix(curDir, "src") {
+	//	curDir += "/src"
+	//}
+	fmt.Println(curDir)
 	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.VideoTypes)
 	//cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
 	//cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Images)
-	staticDir = curDir + "/web/static"
+	staticDir = curDir + "/static"
 	cons.Play = utils.ImageToString(staticDir + "/image/play.jpg")
 	cons.Open = utils.ImageToString(staticDir + "/image/open.jpg")
 	cons.Change = utils.ImageToString(staticDir + "/image/change.jpg")
@@ -58,7 +58,6 @@ func main() {
 		Skippers:           nil,
 	})
 	app.Use(customLogger)
-
 	app.RegisterView(iris.Django(staticDir, ".html"))
 	app.HandleDir("/", staticDir)
 	// http.Handle("/",http.FileServer(AssetFS()))

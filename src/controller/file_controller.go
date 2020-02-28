@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"../../cons"
-	"../../datamodels"
-	"../../datasource"
-	"../../service"
-	"../../utils"
+	"../cons"
+	"../datamodels"
+	"../datasource"
+	"../service"
+	"../utils"
 	"github.com/kataras/iris"
 )
 

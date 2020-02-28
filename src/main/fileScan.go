@@ -5,7 +5,7 @@ import (
 
 	"../cons"
 	"../service"
-	"../utils/collectionUtils"
+	"../utils"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 	var videoTypes = []string{cons.AVI, cons.MKV, cons.WMV, cons.MP4}
 	// var imageTypes = []string{cons.JPG, cons.PNG, cons.GIF}
 	var queryTypes []string
-	queryTypes = collectionUtils.ExtandsItems(queryTypes, videoTypes)
+	queryTypes = utils.ExtandsItems(queryTypes, videoTypes)
 	items := service.Walk(baseDir, queryTypes)
 	i := 0
 	for {
