@@ -1,0 +1,10 @@
+dir=E:\\emby
+dir=e:\\emby\\tomake
+dir=F:\\emby\\tomake
+dir=F:\\emby\\emby-rename
+dir=H:\\emby\\tomake
+dir=H:\\emby\\emby-rename
+dir=I:\\emby\\tomake
+dir=I:\\emby\\emby-rename
+dir=g:\\emby\\tomake
+dir=g:\\emby\\emby-rename
