@@ -111,6 +111,18 @@ func (fc FileController) PostSync() {
 	fc.Ctx.JSON(result)
 
 }
+func (fc FileController) GetMovieInfo() {
+	id := fc.Ctx.PostValue("id")
+	curFile := fc.Service.FindOne(id)
+	result, newFile := fc.Service.RequestToFile(curFile)
+	if result.Code != 200 {
+		fc.Ctx.JSON(result)
+		return
+	}
+	result = fc.Service.MoveCut(curFile, newFile)
+	fc.Ctx.JSON(result)
+
+}
 
 func (fc FileController) GetViews() {
 	if len(datasource.FileList) == 0 {

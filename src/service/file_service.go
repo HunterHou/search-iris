@@ -37,6 +37,7 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	filename := dirname + "." + utils.GetSuffux(srcFile.Path)
 	finalpath := dirpath + "\\" + filename
 	jpgpath := utils.GetPng(finalpath, "jpg")
+	nfopath := utils.GetPng(finalpath, "nfo")
 	jpgOut, createErr := os.Create(jpgpath)
 	if createErr != nil {
 		//TODO 创建失败  标题 特殊字符处理 改为 演员+番号
@@ -82,9 +83,42 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 		return result
 	}
 	os.Rename(srcFile.Path, finalpath)
+	toFile.Jpg = jpgpath
+	toFile.Nfo = nfopath
+	toFile.Png = utils.GetPng(finalpath, "png")
+	MakeNfo(toFile)
 	result.Success()
 	result.Message = "【" + dirname + "】" + result.Message
 	return result
+}
+
+func MakeNfo(toFile datamodels.Movie) {
+	nfo, _ := os.Create(toFile.Nfo)
+	defer nfo.Close()
+	nfoStr := "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?> \n"
+	nfoStr += "<movie>\n"
+	nfoStr += "<year>" + toFile.PTime + "</year>\n"
+	nfoStr += "<title>" + toFile.Title + "</title>\n"
+	nfoStr += "<releasedate>" + toFile.PTime + "</releasedate>\n"
+	nfoStr += "<runtime>" + toFile.PTime + "</runtime>\n"
+	nfoStr += "<poster>" + toFile.Title + ".png" + "</poster>\n"
+	nfoStr += "<thumb>" + toFile.Title + ".png" + "</thumb>\n"
+	nfoStr += "<fanart>" + toFile.Title + ".jpg" + "</fanart>\n"
+	nfoStr += "<maker>" + toFile.Supplier + "</maker>\n"
+	nfoStr += "<studio>" + toFile.Studio + "</studio>\n"
+	nfoStr += "<num>" + toFile.Code + "</num>\n"
+	nfoStr += "<release>" + toFile.PTime + "</release>\n"
+	nfoStr += "<cover>" + toFile.Title + ".jpg" + "</cover>\n"
+	nfoStr += "<art>"
+	nfoStr += "<poster>" + toFile.DirPath + "" + toFile.Title + ".png" + "</poster>\n"
+	nfoStr += "</art>"
+	nfoStr += "<actor>"
+	nfoStr += "<name>" + toFile.Actress + "</name>\n"
+	nfoStr += "<type>Actor</type>\n"
+	nfoStr += "</actor>\n"
+	nfoStr += "<year>" + toFile.PTime + "</year>\n"
+	nfoStr += "</movie>\n"
+	nfo.WriteString(nfoStr)
 }
 
 func httpGet(url string) (*http.Response, error) {
