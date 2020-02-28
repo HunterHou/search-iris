@@ -21,6 +21,13 @@ func init() {
 	//if !strings.HasSuffix(curDir, "src") {
 	//	curDir += "/src"
 	//}
+
+	dirs := utils.ReadDir(curDir + "\\dirList.txt")
+	for index, name := range dirs {
+		fmt.Println(index, ":", name)
+		cons.BaseDir[string(index)] = name
+	}
+
 	fmt.Println(curDir)
 	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.VideoTypes)
 	//cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
