@@ -58,7 +58,7 @@ function openAjax(path) {
     $.ajax({
         type: "POST",
         url: "/play",
-        data: { "id": path }
+        data: {"id": path}
     });
 }
 
@@ -77,7 +77,7 @@ function deleteAjax(id) {
     $.ajax({
         type: "POST",
         url: "/delete",
-        data: { "id": id },
+        data: {"id": id},
         success(data) {
             if (data.Code == 200) {
                 success(data.Message)
@@ -93,7 +93,7 @@ function clickDirAjax(id) {
     $.ajax({
         type: "POST",
         url: "/removedir",
-        data: { "id": id },
+        data: {"id": id},
         success(data) {
             if (data.Code == 200) {
                 var mess = "执行成功，请更新索引"
@@ -111,7 +111,24 @@ function openDirAjax(path) {
     $.ajax({
         type: "POST",
         url: "/opendir",
-        data: { "id": path }
+        data: {"id": path}
+    });
+}
+
+function makeNfo(path) {
+    $.ajax({
+        type: "POST",
+        url: "/mknfo",
+        data: {"id": path},
+        success(data) {
+            if (data.Code == 200) {
+                var mess = "执行成功，请更新"
+                success(mess)
+                location.reload()
+            } else {
+                fail(data.Message)
+            }
+        }
     });
 }
 
@@ -164,7 +181,7 @@ function openModal(id) {
     $.ajax({
         type: "POST",
         url: "/info",
-        data: { "id": id },
+        data: {"id": id},
         async: false,
         success(data) {
             file = data
@@ -192,7 +209,7 @@ function addDir() {
     $.ajax({
         type: "POST",
         url: "/adddir",
-        data: { "id": file },
+        data: {"id": file},
         success(data) {
             if (data.Code == 200) {
                 $('#addDirModal').modal('hide')
@@ -233,7 +250,7 @@ function syncAv(id) {
     $.ajax({
         type: "Post",
         url: "/sync",
-        data: { "id": id },
+        data: {"id": id},
         success(data) {
             if (data.Code == 200) {
                 success(data.Message)

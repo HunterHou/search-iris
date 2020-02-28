@@ -86,13 +86,13 @@ func (fs FileService) MoveCut(srcFile datamodels.Movie, toFile datamodels.Movie)
 	toFile.Jpg = jpgpath
 	toFile.Nfo = nfopath
 	toFile.Png = utils.GetPng(finalpath, "png")
-	MakeNfo(toFile)
+	fs.MakeNfo(toFile)
 	result.Success()
 	result.Message = "【" + dirname + "】" + result.Message
 	return result
 }
 
-func MakeNfo(toFile datamodels.Movie) {
+func (fs FileService) MakeNfo(toFile datamodels.Movie) {
 	nfo, _ := os.Create(toFile.Nfo)
 	defer nfo.Close()
 	nfoStr := "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?> \n"

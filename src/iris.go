@@ -31,6 +31,7 @@ func init() {
 	cons.Change = utils.ImageToString(staticDir + "/image/change.jpg")
 	cons.Replay = utils.ImageToString(staticDir + "/image/replay.jpg")
 	cons.Close = utils.ImageToString(staticDir + "/image/close.jpg")
+	cons.Stop = utils.ImageToString(staticDir + "/image/stop.jpg")
 }
 
 func main() {

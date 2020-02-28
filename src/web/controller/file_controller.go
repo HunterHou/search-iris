@@ -111,7 +111,7 @@ func (fc FileController) PostSync() {
 	fc.Ctx.JSON(result)
 
 }
-func (fc FileController) GetMovieInfo() {
+func (fc FileController) PostMknfo() {
 	id := fc.Ctx.PostValue("id")
 	curFile := fc.Service.FindOne(id)
 	result, newFile := fc.Service.RequestToFile(curFile)
@@ -119,7 +119,11 @@ func (fc FileController) GetMovieInfo() {
 		fc.Ctx.JSON(result)
 		return
 	}
-	result = fc.Service.MoveCut(curFile, newFile)
+	newFile.Png = curFile.Png
+	newFile.Jpg = curFile.Jpg
+	newFile.Nfo = curFile.Nfo
+	fc.Service.MakeNfo(newFile)
+	result.Success()
 	fc.Ctx.JSON(result)
 
 }
@@ -166,6 +170,7 @@ func (fc FileController) GetViews() {
 	fc.Ctx.ViewData("openIcon", cons.Open)
 	fc.Ctx.ViewData("replayIcon", cons.Replay)
 	fc.Ctx.ViewData("closeIcon", cons.Close)
+	fc.Ctx.ViewData("StopIcon", cons.Stop)
 
 	fc.Ctx.ViewData("sortField", sortField)
 	fc.Ctx.ViewData("sortType", sortType)
