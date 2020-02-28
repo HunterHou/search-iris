@@ -81,6 +81,7 @@ func (fc FileController) PostRemovedir() {
 	id := fc.Ctx.PostValue("id")
 
 	delete(cons.BaseDir, id)
+	go utils.WriteDir(cons.DirFile, cons.BaseDir)
 	result := utils.Success()
 	fc.Ctx.JSON(result)
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func WriteDir(path string, dirMap map[string]string) {
-	outStream, openErr := os.OpenFile(path, os.O_RDWR, os.ModePerm)
+	outStream, openErr := os.OpenFile(path, os.O_TRUNC|os.O_RDWR, os.ModePerm)
 	defer outStream.Close()
 	if openErr != nil {
 		fmt.Println("openErr", openErr)

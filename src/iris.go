@@ -21,7 +21,7 @@ func init() {
 	//if !strings.HasSuffix(curDir, "src") {
 	//	curDir += "/src"
 	//}
-	cons.DirFile = curDir + "\\dirList.txt"
+	cons.DirFile = curDir + "\\dirList.ini"
 	dirs := utils.ReadDir(cons.DirFile)
 	for index, name := range dirs {
 		fmt.Println(index, ":", name)
