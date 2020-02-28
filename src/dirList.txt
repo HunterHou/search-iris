@@ -1,2 +1,10 @@
-dir=E:\\embydir=e:\\emby\\tomakedir=F:\\emby\\emby-renamedir=H:\\emby\\tomakedir=I:\\emby\\tomakedir=I:\\emby\\emby-renamedir=F:\\emby\\tomakedir=H:\\emby\\emby-renamedir=g:\\emby\\tomakedir=234asdfomake
-dir=g:\\emby\\emby-rename
+dir=E:\\emby
+dir=e:\\emby\\tomake
+dir=I:\\emby\\emby-rename
+dir=F:\\emby\\tomake
+dir=H:\\emby\\emby-rename
+dir=g:\\emby\\tomake
+dir=F:\\emby\\emby-rename
+dir=H:\\emby\\tomake
+dir=I:\\emby\\tomake
+dir=e:\\emby\\emby-rename
