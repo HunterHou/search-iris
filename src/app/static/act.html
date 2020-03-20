@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {% if page.KeyWord =='' %}
+    <title>首页</title>
+    {% else %}
+    <title>{{page.KeyWord}}</title>
+    {% endif%}
+
+    <link href="/js/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/js/bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <div id="msg">
+    </div>
+
+    <div id="top">
+        <div class="row">
+            <form action="/views" method="get" id="search-form">
+                <a id="btn4" class="btn btn-xs  btn-success col-md-1" onclick="window.open('/views');">首页</a>
+                <a id="btn5" onclick="refreshIndex();" class="btn btn-xs  btn-primary col-md-1">更新索引</a>
+                <a id="btn1" class="btn btn-xs btn-default col-md-1 fullscreen " onclick="fullScreen();">全屏
+                </a>
+
+                <input type="text" class="input-group-sm col-md-2 col-xs-offset-1" id="keyWord" name="keyWord"
+                    placeholder="Search for..." value="{{page.KeyWord}}">
+                <button id="btn3" class="btn btn-default col-md-1" type="submit">Go!</button>
+                <input type="hidden" id="pageNo" name="pageNo" value="{{page.PageNo}}">
+                <input type="hidden" id="pageSize" name="pageSize" value="{{page.PageSize}}">
+                <input type="hidden" id="totalPage" name="pageSize" value="{{page.TotalPage}}">
+            </form>
+        </div>
+
+        <div class="row">
+            <div id="title" class="col-md-12">
+                <span>搜索总数:</span><span id="total">{{page.ResultCnt}}</span>
+                <div>
+                    <ul class="list-inline list-group">
+                        {% for index,dirpath in dirList %}
+                        <li>
+                            <a class="ist-group-item" href="#" onclick="clickDirAjax('{{index}}');" role="button">
+                                <span>[{{dirpath}}]</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row col-md-12" id="context">
+
+        {% for actress in page.Data %}
+        <ul class="act-item">
+            <div class="row">
+                <a href="javascript:void(0)" class="btn btn-xs  btn-success" onclick="openActress('{{actress.Name}}');">
+                    <span>{{actress.Name}} </span>
+                </a>
+                <span class="badge">{{actress.SizeStr}}</span>
+                <span class="badge">{{actress.Cnt}}</span>
+                <a href="javascript:void(0)" onclick="openActress('{{actress.Name}}');">
+                    <img class="img-rounded  act-list-item " src="data:image/png;base64,{{actress.PngBase64}}"
+                        title="{{actress.Name}}" />
+                </a>
+            </div>
+        </ul>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a href="javascript:void(0)" aria-label="Previous" onclick="lastPage();">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% for page in page.EachPage %}
+                {% if curPage == page %}
+                <li><span>{{page}}</span></li>
+                {% else %}
+                <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
+                {% endif %}
+
+                {% endfor %}
+
+                <li>
+                    <a href="javascript:void(0)" aria-label="Next" onclick="nextPage();">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+
+</html>

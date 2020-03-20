@@ -1,0 +1,58 @@
+.act-item {
+    width: 180px;
+    height: 250px;
+    float: left;
+    margin-right: 15px;
+}
+.act-list-item {
+    width: 150px;
+    height: 200;
+}
+
+.list-item {
+    width: 240px;
+    height: 400px;
+    float: left;
+    margin-right: 25px;
+}
+
+.img-list-item {
+    width: 200px;
+    height: 300px;
+}
+
+.img-icon {
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-left: 3px;
+}
+
+.button-list {
+    margin-right: 20px;
+}
+
+#top {
+    position: relative;
+    margin-left: 40px;
+    margin-top: 20px;
+}
+
+#context {
+    margin-left: 20px;
+    margin-right: 20px;
+    top: 10px;
+    bottom: 10px;
+}
+
+#msg {
+    position: fixed;
+    z-index: 999;
+    right: 50px;
+}
+
+.msg {
+    width: 400px;
+    height: 80px;
+    z-index: 999;
+}
