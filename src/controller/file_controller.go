@@ -144,7 +144,7 @@ func (fc FileController) GetViews() {
 	}
 	pageSize, errSize := fc.Ctx.URLParamInt("pageSize")
 	if errSize != nil || pageSize == 0 {
-		pageSize = 100
+		pageSize = 55
 	}
 	page := utils.NewPage()
 	page.KeyWord = keyWord

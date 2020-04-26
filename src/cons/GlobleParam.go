@@ -6,7 +6,7 @@ package cons
 var isStatic = true
 
 //初始化 扫描路径
-var BaseUrl = "https://www.cdnbus.in/"
+var BaseUrl = "https://www.cdnbus.one/"
 var DirFile = ""
 var BaseDir = map[string]string{
 	//"1":  "E:\\emby",
