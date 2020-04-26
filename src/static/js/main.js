@@ -1,5 +1,5 @@
 var dirListShow = false
-var remoteUrl = "https://www.cdnbus.in/"
+var remoteUrl = "https://www.cdnbus.one/"
 function showDirList() {
     dirListShow = !dirListShow
     if (dirListShow) {
