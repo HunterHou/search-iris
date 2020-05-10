@@ -34,6 +34,11 @@ function lastPage() {
     document.getElementById("pageNo").value = pageNo
     document.getElementById("search-form").submit()
 }
+function checkRepeat() {
+    document.getElementById("keyWord").value = ""
+    document.getElementById("search-form").submit()
+}
+
 
 function nextPage() {
     var pageNo = document.getElementById("pageNo").value
@@ -224,6 +229,7 @@ function addDir() {
 }
 
 function locationViews() {
+    document.getElementById("pageNo").value = 1
     document.getElementById("keyWord").value = ""
     window.location = "/views"
 }
