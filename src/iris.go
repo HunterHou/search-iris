@@ -22,9 +22,9 @@ var staticDir string
 
 func init() {
 	curDir, _ := filepath.Abs(".")
-	//if !strings.HasSuffix(curDir, "src") {
-	//	curDir += "/src"
-	//}
+	// if !strings.HasSuffix(curDir, "src") {
+	// 	curDir += "/src"
+	// }
 	cons.DirFile = curDir + "\\dirList.ini"
 	dirs := utils.ReadDir(cons.DirFile)
 	for index, name := range dirs {

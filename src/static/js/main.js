@@ -60,8 +60,10 @@ function loadPage(pageNo) {
 }
 
 function openAjax(path) {
+    // var url="/play?id="+path
+    // window.open(url, "_blank")
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: "/play",
         data: { "id": path }
     });
@@ -188,6 +190,7 @@ function openModal(id) {
         url: "/info",
         data: { "id": id },
         async: false,
+        scriptCharset: "utf-8",
         success(data) {
             file = data
         },
@@ -206,6 +209,25 @@ function openModal(id) {
     }
     $('#myModalImg').attr("src", "data:image/png;base64," + image)
     $('#detail').modal('show')
+}
+
+function openmovie(id) {
+    var file;
+    $.ajax({
+        type: "POST",
+        url: "/info",
+        data: { "id": id },
+        async: false,
+        scriptCharset: "utf-8",
+        success(data) {
+            file = data
+        },
+        error() {
+
+        }
+    });
+    $('#movieplayer').src = file.Path
+    $('#movie').modal('show')
 }
 
 

@@ -45,10 +45,22 @@ func (fc FileController) GetSupplier() utils.Page {
 	return result
 }
 
-func (fc FileController) PostPlay() {
-	id := fc.Ctx.PostValue("id")
+func (fc FileController) GetPlay() {
+	id := fc.Ctx.URLParam("id")
 	file := fc.Service.FindOne(id)
 	utils.ExecCmdStart(file.Path)
+	//files, err := ioutil.ReadFile(file.Path)
+	//if err!=nil {
+	//	fmt.Println(err)
+	//}
+
+	// fc.Ctx.ContentType("video/mp4")
+	// f,_:=os.Open(file.Path)
+	// sourceBuffer := make([]byte, 5000)
+	// f.Read(sourceBuffer)
+	// fc.Ctx.Write(sourceBuffer)
+
+
 }
 
 func (fc FileController) PostOpendir() {
@@ -63,6 +75,7 @@ func (fc FileController) PostInfo() {
 	file.Png = file.PngBase64()
 	file.Jpg = utils.ImageToString(file.Jpg)
 	fc.Ctx.JSON(file)
+
 }
 
 func (fc FileController) GetFresh() {
