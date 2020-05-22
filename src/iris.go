@@ -18,7 +18,7 @@ var staticDir string
 
 // 打包命令
 // 1 命令行UI 常规打包 go build
-// 2 无窗口  go build -o app.exe -ldflags "-H=windowsgui"
+// 2 无窗口  go build -o app/app.exe -ldflags "-H=windowsgui"
 
 func init() {
 	curDir, _ := filepath.Abs(".")
