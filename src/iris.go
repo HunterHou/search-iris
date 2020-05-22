@@ -32,8 +32,8 @@ func init() {
 		cons.BaseDir[string(index)] = name
 	}
 	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.VideoTypes)
-	//cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
-	//cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Images)
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Images)
 	staticDir = curDir + "/static"
 	cons.Play = utils.ImageToString(staticDir + "/image/play.jpg")
 	cons.Open = utils.ImageToString(staticDir + "/image/open.jpg")
@@ -74,6 +74,9 @@ func main() {
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))
 	utils.ExecCmdStart("http://127.0.0.1:80/views")
+
+	liveGo := staticDir+ "/livego.exe"
+	utils.ExecCmdStart(liveGo)
 	app.Run(iris.Addr(":80"), iris.WithConfiguration(iris.Configuration{
 		DisableStartupLog:    false,
 		FireMethodNotAllowed: false,
