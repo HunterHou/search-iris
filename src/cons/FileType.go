@@ -11,3 +11,5 @@ const MKV = "mkv"
 const AVI = "avi"
 const JAVA = "java"
 const XML = "xml"
+
+var Types = []string{PNG, JPG, GIF, XLSX, TXT, MP4, WMV, MKV, AVI, JAVA, XML}

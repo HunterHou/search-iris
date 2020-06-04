@@ -5,6 +5,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/mvc"
+	"strings"
 )
 import (
 	"./cons"
@@ -22,12 +23,13 @@ var staticDir string
 
 func init() {
 	curDir, _ := filepath.Abs(".")
-	// if !strings.HasSuffix(curDir, "src") {
-	// 	curDir += "/src"
-	// }
+	if !strings.HasSuffix(curDir, "src") {
+		curDir += "/src"
+	}
 	cons.DirFile = curDir + "\\dirList.ini"
 	dirs := utils.ReadDir(cons.DirFile)
-	for index, name := range dirs {
+	for _, name := range dirs {
+		index := strings.ReplaceAll(name, "\\", "~")
 		fmt.Println(index, ":", name)
 		cons.BaseDir[string(index)] = name
 	}
@@ -73,10 +75,12 @@ func main() {
 	app.Logger().SetLevel("debug")
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))
+	mvc.New(app).Handle(new(controller.FileController))
 	utils.ExecCmdStart("http://127.0.0.1:80/views")
 
-	liveGo := staticDir+ "/livego.exe"
-	utils.ExecCmdStart(liveGo)
+	//启动直播流
+	//liveGo := staticDir+ "/livego.exe"
+	//utils.ExecCmdStart(liveGo)
 	app.Run(iris.Addr(":80"), iris.WithConfiguration(iris.Configuration{
 		DisableStartupLog:    false,
 		FireMethodNotAllowed: false,

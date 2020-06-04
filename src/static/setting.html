@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设置</title>
+    <link href="/js/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/js/bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/setting.js" charset="UTF-8"></script>
+
+    <script>
+        function removeThis(eid) {
+            if (!eid) {
+                return
+            }
+            var elements = document.getElementsByClassName(eid);
+            while (elements.length > 0) {
+                elements[0].parentNode.removeChild(elements[0])
+            }
+        }
+    </script>
+</head>
+<body>
+<h1 align="center"><b>系统设置</b></h1>
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-3 control-label">根URL</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" id="BaseUrl" placeholder="http://" value="{{BaseUrl}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-3 control-label">目录</label>
+
+        <div class="col-sm-5">
+            {% for index,dirpath in BaseDir %}
+            <div class="input-group">
+            <input type="text" class="form-control {{index}}" placeholder="D:\\" value="{{dirpath}}">
+            <a  class="glyphicon glyphicon-remove input-group-addon {{index}}" style="background: #ffffff;border: 0;" type="button" value=""
+               onclick="removeThis('{{index}}');"></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> Remember me
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-10">
+            <button type="submit" class="btn btn-default">Sign in</button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
