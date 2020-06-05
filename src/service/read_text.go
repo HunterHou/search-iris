@@ -17,6 +17,9 @@ func FlushDictionart(path string) {
 	for _, dir := range cons.BaseDir {
 		dict.PutProperty("dir", dir)
 	}
+	for _, image := range cons.Images {
+		dict.PutProperty("Images", image)
+	}
 	WriteDictionary(path, dict)
 
 }

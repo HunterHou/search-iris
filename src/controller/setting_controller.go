@@ -11,7 +11,7 @@ type SettingController struct {
 	Service service.FileService
 }
 
-func (fc FileController) GetSetting() {
+func (fc SettingController) GetSetting() {
 
 	fc.Ctx.ViewData("BaseUrl", cons.BaseUrl)
 	fc.Ctx.ViewData("Images", cons.Images)
