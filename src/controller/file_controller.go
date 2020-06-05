@@ -60,7 +60,6 @@ func (fc FileController) GetPlay() {
 	// f.Read(sourceBuffer)
 	// fc.Ctx.Write(sourceBuffer)
 
-
 }
 
 func (fc FileController) PostOpendir() {
@@ -92,9 +91,8 @@ func (fc FileController) PostDelete() {
 }
 func (fc FileController) PostRemovedir() {
 	id := fc.Ctx.PostValue("id")
-
 	delete(cons.BaseDir, id)
-	go utils.WriteDir(cons.DirFile, cons.BaseDir)
+	go service.FlushDictionart(cons.DirFile)
 	result := utils.Success()
 	fc.Ctx.JSON(result)
 }
@@ -108,7 +106,7 @@ func (fc FileController) PostAdddir() {
 	} else {
 		cons.BaseDir[key] = path
 		result.Success()
-		go utils.WriteDir(cons.DirFile, cons.BaseDir)
+		go service.FlushDictionart(cons.DirFile)
 	}
 	fc.Ctx.JSON(result)
 

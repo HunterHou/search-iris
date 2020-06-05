@@ -19,18 +19,19 @@ var FileSize int64
 
 var ActressLib = map[string]datamodels.Actress{}
 var SupplierLib = map[string]datamodels.Supplier{}
+var DictLib = datamodels.NewDictionary()
 
-func SortMovieForce()  {
-	if CurSortField =="" {
-		CurSortField=DefSortField
+func SortMovieForce() {
+	if CurSortField == "" {
+		CurSortField = DefSortField
 	}
 	if CurSortType == "" {
 		CurSortType = DefSortType
 	}
-	SortMovies(CurSortField,CurSortType,true)
+	SortMovies(CurSortField, CurSortType, true)
 }
 
-func SortMovies(sF string, sT string,refresh bool) {
+func SortMovies(sF string, sT string, refresh bool) {
 	if sF == CurSortField && sT == CurSortType && !refresh {
 		return
 	}

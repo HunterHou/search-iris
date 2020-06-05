@@ -1,13 +1,22 @@
 package main
 
 import (
-	"../utils"
+	"../datasource"
+	"../service"
 	"fmt"
 )
 
 func main() {
-	dirs := utils.ReadDir("D:\\code\\search-iris\\src\\dirList.txt")
-	for index, name := range dirs {
-		fmt.Println(index, ":", name)
+	service.ReadDictionary("D:\\code\\search-iris\\src\\dirList.ini")
+	for index, name := range datasource.DictLib.LibMap {
+		if len(name) <= 1 {
+			fmt.Println(index, ":", name)
+		} else {
+			for _, s := range name {
+				fmt.Println(index, ":", s)
+			}
+
+		}
+
 	}
 }

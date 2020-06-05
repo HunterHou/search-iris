@@ -10,6 +10,7 @@ import (
 import (
 	"./cons"
 	"./controller"
+	"./service"
 	"./utils"
 	"path/filepath"
 )
@@ -27,7 +28,12 @@ func init() {
 		curDir += "/src"
 	}
 	cons.DirFile = curDir + "\\dirList.ini"
-	dirs := utils.ReadDir(cons.DirFile)
+	dict := service.ReadDictionary(cons.DirFile)
+	dirs := dict.GetProperty("dir")
+	baseUrls := dict.GetProperty("baseUrl")
+	if len(baseUrls) > 0 {
+		cons.BaseUrl = baseUrls[0]
+	}
 	for _, name := range dirs {
 		index := strings.ReplaceAll(name, "\\", "~")
 		fmt.Println(index, ":", name)
@@ -75,8 +81,8 @@ func main() {
 	app.Logger().SetLevel("debug")
 	mvc.New(app).Handle(new(controller.TestController))
 	mvc.New(app).Handle(new(controller.FileController))
-	mvc.New(app).Handle(new(controller.FileController))
-	utils.ExecCmdStart("http://127.0.0.1:80/views")
+	mvc.New(app).Handle(new(controller.SettingController))
+	utils.ExecCmdStart("http://127.0.0.1:80/setting")
 
 	//启动直播流
 	//liveGo := staticDir+ "/livego.exe"
