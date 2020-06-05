@@ -90,12 +90,12 @@ func main() {
 	//启动直播流
 	//liveGo := staticDir+ "/livego.exe"
 	//utils.ExecCmdStart(liveGo)
+	utils.ExecCmdStart("http://127.0.0.1:80/views")
 	app.Run(iris.Addr(":80"), iris.WithConfiguration(iris.Configuration{
 		DisableStartupLog:    false,
 		FireMethodNotAllowed: false,
 		TimeFormat:           "2019-11-10 18:10:33",
 		Charset:              "uft-8",
 	}))
-	utils.ExecCmdStart("http://127.0.0.1:80/views")
 
 }
