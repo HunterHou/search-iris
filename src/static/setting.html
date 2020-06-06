@@ -23,6 +23,25 @@
                 elements[0].parentNode.removeChild(elements[0])
             }
         }
+
+        function chooseFile() {
+            var fileValue = document.getElementById("file").value
+            arr = fileValue.split("\\")
+            fileValue = ""
+            for (var i = 0; i < arr.length - 1; i++) {
+                if (i != 0) {
+                    fileValue += "\\"
+                }
+                fileValue += arr[i]
+            }
+            fileValue = fileValue.replace(/\\/g, "\\\\")
+            var fileIndex = fileValue.replace(/\\/g, "~")
+            var html = document.getElementById("baseDiv").innerHTML
+            html += ' <div class="input-group"><input type="text" class="form-control ' + fileIndex + '" name="BaseDir" placeholder="D:\\" value="' + fileValue + '">' +
+                '<a class="glyphicon glyphicon-remove input-group-addon ' + fileIndex + '" style="background: #ffffff;border: 0;"' +
+                'type="button" value="" onclick="removeThis(\'' + fileIndex + '\');"></a></div>'
+            document.getElementById("baseDiv").innerHTML = html
+        }
     </script>
 </head>
 <body>
@@ -41,7 +60,7 @@
     <div class="form-group">
         <label for="inputPassword3" class="col-sm-3 control-label">目录</label>
 
-        <div class="col-sm-5">
+        <div class="col-sm-5" id="baseDiv">
             {% for index,dirpath in BaseDir %}
             <div class="input-group">
                 <input type="text" class="form-control {{index}}" name="BaseDir" placeholder="D:\\" value="{{dirpath}}">
@@ -51,6 +70,7 @@
             </div>
             {% endfor %}
         </div>
+        <input type="file" id="file" onchange="chooseFile();">
     </div>
 
     <div class="form-group">
@@ -110,15 +130,13 @@
 <script>
 
 
-
     $(document).ready(function () {
-
 
 
         $('.ImagesSelect').select2(
             {
                 width: "100%",
-                data:image
+                data: image
             }
         );
         $('.VideoTypesSelect').select2(
@@ -131,27 +149,27 @@
                 width: "100%"
             }
         );
-        var image=[]
-        var imageClass=document.getElementsByClassName("imageValues")
-        for (var i=0;i<imageClass.length;i++) {
-            var item=imageClass[i].getAttribute("value")
-            image[i]= item
+        var image = []
+        var imageClass = document.getElementsByClassName("imageValues")
+        for (var i = 0; i < imageClass.length; i++) {
+            var item = imageClass[i].getAttribute("value")
+            image[i] = item
         }
         $('.ImagesSelect').val(image).trigger('change')
 
-        var videos=[]
-        var videoClass=document.getElementsByClassName("VideoTypesValues")
-        for (var i=0;i<videoClass.length;i++) {
-            var item=videoClass[i].getAttribute("value")
-            videos[i]= item
+        var videos = []
+        var videoClass = document.getElementsByClassName("VideoTypesValues")
+        for (var i = 0; i < videoClass.length; i++) {
+            var item = videoClass[i].getAttribute("value")
+            videos[i] = item
         }
         $('.VideoTypesSelect').val(videos).trigger('change')
 
-        var docs=[]
-        var docsClass=document.getElementsByClassName("DocsValues")
-        for (var i=0;i<docsClass.length;i++) {
-            var item=docsClass[i].getAttribute("value")
-            docs[i]= item
+        var docs = []
+        var docsClass = document.getElementsByClassName("DocsValues")
+        for (var i = 0; i < docsClass.length; i++) {
+            var item = docsClass[i].getAttribute("value")
+            docs[i] = item
         }
         $('.DocsSelect').val(docs).trigger('change')
     });
