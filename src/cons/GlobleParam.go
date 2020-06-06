@@ -31,6 +31,7 @@ var VideoTypes = []string{AVI, MKV, WMV, MP4}
 var QueryTypes = []string{}
 
 func SetBaseDir(dirs []string) {
+	BaseDir = make(map[string]string)
 	for _, name := range dirs {
 		index := strings.ReplaceAll(name, "\\", "~")
 		fmt.Println(index, ":", name)

@@ -34,6 +34,7 @@
 
 #top {
     position: relative;
+    overflow: auto;
     margin-left: 40px;
     margin-top: 20px;
 }
