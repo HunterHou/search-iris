@@ -29,13 +29,27 @@ func NewPage() Page {
 	}
 }
 
-func (p *Page) SetResultCnt(resultCnt int) {
+func (p *Page) SetResultCnt(resultCnt int, pageNo int) {
 	p.ResultCnt = resultCnt
 	totalPage := resultCnt/p.PageSize + 1
 	p.TotalPage = totalPage
 	var pageList []int
+	var headNum = 7
+	var middNum = 4
+	var middPage = pageNo
+	if pageNo <= 5 || pageNo >= (totalPage-5) {
+		middPage = totalPage / 2
+	}
 	for i := 0; i < totalPage; i++ {
-		pageList = append(pageList, (i + 1))
+		if i < headNum || i > totalPage-headNum {
+			pageList = append(pageList, (i + 1))
+			continue
+		}
+		if i < (middPage+middNum) && i > (middPage-middNum) {
+			pageList = append(pageList, (i + 1))
+			continue
+		}
+
 	}
 	p.EachPage = pageList
 }

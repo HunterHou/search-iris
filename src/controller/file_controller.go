@@ -171,7 +171,7 @@ func (fc FileController) GetViews() {
 	page.TotalSize = utils.GetSizeStr(datasource.FileSize)
 	datasource.SortMovies(sortField, sortType, false)
 	datas := fc.Service.SearchByKeyWord(dataSource, keyWord)
-	page.SetResultCnt(len(datas))
+	page.SetResultCnt(len(datas), pageNo)
 	page.ResultSize = utils.GetSizeStr(fc.Service.DataSize(datas))
 	datas = fc.Service.GetPage(datas, pageNo, pageSize)
 	page.CurCnt = len(datas)
