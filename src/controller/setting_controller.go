@@ -16,6 +16,7 @@ func (fc SettingController) GetSetting() {
 	fc.Ctx.ViewData("BaseUrl", cons.BaseUrl)
 	fc.Ctx.ViewData("Images", cons.Images)
 	fc.Ctx.ViewData("Docs", cons.Docs)
+	fc.Ctx.ViewData("VideoTypes", cons.VideoTypes)
 	fc.Ctx.ViewData("Types", cons.Types)
 	fc.Ctx.ViewData("BaseDir", cons.BaseDir)
 	fc.Ctx.View("setting.html")
