@@ -20,6 +20,12 @@ func FlushDictionart(path string) {
 	for _, image := range cons.Images {
 		dict.PutProperty("Images", image)
 	}
+	for _, video := range cons.VideoTypes {
+		dict.PutProperty("VideoTypes", video)
+	}
+	for _, doc := range cons.Docs {
+		dict.PutProperty("Docs", doc)
+	}
 	WriteDictionary(path, dict)
 
 }

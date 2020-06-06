@@ -1,5 +1,10 @@
 package cons
 
+import (
+	"fmt"
+	"strings"
+)
+
 //环境引用
 // true 静态文件
 // false 打包二进制文佳 (要求打包html目录)
@@ -24,3 +29,11 @@ var Images = []string{GIF, PNG, JPG}
 var Docs = []string{TXT, XLSX}
 var VideoTypes = []string{AVI, MKV, WMV, MP4}
 var QueryTypes = []string{}
+
+func SetBaseDir(dirs []string) {
+	for _, name := range dirs {
+		index := strings.ReplaceAll(name, "\\", "~")
+		fmt.Println(index, ":", name)
+		BaseDir[string(index)] = name
+	}
+}

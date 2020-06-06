@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/mvc"
@@ -38,12 +37,16 @@ func init() {
 	if len(Images) > 0 {
 		cons.Images = Images
 	}
-
-	for _, name := range dirs {
-		index := strings.ReplaceAll(name, "\\", "~")
-		fmt.Println(index, ":", name)
-		cons.BaseDir[string(index)] = name
+	VideoTypes := dict.GetProperty("VideoTypes")
+	if len(VideoTypes) > 0 {
+		cons.VideoTypes = VideoTypes
 	}
+	Docs := dict.GetProperty("Docs")
+	if len(Images) > 0 {
+		cons.Docs = Docs
+	}
+
+	cons.SetBaseDir(dirs)
 	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.VideoTypes)
 	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
 	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Images)

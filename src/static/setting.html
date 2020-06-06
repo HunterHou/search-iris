@@ -26,11 +26,11 @@
 </head>
 <body>
 <h1 align="center"><b>系统设置</b></h1>
-<form class="form-horizontal">
+<form class="form-horizontal" action="settingsave" method="post" >
     <div class="form-group">
         <label for="inputEmail3" class="col-sm-3 control-label">根URL</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" id="BaseUrl" placeholder="http://" value="{{BaseUrl}}">
+            <input type="text" class="form-control" id="BaseUrl" name="BaseUrl" placeholder="http://" value="{{BaseUrl}}">
         </div>
     </div>
     <div class="form-group">
@@ -39,7 +39,7 @@
         <div class="col-sm-5">
             {% for index,dirpath in BaseDir %}
             <div class="input-group">
-            <input type="text" class="form-control {{index}}" placeholder="D:\\" value="{{dirpath}}">
+            <input type="text" class="form-control {{index}}" name="BaseDir" placeholder="D:\\" value="{{dirpath}}">
             <a  class="glyphicon glyphicon-remove input-group-addon {{index}}" style="background: #ffffff;border: 0;" type="button" value=""
                onclick="removeThis('{{index}}');"></a>
             </div>
@@ -63,6 +63,18 @@
         <label for="inputPassword3" class="col-sm-3 control-label">视频类型</label>
         <div class="col-sm-5">
             <select class="js-example-basic-multiple" name="VideoTypes" multiple="multiple">
+                {% for type in Types %}
+                <div class="input-group">
+                    <option value="{{type}}">{{type}}</option>
+                </div>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-3 control-label">文档类型</label>
+        <div class="col-sm-5">
+            <select class="js-example-basic-multiple" name="Docs" multiple="multiple">
                 {% for type in Types %}
                 <div class="input-group">
                     <option value="{{type}}">{{type}}</option>

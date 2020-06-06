@@ -20,3 +20,15 @@ func (fc SettingController) GetSetting() {
 	fc.Ctx.ViewData("BaseDir", cons.BaseDir)
 	fc.Ctx.View("setting.html")
 }
+
+func (fc SettingController) PostSettingsave() {
+
+	cons.BaseUrl = fc.Ctx.PostValue("BaseUrl")
+	dirs := fc.Ctx.PostValues("BaseDir")
+	cons.Images = fc.Ctx.PostValues("Images")
+	cons.VideoTypes = fc.Ctx.PostValues("VideoTypes")
+	cons.Docs = fc.Ctx.PostValues("Docs")
+	cons.SetBaseDir(dirs)
+	service.FlushDictionart(cons.DirFile)
+	fc.Ctx.Redirect("/setting")
+}
