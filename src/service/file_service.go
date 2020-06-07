@@ -224,6 +224,11 @@ func (fs FileService) ScanAll() {
 	for _, v := range cons.BaseDir {
 		dirList = append(dirList, v)
 	}
+	cons.QueryTypes = []string{}
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.VideoTypes)
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Docs)
+	cons.QueryTypes = utils.ExtandsItems(cons.QueryTypes, cons.Images)
+
 	fs.ScanDisk(dirList, cons.QueryTypes)
 }
 func (fs FileService) Delete(id string) {

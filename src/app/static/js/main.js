@@ -251,9 +251,7 @@ function addDir() {
 }
 
 function locationViews() {
-    document.getElementById("pageNo").value = 1
-    document.getElementById("keyWord").value = ""
-    window.location = "/views"
+    window.location = "/views?pageNo=1&keyWord="
 }
 
 function refreshIndex() {
