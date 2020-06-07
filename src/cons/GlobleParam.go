@@ -25,9 +25,9 @@ var BaseDir = map[string]string{
 	//"9":  "g:\\emby\\tomake",
 	//"10": "g:\\emby\\emby-rename",
 }
-var Images = []string{GIF, PNG, JPG}
-var Docs = []string{TXT, XLSX}
-var VideoTypes = []string{AVI, MKV, WMV, MP4}
+var Images = []string{}
+var Docs = []string{}
+var VideoTypes = []string{}
 var QueryTypes = []string{}
 
 func SetBaseDir(dirs []string) {

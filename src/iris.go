@@ -4,6 +4,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/mvc"
+	"strings"
 )
 import (
 	"./cons"
@@ -22,9 +23,9 @@ var staticDir string
 
 func init() {
 	curDir, _ := filepath.Abs(".")
-	// if !strings.HasSuffix(curDir, "src") {
-	// 	curDir += "/src"
-	// }
+	if !strings.HasSuffix(curDir, "src") {
+		curDir += "/src"
+	}
 	cons.DirFile = curDir + "\\dirList.ini"
 	dict := service.ReadDictionary(cons.DirFile)
 	dirs := dict.GetProperty("dir")

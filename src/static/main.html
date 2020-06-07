@@ -22,17 +22,12 @@
             margin-left: 0px;
         }
 
-        .floatButton {
-            position: fixed;
-            top: 300px;
-            overflow: auto;
-            z-index: 999;
-        }
-
-        .row span {
-            width: 200px;
-            display:block;
-        }
+        /*.floatButton {*/
+        /*    position: fixed;*/
+        /*    top: 300px;*/
+        /*    overflow: auto;*/
+        /*    z-index: 999;*/
+        /*}*/
 
         .pagination {
             align: center;
@@ -132,8 +127,8 @@
         <li><a href="javascript:void(0)" onclick="loadPage({{page}})">{{page}}</a></li>
         {% endif %}
         {% endfor %}
-        <button class="floatButton glyphicon glyphicon-step-backward btn btn-default" style="left: 30px" onclick="lastPage();">上一页</button>
-        <button class="floatButton  glyphicon glyphicon-step-forward btn btn-default" style="right: 30px" onclick="nextPage();"> 下一页</button>
+        <button class="floatButton glyphicon glyphicon-step-backward btn btn-default"   onclick="lastPage();">上一页</button>
+        <button class="floatButton  glyphicon glyphicon-step-forward btn btn-default"   onclick="nextPage();"> 下一页</button>
     </ul>
 </div>
 <div id="context">
@@ -271,7 +266,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <video controls="controls" autoplay>
-                    <source type="video/mp4" id="movieplayer"
+                    <source type="video/mp4" id="movieplayer">
                 </video>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

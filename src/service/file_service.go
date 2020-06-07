@@ -333,7 +333,9 @@ func (fs FileService) GetPage(files []datamodels.Movie, pageNo int, pageSize int
 	if len(files) < pageSize {
 		return files
 	}
-
+	if start > end {
+		start = 0
+	}
 	data := files[start:end]
 	return data
 }

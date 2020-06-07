@@ -251,7 +251,10 @@ function addDir() {
 }
 
 function locationViews() {
-    window.location = "/views?pageNo=1&keyWord="
+
+    // document.getElementById("pageNo").value = 1
+    // document.getElementById("keyWord").value = ""
+    window.location = "/views?keyWord=&pageNo=1"
 }
 
 function refreshIndex() {
